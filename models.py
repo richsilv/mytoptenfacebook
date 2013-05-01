@@ -1,9 +1,13 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Sequence, DateTime, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Sequence, DateTime, Boolean, ForeignKey, Table, Text
 from sqlalchemy.orm import relationship, backref
 import datetime
 
 Base = declarative_base()
+       
+topten_song = Table('topten_song', Base.metadata,
+   Column('topten_id', Integer, ForeignKey('toptens.topten_id')),
+   Column('song_id', Integer, ForeignKey('songs.song_id')))
 
 class TopTenUser(Base):
     __tablename__ = 'users'
@@ -30,6 +34,8 @@ class TopTen(Base):
     active = Column(Boolean)
     
     toptenuser = relationship("TopTenUser", backref=backref('toptens', order_by=facebook_id))
+    
+    songs = relationship("Song", secondary=topten_song, backref="toptens")
 
     def __init__(self, facebook_id):
         self.facebook_id = facebook_id
@@ -38,7 +44,7 @@ class TopTen(Base):
 
     def __repr__(self):
        return "<Top Ten(%s, belongs to %s, ACTIVE = %s)>" % (self.topten_id, self.facebook_id, self.active)
-       
+     
 class Song(Base):
     __tablename__ = 'songs'
     song_id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
@@ -49,13 +55,8 @@ class Song(Base):
     reason = Column(String(250))
     provider = Column(Integer)
     url = Column(String(250))
-    
-    toptenuser = relationship("TopTenUser", backref=backref('songs', order_by=song_id))
-    topten = relationship("TopTen", backref=backref('songs', order_by=song_id))
 
-    def __init__(self, facebook_id, topten_id, title, artist, reason, provider, url):
-        self.facebook_id = facebook_id
-        self.topten_id = topten_id
+    def __init__(self, title, artist, reason, url, provider):
         self.title = title
         self.artist = artist
         self.reason = reason

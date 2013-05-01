@@ -3,6 +3,8 @@
 {% block head %}
 <script type="text/javascript">var num_songs = {{ songlist|length }}</script>
 <script type="text/javascript">
+    facebook_id = {{ facebook_id }}
+    existing_ten = {% if existing_ten %}{{ existing_ten }}{% else %}false{% endif %}
     var songdeets = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
