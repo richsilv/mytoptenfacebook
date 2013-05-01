@@ -1,0 +1,15 @@
+<div class="confirmholder"> <
+    <div class="tag">
+        <input type="hidden" class="songprov" value="{{ songprov }}"><input type="hidden" class="songtag" value="{{ tag }}">Provided by <strong>{{ provider }}</strong>:
+    </div>
+    <div class="confirm">
+        <input type="text" class="songtitle" value="{{ title }}"> by <input type="text" class="songartist" value="{{ artist }}">
+    </div>
+    <div class="reason">
+        <input type="text" class="songreason" placeholder="Why I love it...">
+    </div>
+    <div class="buttons">
+    	<button class="confirmbutton"/></button>
+    	<button class="cancelbutton"/></button>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+{% import 'accordionpanel.html' as accpanel %}
+
+{{ accpanel.acc_header(number=songnum, newsong=True) }}
+{{ accpanel.acc_panel(number=songnum, providers=providers, class="temptabset") }}

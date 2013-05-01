@@ -38,5 +38,4 @@ def get_confirm():
     
 @app.route('/new_panel/', methods=['POST', 'GET'])
 def new_panel():
-    rdata = request.form
-    return render_template('newpanel.html', songnum=int(rdata['newsong']), providers=providers)
+    return render_template('newpanel.html')

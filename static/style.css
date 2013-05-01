@@ -1,0 +1,97 @@
+body {
+    width: 800px;    
+    }
+
+.ui-accordion-content {
+    padding: 0 !important; 
+    }
+    
+.ui-accordion-header-icon {
+    display: none;
+    }
+    
+.ui-accordion-content {
+    margin-bottom: 5px;
+    }
+
+.selector.ui-tabs-panel {
+    padding: 5px;    
+    }
+
+
+
+
+h3 span {
+    display: inline-block;
+    }
+
+.songtitleartist {
+    }
+
+.reason {
+    margin-left: 10px;
+    font-style: italic;    
+    }
+  
+.songentry {
+    display: none;    
+    }
+
+.songentry form {
+    display: inline-block;
+    }
+
+.newsong .songentry {
+    display: inline-block;
+    }
+    
+.newsong .songtitleartist {
+    display: none;
+    }
+    
+.newsong .songreason {
+    display: none;
+    }
+    
+.selectmenu {
+    width: 400px;
+    font-size: 0.7em !important;    
+    }
+
+.selection {
+    width: 400px;
+    margin-left: 10px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    }
+
+.player iframe {
+    margin-left: 35px;
+    height: 80px;
+    width: 290px;
+    background: #ffffff url("/static/359.gif/") no-repeat center center;
+    border: thin solid gray; 
+    }
+
+.buttons {
+    text-align: center;
+    }
+    
+.buttons button {
+    margin: 5px 10px;
+    }
+
+.cancelchange {
+    height: 20px;
+    margin: 0 10px;    
+    }
+    
+.songreason {
+    width: 525px;
+    }
+    
+.confirmholder {
+    width: 535px;
+    padding-left: 122px;
+    }

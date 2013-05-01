@@ -1,0 +1,29 @@
+{% extends "basepage.html" %}
+
+{% block head %}
+<script type="text/javascript">var num_songs = {{ songlist|length }}</script>
+<script type="text/javascript">
+    var songdeets = new Array ();
+    var origsongs = new Array ();
+    {% if userid %}var userid = {{ userid }}{% endif %};
+    {% for song in songlist %}
+        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));
+        origsongs.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));            
+    {% endfor %}
+</script>
+<script src="/static/tenscript.js"></script>
+{% endblock %}
+
+{% block body %}
+    {% import 'accordionpanel.html' as accpanel %}
+    <div id="accordion">
+        {% for song in songlist %}
+			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
+			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
+        {% endfor %}
+        {% if songlist|length < 10 %}
+            {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
+			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
+        {% endif %}
+    </div>
+{% endblock %}

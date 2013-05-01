@@ -1,0 +1,14 @@
+{% if optionset %}
+    <span class="selection">    
+    	<select class="selectmenu" name="chosen">
+    		{% for entry in optionset %}
+    			<option value='{"url": "{{ entry.url }}", "title": "{{ entry.title }}", "artist": "{{ entry.artist }}"}'>{{ entry.title }} by {{ entry.artist }}</option>
+    		{% endfor %}
+    	</select>
+    	<span class="buttons">
+        	<button class="choosebutton"/></button>
+        	<button class="cancelbutton"/></button>
+    	</span>
+    </span>
+	<span class="player"></span>
+{% endif %}
