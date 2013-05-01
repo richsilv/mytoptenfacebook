@@ -46,6 +46,11 @@ function updateSongDisplay() {
     }
 
 function doSetup() {
+
+    $("#buttonbar").find("button").button();
+    if (num_songs < 10) { $("#confirm").button("option", "disabled", true)};
+    if (!existing_ten) { $("#cancel").button("option", "disabled", true)};
+
     $('#accordion').on("click", '.header .songtitleartist', function() { hideTitleArtist($(this).parent()) });
     $('#accordion').on("click", '.header .songentry form', function(e) {
         if (e.target === this) { showTitleArtist($(this).parents('.header')); }
@@ -178,6 +183,9 @@ function doSetup() {
                     doUpdate();
                     });
                 }
+            else {
+                $("#confirm").button("option", "disabled", false);                
+                }
             }
         else {
             songdeets[songnum-1] =[$(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
@@ -186,6 +194,9 @@ function doSetup() {
         $("#"+songnum+"tabs").tabs("option", "active", false);
         updateSongDisplay();
         $("#accordion").accordion("option", "active", num_songs);
+        setTimeout(function() {
+            $("#"+num_songs+"header").find(".titleentry").focus();
+            }, 100);
         });
 
     }

@@ -30,7 +30,7 @@ h3 span {
 
 .reason {
     margin-left: 10px;
-    font-style: italic;     
+    font-style: italic;    
     }
   
 .songentry {
@@ -94,4 +94,12 @@ h3 span {
 .confirmholder {
     width: 535px;
     padding-left: 122px;
+    }
+    
+#buttonbar {
+    text-align: center;
+    }
+    
+#buttonbar button {
+    margin: 0.2em 1em;
     }

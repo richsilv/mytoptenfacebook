@@ -95,3 +95,11 @@ h3 span {
     width: 535px;
     padding-left: 122px;
     }
+    
+#buttonbar {
+    text-align: center;
+    }
+    
+#buttonbar button {
+    margin: 0 1em;
+    }

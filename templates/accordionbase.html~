@@ -4,11 +4,9 @@
 <script type="text/javascript">var num_songs = {{ songlist|length }}</script>
 <script type="text/javascript">
     var songdeets = new Array ();
-    var origsongs = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
-        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.url }}", "{{ song.provider }}", "{{ song.reason }}"));
-        origsongs.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.url }}", "{{ song.provider }}", "{{ song.reason }}"));            
+        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
     {% endfor %}
 </script>
 <script src="/static/tenscript.js"></script>
@@ -26,4 +24,8 @@
 			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
         {% endif %}
     </div>
+    <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
+        <button id="confirm">Confirm</button>
+        <button id="cancel">Cancel</button>    
+    </div>    
 {% endblock %}
