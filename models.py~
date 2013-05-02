@@ -56,7 +56,7 @@ class Song(Base):
     provider = Column(Integer)
     url = Column(String(250))
 
-    def __init__(self, title, artist, reason, provider, url):
+    def __init__(self, title, artist, reason, url, provider):
         self.title = title
         self.artist = artist
         self.reason = reason

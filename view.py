@@ -45,8 +45,8 @@ def default():
     if not user: user = createUser(fbdata)
     topten = session.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten: topten = createTopTen(fbdata)
-    songlist = session.query(Song).join(TopTen).filter(Song.topten_id == topten.topten_id)
-    if (songlist.count() < NUMSONGS):
+    songlist = topten.songs
+    if (len(songlist) < NUMSONGS):
         return redirect(url_for('makeSongs', facebook_id=user.facebook_id))
     else:
         return redirect(url_for('showSongs', facebook_id=user.facebook_id))
@@ -55,18 +55,18 @@ def default():
 @app.route('/make_songs/<int:facebook_id>')
 def makeSongs(facebook_id):
     topten = session.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = session.query(Song).join(TopTen).filter(Song.topten_id == topten.topten_id).all()
+    songlist = topten.songs
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:
-        existing_ten = True
+        existing_ten = topten.topten_id
     return render_template('accordionbase.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten)
 
 @app.route('/show_songs/<int:facebook_id>')
 def showSongs(facebook_id):
     topten = session.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = session.query(Song).join(TopTen).filter(Song.topten_id == topten.topten_id).all()  
-    return render_template('showbase.html', songlist=songlist)
+    songlist = topten.songs  
+    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id)
 
 ########### AJAX REQUESTS #############
 
