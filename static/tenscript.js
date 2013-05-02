@@ -163,8 +163,8 @@ function doSetup() {
             var songartist = songdeets.artist;
             }
         else {
-            var songtitle = panel.parents(".panel").prev().find(".titleentry").val();
-            var songartist = panel.parents(".panel").prev().find(".artistentry").val();
+            var songtitle = toTitleCase(panel.parents(".panel").prev().find(".titleentry").val());
+            var songartist = toTitleCase(panel.parents(".panel").prev().find(".artistentry").val());
             }
         $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
             panel.html(r);
@@ -221,6 +221,10 @@ function doSetup() {
 // **************************************************************
 function panelNumber(id) {
     return parseInt(id.slice(0, id.indexOf("tabs")));    
+    }
+
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 
 function toggleTitleArtist(header) {

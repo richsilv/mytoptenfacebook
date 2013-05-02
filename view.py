@@ -73,7 +73,8 @@ def showSongs(facebook_id):
 @app.route('/get_selector/', methods=['POST'])
 def get_selector():
     rdata = request.form
-    searchfunction = [None, soundcloud_request, spotify_request, youtube_request][int(rdata['provider'])]
+    provider = int(rdata['provider'])
+    searchfunction = [None, soundcloud_request, spotify_request, youtube_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     

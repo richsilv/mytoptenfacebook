@@ -1,13 +1,14 @@
-{% macro acc_header(number, title, artist, reason) -%}
+{% macro acc_header(number, title, artist) -%}
     <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header">
         <span class="songtitleartist">
             <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">
-            <span class="reason"><div>{{ reason }}</div></span>        
         </span>
     </h3>
 {% endmacro %}
 
-{% macro acc_panel(number) -%}
-    <div class="panel" id="{{ number }}panel">
+{% macro acc_panel(number, reason) -%}
+    <div class="panel" id="{{ number }}panel">    
+        <span class="reason"><div>{{ reason }}</div></span>        
+        <span class="player"></span>
     </div>
 {% endmacro %}

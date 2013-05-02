@@ -101,5 +101,5 @@ h3 span {
     }
     
 #buttonbar button {
-    margin: 0.2em 1em;
+    margin: 0 1em;
     }

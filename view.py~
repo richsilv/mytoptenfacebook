@@ -59,7 +59,7 @@ def makeSongs(facebook_id):
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:
-        existing_ten = True
+        existing_ten = topten.topten_id
     return render_template('accordionbase.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten)
 
 @app.route('/show_songs/<int:facebook_id>')
@@ -73,7 +73,8 @@ def showSongs(facebook_id):
 @app.route('/get_selector/', methods=['POST'])
 def get_selector():
     rdata = request.form
-    searchfunction = [None, soundcloud_request, spotify_request, youtube_request][int(rdata['provider'])]
+    provider = int(rdata['provider'])
+    searchfunction = [None, soundcloud_request, spotify_request, youtube_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 <!--  ANNOYINGLY NEED TO OVERWRITE THE CODE FOR ACCORDION KEYDOWN TO STOP IT SUPPRESSING SPACE -->

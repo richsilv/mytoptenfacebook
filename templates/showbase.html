@@ -17,8 +17,8 @@
     {% import 'showpanel.html' as showpanel %}
     <div id="accordion">
         {% for song in songlist %}
-			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
-			{{ showpanel.acc_panel(number=loop.index) }}
+			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}
+			{{ showpanel.acc_panel(number=loop.index, reason=song.reason) }}
         {% endfor %}
     </div>
     <div id="buttonbar" class="ui-widget-header ui-corner-bottom">

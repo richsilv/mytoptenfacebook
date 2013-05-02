@@ -57,21 +57,24 @@ function doSetup() {
             });
         });
         
-    $("#accordion").on("focus change", ".panel .tabset .selector .selection .selectmenu", function() {
-        var selection = $.parseJSON($(this).val()).url;
-        var provider = parseInt($(this).parents(".selector").attr("id").slice(-1));
-        var player = $(this).parents(".selector").find(".player");
-        if (provider === 1) {
-            var promise = scloudPlayer(selection);
-            promise.success(function(result) {
-                player.html(result.html);
-                });
-            }
-        else {
-            player.html(embedPlayer(selection, provider));                                
-            }
-        player.children("iframe").css("height", playerheights[provider]+"px");
-        player.siblings(".selection").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
+    $('#accordion').on("accordionactivate", function(e, ui) {
+        if (ui.newPanel.length) {
+            var panelnum = panelNumber(ui.newHeader.attr("id"));
+            var selection = songdeets[panelnum-1][3];
+            var provider = parseInt(songdeets[panelnum-1][4]);
+            var player = ui.newPanel.find(".player");
+            if (provider === 1) {
+                var promise = scloudPlayer(selection);
+                promise.success(function(result) {
+                    player.html(result.html);
+                    });
+                }
+            else {
+                player.html(embedPlayer(selection, provider));                                
+                }
+            player.children("iframe").css("height", playerheights[provider]+"px");
+            player.siblings(".reason").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
+            }    
         });
 
     }
