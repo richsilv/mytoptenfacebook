@@ -10,6 +10,8 @@
         songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
     {% endfor %}
 </script>
+<link rel="stylesheet" href="/static/jquery.pageslide.css" />
+<script src="/static/jquery.pageslide.min.js"></script>
 <script src="/static/showscript.js"></script>
 {% endblock %}
 
@@ -17,8 +19,8 @@
     {% import 'showpanel.html' as showpanel %}
     <div id="accordion">
         {% for song in songlist %}
-			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
-			{{ showpanel.acc_panel(number=loop.index) }}
+			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}
+			{{ showpanel.acc_panel(number=loop.index, reason=song.reason) }}
         {% endfor %}
     </div>
     <div id="buttonbar" class="ui-widget-header ui-corner-bottom">

@@ -22,7 +22,7 @@
 			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
 			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
         {% endfor %}
-        {% if songlist|length < 10 %}
+        {% if songlist|length < num_songs %}
             {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
 			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
         {% endif %}

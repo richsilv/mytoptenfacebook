@@ -62,7 +62,7 @@ function doSetup() {
             });
         });
 
-    $('#accordion').on("click", '.header .songtitleartist', function() { hideTitleArtist($(this).parent()) });
+    $('#accordion').on("click", '.header .songtitleartist strong', function() { hideTitleArtist($(this).parents('.header')) });
     $('#accordion').on("click", '.header .songentry form', function(e) {
         if (e.target === this) { showTitleArtist($(this).parents('.header')); }
         });

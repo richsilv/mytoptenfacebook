@@ -103,3 +103,35 @@ h3 span {
 #buttonbar button {
     margin: 0 1em;
     }
+
+.reason {
+    width: 400px;
+    }
+
+.showpanel {
+    display: inline-table;
+    padding: 5px 10px;
+    width: 798px;  
+    height: 250px;
+    }
+
+.slider {
+    width: 50px;
+    float: right;
+    }
+
+.slider h3 {
+    width: 1em;
+    }
+
+.playerbox {
+    display: none;
+    }
+
+.playerbox .player iframe {
+    margin: 10px;
+    }
+    
+.reasonbox {
+    width: auto;
+    }

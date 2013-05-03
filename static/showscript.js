@@ -11,6 +11,7 @@ var NUMSONGS = 3;
 // ********************************
 
 function doUpdate() {
+    
     $( "#accordion" ).accordion({
         heightStyle: "content",
         collapsible: true,
@@ -27,7 +28,7 @@ function doSetup() {
         console.log("click");
         window.location = "/make_songs/" + facebook_id;        
         });
-    
+        
     $("#accordion").on("tabsbeforeactivate", ".panel .tabset", function(e, ui) {
         if (ui.newPanel.length) {
             panel = ui.newPanel;
@@ -75,6 +76,10 @@ function doSetup() {
             player.children("iframe").css("height", playerheights[provider]+"px");
             player.siblings(".reason").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
             }    
+        });
+
+    $(".slider").on("click", function() {
+        $(this).parents(".reasonbox").next(".playerbox").toggle("slide")
         });
 
     }

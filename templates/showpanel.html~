@@ -7,8 +7,12 @@
 {% endmacro %}
 
 {% macro acc_panel(number, reason) -%}
-    <div class="panel" id="{{ number }}panel">    
-        <span class="reason"><div>{y { reason }}</div></span>        
-        <span class="player"></span>
+    <div class="showpanel" id="{{ number }}panel">
+        <span class="reason">{{ reason }}
+            <span class="slider ui-state-default ui-corner-all"><h3>Player</h3></span>                
+        </span>
+        <span id="play{{ number }}" class="playerbox">
+            <div class="player"></div>
+        </span>
     </div>
 {% endmacro %}

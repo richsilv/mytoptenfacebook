@@ -5,7 +5,7 @@
 <script type="text/javascript">
     facebook_id = {{ facebook_id }};
     topten_id = {{ topten_id }};
-    existing_ten = {% if existing_ten %}{{ existing_ten }}{% else %}false{% endif %}
+    existing_ten = {% if existing_ten %}{{ existing_ten }}{% else %}false{% endif %};
     var songdeets = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
@@ -22,7 +22,7 @@
 			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
 			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
         {% endfor %}
-        {% if songlist|length < 10 %}
+        {% if songlist|length < num_songs %}
             {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
 			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
         {% endif %}

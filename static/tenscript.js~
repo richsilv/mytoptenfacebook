@@ -62,7 +62,7 @@ function doSetup() {
             });
         });
 
-    $('#accordion').on("click", '.header .songtitleartist', function() { hideTitleArtist($(this).parent()) });
+    $('#accordion').on("click", '.header .songtitleartist strong', function() { hideTitleArtist($(this).parent()) });
     $('#accordion').on("click", '.header .songentry form', function(e) {
         if (e.target === this) { showTitleArtist($(this).parents('.header')); }
         });
@@ -164,7 +164,7 @@ function doSetup() {
             }
         else {
             var songtitle = toTitleCase(panel.parents(".panel").prev().find(".titleentry").val());
-            var songartist = toTitleCase*(panel.parents(".panel").prev().find(".artistentry").val());
+            var songartist = toTitleCase(panel.parents(".panel").prev().find(".artistentry").val());
             }
         $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
             panel.html(r);
