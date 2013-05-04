@@ -149,10 +149,15 @@ h3 span {
    float: left;
    width: 100px;
    margin-left: -110px;
+   overflow: hidden;
     }
 
 .slider h3 {
-    width: 1em;
+    margin-top: 50px;
+    display:block;
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg); 
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
     }
 
 .playerbox {

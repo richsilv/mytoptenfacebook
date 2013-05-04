@@ -125,7 +125,7 @@ function embedPlayer(l, provider) {
 function scloudPlayer(url, panelnum) {
      xhr = $.ajax({type: "GET",
         url: "http://soundcloud.com/oembed",
-        data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: true, show_comments: false},
+        data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: false, show_comments: false},
         dataType: "json",
         });
     xhr.panelnum = panelnum;

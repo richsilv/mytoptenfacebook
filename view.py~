@@ -2,9 +2,15 @@ import os
 import simplejson as json
 from musicapi import *
 from flask import Flask, render_template, request, redirect, url_for
+from flask_oauth import OAuth
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import *
+
+SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
+DEBUG = True
+FACEBOOK_APP_ID = '442425319177351'
+FACEBOOK_APP_SECRET = '940524184c7cb0318dd7a6229275002e'
 
 songlist = [{'title': 'Loneliness of a Tower Crane Driver', 'artist': 'Elbow', 'reason': 'A brilliant use of an orchestra'},
             {'title': 'Bloodbuzz Ohio', 'artist': 'The National', 'reason': "The best song about Ohio I can remember"},
@@ -23,9 +29,22 @@ def db_connect(details):
     session = Session()
     return session
     
-FBAUTH = False
+FBAUTH = True
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
-    
+app = Flask(__name__)
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
+oauth = OAuth()
+facebook = oauth.remote_app('facebook',
+   base_url='https://graph.facebook.com/',
+   request_token_url=None,
+   access_token_url='/oauth/access_token',
+   authorize_url='https://www.facebook.com/dialog/oauth',
+   consumer_key=FACEBOOK_APP_ID,
+   consumer_secret=FACEBOOK_APP_SECRET,
+   request_token_params={'scope': 'email'}
+   )
+  
 db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
 session = db_connect(db_connection)
 
@@ -36,6 +55,36 @@ app.config.from_pyfile('config.py')
 ########## ACCESSIBLE URLS ##############
 
 @app.route('/')
+def index():
+    if FBAUTH:
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('default'))
+
+@app.route('/login')
+def login():
+    return facebook.authorize(callback=url_for('facebook_authorized',
+        next=request.args.get('next') or request.referrer or None,
+        _external=True))
+
+@app.route('/login/authorized')
+@facebook.authorized_handler
+def facebook_authorized(resp):
+    if resp is None:
+        return 'Access denied: reason=%s error=%s' % (
+            request.args['error_reason'],
+            request.args['error_description']
+        )
+    session['oauth_token'] = (resp['access_token'], '')
+    me = facebook.get('/me')
+    return 'Logged in as id=%s name=%s redirect=%s' % \
+        (me.data['id'], me.data['name'], request.args.get('next'))
+
+@facebook.tokengetter
+def get_facebook_oauth_token():
+    return session.get('oauth_token')
+
+@app.route('/default')
 def default():
     if FBAUTH:
         fbdata = 0#put something here
@@ -98,8 +147,8 @@ def save_songs():
     for song in rdata:
         songinstance = saveSong(song)
         topten.songs.append(songinstance)
-        session.commit()
-    return 'hi'
+    session.commit()
+    return 'success'
 
 ############# UTILITIES ##################
 
