@@ -39,7 +39,11 @@ function doUpdate() {
 function updateSongDisplay() {
     for (i=1; i<num_songs+1; i++) {
         headobj = $("#"+i+"header")
-        headobj.find(".songtitleartist").html(i + ". <strong>" + songdeets[i-1][0] + "</strong> by <strong>" + songdeets[i-1][1] + '</strong><span class="reason"><div>' + songdeets[i-1][2] + "</div></span>");
+        headobj.find(".songtitleartist").html(
+            '<div class="titleartist">' + i + '. <strong>' + songdeets[i-1][0] + '</strong> by <strong>' + songdeets[i-1][1] +
+            '</strong><input type="hidden" class="currenttitle" value="' + songdeets[i-1][0] + '"><input type="hidden" class="currentartist" value="' + songdeets[i-1][1] +
+            '"></div><div class="reason"><div>' + songdeets[i-1][2] + '</div></div>'
+            );
         headobj.find(".titleentry").val("");
         headobj.find(".artistentry").val("");
         showTitleArtist(headobj);  
@@ -49,7 +53,7 @@ function updateSongDisplay() {
 function doSetup() {
 
     $("#buttonbar").find("button").button();
-    if (num_songs < NUMSONGS) { $("#confirm").button("option", "disabled", true)};
+    $("#confirm").button("option", "disabled", true);
     if (!existing_ten) { $("#cancel").button("option", "disabled", true)};
 
     $('#cancel').on("click", function() {
@@ -57,7 +61,7 @@ function doSetup() {
         });
         
     $('#confirm').on("click", function() {
-        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id}, function(r) {
+        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
             window.location = "/show_songs/" + facebook_id;        
             });
         });
@@ -105,6 +109,7 @@ function doSetup() {
                 icons: {primary: "ui-icon-circle-close"},
                 text: false
                 });
+            panel.find('.selectmenu').focus();
             });
         });
     
@@ -122,7 +127,7 @@ function doSetup() {
             }
         });
         
-    $("#accordion").on("keypress", ".panel .tabset .selector .confirmholder .confirm input, .panel .tabset .selector .confirmholder .reason input", function(e) {
+    $("#accordion").on("keypress", ".panel .tabset .selector .confirmholder .confirm input, .panel .tabset .selector .confirmholder .reasoninput input", function(e) {
         if (e.which === 13) {
             $(this).parents(".confirmholder").find(".confirmbutton").click();
             }
@@ -176,6 +181,12 @@ function doSetup() {
                 icons: {primary: "ui-icon-circle-close"},
                 text: false
                 });
+            header = panel.parents(".panel").prev(".header");
+            if (header.find(".songtitleartist").css("display") != "none") {
+                panel.find(".songtitle").val(header.find(".currenttitle").val());
+                panel.find(".songartist").val(header.find(".currentartist").val());
+                panel.find(".songreason").val(header.find(".reason").children("div").text());
+                }
             });
         });
         
@@ -259,7 +270,7 @@ function embedPlayer(l, provider) {
 function scloudPlayer(url) {
     return $.ajax({type: "GET",
         url: "http://soundcloud.com/oembed",
-        data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: true, show_comments: false},
+        data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: false, show_comments: false},
         dataType: "json"
         });
     }    

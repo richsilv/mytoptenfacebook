@@ -10,8 +10,6 @@
         songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
     {% endfor %}
 </script>
-<link rel="stylesheet" href="/static/jquery.pageslide.css" />
-<script src="/static/jquery.pageslide.min.js"></script>
 <script src="/static/showscript.js"></script>
 {% endblock %}
 

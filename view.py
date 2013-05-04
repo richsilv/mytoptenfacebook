@@ -92,12 +92,14 @@ def new_panel():
 @app.route('/save_songs/', methods=['POST'])
 def save_songs():
     rdata = json.loads(request.form['songlist'])
-    topten = session.query(TopTen).filter(TopTen.topten_id == request.form['topten_id']).first()
+    oldtopten = session.query(TopTen).filter(TopTen.topten_id == request.form['topten_id']).first()
+    oldtopten.active = False
+    topten = createTopTen({'id': request.form['facebook_id']})
     for song in rdata:
         songinstance = saveSong(song)
         topten.songs.append(songinstance)
-        session.commit()
-    return 'hi'
+    session.commit()
+    return 'success'
 
 ############# UTILITIES ##################
 

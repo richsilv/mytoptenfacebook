@@ -26,11 +26,24 @@ h3 span {
     }
 
 .songtitleartist {
+    width: 100%;
+    }
+
+.titleartist {
+    max-width: 500px;
+    float: left;
     }
 
 .reason {
+    height: 28px;
+    line-height: 1.5em;
+    vertical-align: top;
+    font-style: italic;
+    overflow-y: auto;
+    }
+    
+.reason div {
     margin-left: 10px;
-    font-style: italic;    
     }
   
 .songentry {
@@ -98,26 +111,44 @@ h3 span {
     
 #buttonbar {
     text-align: center;
+    margin-top: 2px;
     }
     
 #buttonbar button {
     margin: 0 1em;
     }
 
-.reason {
-    width: 400px;
+
+
+.lefthalf {
+    margin: 0 auto;    
     }
 
-.showpanel {
-    display: inline-table;
-    padding: 5px 10px;
-    width: 798px;  
-    height: 250px;
+.reasoncontainer {
+   float: left;
+   width: 100%;
     }
+
+.reasonbox {
+   padding-right: 140px;
+   display: block;
+   text-align: justify;
+   overflow-y: auto;
+    }
+
+.reasonshow {
+   top: 15px;
+   left: 15px;
+   position: relative;
+   font-size: 1.2em;
+   font-style: italic;
+   color: darkgrey;
+   }
 
 .slider {
-    width: 50px;
-    float: right;
+   float: left;
+   width: 100px;
+   margin-left: -110px;
     }
 
 .slider h3 {
@@ -125,9 +156,23 @@ h3 span {
     }
 
 .playerbox {
+    width: 320px;
+    margin-left: 0;
+    float: right;
     display: none;
+    overflow: hidden;
     }
+
+.spotifyshow {height: 105px;}
+.soundcloudshow {height: 105px;}
+.youtubeshow {height: 225px;}
 
 .playerbox .player iframe {
     margin: 10px;
+    overflow: hidden;
+    }
+
+.spotifyshow .player iframe {
+    width: 250px;
+    margin-left: 30px;    
     }

@@ -6,7 +6,6 @@ $(function() {
 });
 
 var playerheights = Array(0, 80, 80, 200);
-var playerwidths = Array(0, 250, 290, 290);
 var NUMSONGS = 3;
 
 // ********************************
@@ -18,29 +17,6 @@ function doUpdate() {
         collapsible: true,
         active: false
         });
-    
-    var selection = Array();
-    var provider = Array();
-    var player = Array();
-    var promise = Array();
-    
-    for (panelnum=1; panelnum<songdeets.length+1; panelnum++) {
-        selection[panelnum] = songdeets[panelnum-1][3];
-        provider[panelnum] = parseInt(songdeets[panelnum-1][4]);
-        player[panelnum] = $("#"+panelnum+"panel").find(".player");
-        if (provider[panelnum] === 1) {
-            promise[panelnum] = scloudPlayer(selection[panelnum], panelnum);
-            promise[panelnum].success(function(result, responsecode, xhr) {
-                player[xhr.panelnum].html(result.html);
-                });
-            }
-        else {
-            player[panelnum].html(embedPlayer(selection[panelnum], provider[panelnum]));                                
-            }
-        player[panelnum].children("iframe").css("height", playerheights[provider[panelnum]]+"px");
-        player[panelnum].siblings(".reason").css("margin-top", Math.max(0, (playerheights[provider[panelnum]]/2)-15)+"px")                    
-        }        
-        
     }
 
 
@@ -81,12 +57,32 @@ function doSetup() {
                 });
             });
         });
+        
+    $('#accordion').on("accordionactivate", function(e, ui) {
+        if (ui.newPanel.length) {
+            var panelnum = panelNumber(ui.newHeader.attr("id"));
+            var selection = songdeets[panelnum-1][3];
+            var provider = parseInt(songdeets[panelnum-1][4]);
+            var player = ui.newPanel.find(".player");
+            if (provider === 1) {
+                var promise = scloudPlayer(selection);
+                promise.success(function(result) {
+                    player.html(result.html);
+                    });
+                }
+            else {
+                player.html(embedPlayer(selection, provider));                                
+                }
+            player.children("iframe").css("height", playerheights[provider]+"px");
+            player.siblings(".reason").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
+            }    
+        });
 
     $(".slider").on("click", function() {
         if ($(this).hasClass("closed")) {
             $(this).addClass("open").removeClass("closed");
             $(this).animate({"margin-left": '-420px'});
-            $(this).parents(".lefthalf").find(".reasonbox").animate({"padding-right": '450px'});            
+            $(this).parents(".lefthalf").find(".reasonbox").animate({"padding-right": '420px'});            
             $(this).parents('.lefthalf').next('.playerbox').animate({"margin-left": "-320px"}, function() {
                 $(this).css("display", "block");
                 });         
@@ -94,15 +90,12 @@ function doSetup() {
         else if($(this).hasClass("open")) {
             $(this).addClass("closed").removeClass("open");
             $(this).parents('.lefthalf').next('.playerbox').css("display", "none");
-            $(this).parents(".lefthalf").find(".reasonbox").animate({"padding-right": '140px'});
+            $(this).parents(".lefthalf").find(".reasonbox").animate({"padding-right": '100px'});
             $(this).animate({"margin-left": '-110px'});
             $(this).parents('.lefthalf').next('.playerbox').animate({"margin-left": "0"});         
             }
         });
-    
-    for (panelnum=1; panelnum<songdeets.length+1; panelnum++) {
-        if (songdeets[panelnum-1][2] === "") { $("#"+panelnum+"panel").find(".slider").click(); }
-        }
+
 }
 
 // **************************************************************
@@ -122,13 +115,11 @@ function embedPlayer(l, provider) {
         }
    }
         
-function scloudPlayer(url, panelnum) {
-     xhr = $.ajax({type: "GET",
+function scloudPlayer(url) {
+    return $.ajax({type: "GET",
         url: "http://soundcloud.com/oembed",
         data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: true, show_comments: false},
-        dataType: "json",
+        dataType: "json"
         });
-    xhr.panelnum = panelnum;
-    return xhr
     }    
     

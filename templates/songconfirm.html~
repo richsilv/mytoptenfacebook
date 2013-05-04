@@ -1,4 +1,4 @@
-<div class="confirmholder"> <
+<div class="confirmholder">
     <div class="tag">
         <input type="hidden" class="songprov" value="{{ songprov }}"><input type="hidden" class="songtag" value="{{ tag }}">Provided by <strong>{{ provider }}</strong>:
     </div>

@@ -6,12 +6,33 @@
     </h3>
 {% endmacro %}
 
-{% macro acc_panel(number, reason) -%}
+{% macro prov_class(provider) -%}
+    {% if provider == 1 %}
+        soundcloudshow
+    {% elif provider == 2 %}
+        spotifyshow
+    {% elif provider == 3 %}
+        youtubeshow
+    {% else %}
+        unknownshow
+    {% endif %}    
+{% endmacro -%}
+
+{% macro acc_panel(number, reason, provider) -%}
     <div class="showpanel" id="{{ number }}panel">
-        <span class="reasonbox">{{ reason }}
-            <span class="slider ui-state-default ui-corner-all"><h3>Player</h3></span>                
+        <span class="lefthalf">
+            <span class="reasoncontainer">        
+                <span class="reasonbox {{ prov_class(provider=provider) }}">
+                    <span class="reasonshow">
+                        {% if reason %}"{{ reason }}"{% endif %}             
+                    </span>          
+                </span>
+            </span>
+            <span class="slider {{ prov_class(provider=provider) }} ui-state-default ui-corner-all closed">
+                <h3>Player</h3>                
+            </span>
         </span>
-        <span id="play{{ number }}" class="playerbox">
+        <span id="play{{ number }}" class="playerbox {{ prov_class(provider=provider) }}">
             <div class="player"></div>
         </span>
     </div>
