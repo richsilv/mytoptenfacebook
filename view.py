@@ -1,6 +1,8 @@
 import os
 import simplejson as json
 from musicapi import *
+from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.heroku import Heroku
 from flask import Flask, render_template, request, redirect, url_for
 from flask_oauth import OAuth
 from sqlalchemy import create_engine
@@ -33,8 +35,19 @@ FBAUTH = True
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
 app.debug = DEBUG
+app.config.update(DEBUG = True,)
 app.secret_key = SECRET_KEY
-app.config.from_pyfile('config.py')
+sessiondata = {}
+
+if 'HEROKU_RUN' in os.environ:
+    heroku = Heroku(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+    db = SQLAlchemy(app)
+    session = db.session
+else:
+    db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
+    session = db_connect(db_connection)
+
 oauth = OAuth()
 facebook = oauth.remote_app('facebook',
    base_url='https://graph.facebook.com/',
@@ -45,10 +58,6 @@ facebook = oauth.remote_app('facebook',
    consumer_secret=FACEBOOK_APP_SECRET,
    request_token_params={'scope': 'email'}
    )
-  
-db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
-session = db_connect(db_connection)
-
 
 ########## ACCESSIBLE URLS ##############
 
@@ -73,21 +82,20 @@ def facebook_authorized(resp):
             request.args['error_reason'],
             request.args['error_description']
         )
-    session['oauth_token'] = (resp['access_token'], '')
-    me = facebook.get('/me')
-    return 'Logged in as id=%s name=%s redirect=%s' % \
-        (me.data['id'], me.data['name'], request.args.get('next'))
+    sessiondata['oauth_token'] = (resp['access_token'], '')
+    user = facebook.get('/me')
+    facebook_data['id'] = user.data['id']
+    facebook_data['first_name'] = user.data['first_name']
+    facebook_data['last_name'] = user.data['last_name']    
+    return redirect(url_for('default'))
 
 @facebook.tokengetter
 def get_facebook_oauth_token():
-    return session.get('oauth_token')
+    return sessiondata.get('oauth_token')
 
 @app.route('/default')
 def default():
-    if FBAUTH:
-        fbdata = 0#put something here
-    else:
-        fbdata = facebook_data
+    fbdata = facebook_data
     user = session.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
     if not user: user = createUser(fbdata)
     topten = session.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
