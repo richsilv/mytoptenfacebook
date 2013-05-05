@@ -61,20 +61,20 @@ facebook = oauth.remote_app('facebook',
 
 ########## ACCESSIBLE URLS ##############
 
-@app.route('/')
+@app.route('/',  methods=['GET', 'POST'])
 def index():
     if FBAUTH:
         return redirect(url_for('login'))
     else:
         return redirect(url_for('default'))
 
-@app.route('/login')
+@app.route('/login',  methods=['GET', 'POST'])
 def login():
     return facebook.authorize(callback=url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
         _external=True))
 
-@app.route('/login/authorized')
+@app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
 def facebook_authorized(resp):
     if resp is None:
@@ -93,7 +93,7 @@ def facebook_authorized(resp):
 def get_facebook_oauth_token():
     return sessiondata.get('oauth_token')
 
-@app.route('/default')
+@app.route('/default',  methods=['GET', 'POST'])
 def default():
     fbdata = facebook_data
     user = session.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
@@ -107,7 +107,7 @@ def default():
         return redirect(url_for('showSongs', facebook_id=user.facebook_id))
     return 'Hello World!'
 
-@app.route('/make_songs/<int:facebook_id>')
+@app.route('/make_songs/<int:facebook_id>',  methods=['GET', 'POST'])
 def makeSongs(facebook_id):
     topten = session.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
@@ -117,7 +117,7 @@ def makeSongs(facebook_id):
         existing_ten = topten.topten_id
     return render_template('accordionbase.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten)
 
-@app.route('/show_songs/<int:facebook_id>')
+@app.route('/show_songs/<int:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
     topten = session.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs  
