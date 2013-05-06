@@ -62,6 +62,10 @@ facebook = oauth.remote_app('facebook',
 
 ########## ACCESSIBLE URLS ##############
 
+@app.route('/test')
+def test():
+    return "Test works"
+
 @app.route('/',  methods=['GET', 'POST'])
 def index():
     if FBAUTH:
