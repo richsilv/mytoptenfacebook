@@ -31,11 +31,11 @@ def db_connect(details):
     session = Session()
     return session
     
-FBAUTH = False
+FBAUTH = True
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
 app.config.update(DEBUG = True)
-if FBAUTH: app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
+#if FBAUTH: app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
 app.secret_key = SECRET_KEY
 sessiondata = {}
 
@@ -75,9 +75,8 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    return facebook.authorize(callback=url_for('facebook_authorized',
-        next=request.args.get('next') or request.referrer or None,
-        _external=True))
+    return facebook.authorize(callback="https://apps.facebook.com/mytoptenapp" + url_for('facebook_authorized',
+        next=request.args.get('next') or request.referrer or None, _external=False))
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler

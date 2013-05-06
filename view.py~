@@ -31,10 +31,11 @@ def db_connect(details):
     session = Session()
     return session
     
-FBAUTH = False
+FBAUTH = True
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
 app.config.update(DEBUG = True)
+#if FBAUTH: app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
 app.secret_key = SECRET_KEY
 sessiondata = {}
 
@@ -43,7 +44,6 @@ if 'HEROKU_RUN' in os.environ:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     db = SQLAlchemy(app)
     session = db.session
-#    app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
 else:
     print "Running locally!"
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
@@ -75,9 +75,8 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    return facebook.authorize(callback=url_for('facebook_authorized',
-        next=request.args.get('next') or request.referrer or None,
-        _external=True))
+    return facebook.authorize(callback="https://apps.facebook.com/mytopten" + url_for('facebook_authorized',
+        next=request.args.get('next') or request.referrer or None, _external=False))
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
