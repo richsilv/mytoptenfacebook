@@ -44,9 +44,11 @@ if 'HEROKU_RUN' in os.environ:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     db = SQLAlchemy(app)
     session = db.session
+    url_prefix = "https://apps.facebook.com/mytopten"
 else:
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
     session = db_connect(db_connection)
+    url_prefix = ""
 
 oauth = OAuth()
 facebook = oauth.remote_app('facebook',
@@ -70,13 +72,9 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    print facebook.authorize(callback=url_for('facebook_authorized',
+    return str(facebook.authorize(callback=url_prefix+url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
-        _external=True))
-    return "banana" 
-    #facebook.authorize(callback=url_for('facebook_authorized',
-    #    next=request.args.get('next') or request.referrer or None,
-    #    _external=True))
+        _external=True)))
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
