@@ -34,18 +34,18 @@ def db_connect(details):
 FBAUTH = False
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
-app.debug = DEBUG
-app.config.update(DEBUG = True,)
+app.config.update(DEBUG = True)
+if FBAUTH: app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
 app.secret_key = SECRET_KEY
 sessiondata = {}
 
 if 'HEROKU_RUN' in os.environ:
-    heroku = Heroku(app)
+    print "Running on Heroku!"
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     db = SQLAlchemy(app)
     session = db.session
-    app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
 else:
+    print "Running locally!"
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
     session = db_connect(db_connection)
 
@@ -160,6 +160,11 @@ def save_songs():
         topten.songs.append(songinstance)
     session.commit()
     return 'success'
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "Problem: " + str(e.description) + str(e.args) + str(dir(e)), 404
 
 ############# UTILITIES ##################
 
