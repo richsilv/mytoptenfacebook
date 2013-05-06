@@ -31,7 +31,7 @@ def db_connect(details):
     session = Session()
     return session
     
-FBAUTH = True
+FBAUTH = False
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
 app.debug = DEBUG
