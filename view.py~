@@ -44,11 +44,10 @@ if 'HEROKU_RUN' in os.environ:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     db = SQLAlchemy(app)
     session = db.session
-    url_prefix = "https://apps.facebook.com/mytopten"
+    SERVERNAME = "https://apps.facebook.com/mytopten"
 else:
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
     session = db_connect(db_connection)
-    url_prefix = ""
 
 oauth = OAuth()
 facebook = oauth.remote_app('facebook',
@@ -72,9 +71,9 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    return str(facebook.authorize(callback=url_prefix+url_for('facebook_authorized',
+    return facebook.authorize(callback=url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None,
-        _external=True)))
+        _external=True))
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
@@ -88,9 +87,8 @@ def facebook_authorized(resp):
     user = facebook.get('/me')
     facebook_data['id'] = user.data['id']
     facebook_data['first_name'] = user.data['first_name']
-    facebook_data['last_name'] = user.data['last_name']
-    return "Hi!"       
-#    return redirect(url_for('default'))
+    facebook_data['last_name'] = user.data['last_name']     
+    return redirect(url_for('default'))
 
 @facebook.tokengetter
 def get_facebook_oauth_token():
