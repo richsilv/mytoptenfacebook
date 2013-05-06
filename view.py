@@ -70,9 +70,10 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    return facebook.authorize(callback=url_for('facebook_authorized',
-        next=request.args.get('next') or request.referrer or None,
-        _external=True))
+    return "banana"
+#    return facebook.authorize(callback=url_for('facebook_authorized',
+#        next=request.args.get('next') or request.referrer or None,
+#        _external=True))
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler

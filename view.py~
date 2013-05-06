@@ -86,8 +86,9 @@ def facebook_authorized(resp):
     user = facebook.get('/me')
     facebook_data['id'] = user.data['id']
     facebook_data['first_name'] = user.data['first_name']
-    facebook_data['last_name'] = user.data['last_name']    
-    return redirect(url_for('default'))
+    facebook_data['last_name'] = user.data['last_name']
+    return "Hi!"       
+#    return redirect(url_for('default'))
 
 @facebook.tokengetter
 def get_facebook_oauth_token():
