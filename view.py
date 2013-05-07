@@ -1,5 +1,6 @@
 import os
 import simplejson as json
+import requests
 from musicapi import *
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
@@ -89,11 +90,11 @@ def facebook_loggedin():
     if request.args.get('error_reason'):
         return request.args.get('error_description')
     elif request.args.get('code'):
-        rawtoken = redirect('https://graph.facebook.com/oauth/access_token?client_id=' + FACEBOOK_APP_ID + '&redirect_uri=' + url_for('facebook_loggedin', _external=True) + 
-              '&client_secret=' + FACEBOOK_APP_SECRET + '&code=' + request.args['code'])
-        print rawtoken.data
-        print str(dir(rawtoken))
-        print str(request.args)
+        paramlist = {'client_id': FACEBOOK_APP_ID, 'redirect_uri': url_for('facebook_loggedin', _external=True),  
+              'client_secret': FACEBOOK_APP_SECRET, 'code': request.args['code']}
+        
+        rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist)
+        print str(rawtoken.json())
         return "Kind of logged in, ish."
         token = {}
         for dat in rawtoken:
