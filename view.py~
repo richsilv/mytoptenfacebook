@@ -93,7 +93,7 @@ def facebook_loggedin():
             decompose = dat.split["="]
             token[decompose[0]] = decompose[1]
         print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
-        checkparams = {'input_token': token['access_token'], 'access_token'='447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
+        checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
         sessiondata['token'] = token['access_token']
         graph = facebook.GraphAPI(user["access_token"])
