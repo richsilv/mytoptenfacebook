@@ -89,8 +89,13 @@ def facebook_loggedin():
     if request.args.get('error_reason'):
         return request.args.get('error_description')
     elif request.args.get('code'):
-        return redirect('https://graph.facebook.com/oauth/access_token?client_id=' + FACEBOOK_APP_ID + '&redirect_uri=' + url_for('facebook_loggedin', _external=True) + 
-              '&client_secret=' + FACEBOOK_APP_SECRET + '&code=' + request.args['code'])
+        rawtoken = redirect('https://graph.facebook.com/oauth/access_token?client_id=' + FACEBOOK_APP_ID + '&redirect_uri=' + url_for('facebook_loggedin', _external=True) + 
+              '&client_secret=' + FACEBOOK_APP_SECRET + '&code=' + request.args['code']).split("&")
+        token = {}
+        for dat = rawtoken:
+            decompose = dat.split["="]
+            token[decompose[0]] = decompose[1]
+        return "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."                  
     else:
         return "Logged in!!!"
     
