@@ -11,8 +11,8 @@ from models import *
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
-FACEBOOK_APP_ID = '442425319177351'
-FACEBOOK_APP_SECRET = '940524184c7cb0318dd7a6229275002e'
+FACEBOOK_APP_ID = '447399068676640'
+FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 
 songlist = [{'title': 'Loneliness of a Tower Crane Driver', 'artist': 'Elbow', 'reason': 'A brilliant use of an orchestra'},
             {'title': 'Bloodbuzz Ohio', 'artist': 'The National', 'reason': "The best song about Ohio I can remember"},
@@ -46,6 +46,8 @@ if 'HEROKU_RUN' in os.environ:
     session = db.session
 else:
     print "Running locally!"
+    FACEBOOK_APP_ID = '447399068676640'
+    FACEBOOK_APP_SECRET = '940524184c7cb0318dd7a6229275002e'
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
     session = db_connect(db_connection)
 
@@ -70,7 +72,7 @@ def test():
 def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_authorized',
-        _external=True))
+        next=request.args.get('next') or request.referrer or None, _external=True))
     else:
         return redirect(url_for('default'))
 
