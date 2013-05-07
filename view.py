@@ -82,7 +82,7 @@ def facebook_loggedin():
         print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
-        sessiondata['token'] = token['access_token']
+        session['token'] = token['access_token']
         graph = facebook.GraphAPI(token["access_token"])
         session['userdata'] = graph.get_object("me")
         print facebook_data
@@ -91,7 +91,7 @@ def facebook_loggedin():
         return "You should not be here!"
     
 def get_facebook_oauth_token():
-    return sessiondata.get('token')
+    return session.get('token')
 
 @app.route('/default',  methods=['GET', 'POST'])
 def default():

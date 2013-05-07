@@ -31,7 +31,6 @@ FBAUTH = True
 app = Flask(__name__)
 app.config.update(DEBUG = True)
 app.secret_key = SECRET_KEY
-session['userdata'] = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 
 if 'HEROKU_RUN' in os.environ:
     print "Running on Heroku!"
@@ -56,6 +55,7 @@ def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
+        session['userdata'] = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
         return redirect(url_for('default'))
 
 @app.route('/login',  methods=['GET', 'POST'])
@@ -82,7 +82,7 @@ def facebook_loggedin():
         print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
-        sessiondata['token'] = token['access_token']
+        session['token'] = token['access_token']
         graph = facebook.GraphAPI(token["access_token"])
         session['userdata'] = graph.get_object("me")
         print facebook_data
