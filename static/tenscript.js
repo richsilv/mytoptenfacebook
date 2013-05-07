@@ -13,7 +13,8 @@ var NUMSONGS = 3;
 function doUpdate() {
     
     $( "#dialog-modal" ).dialog({
-        height: 250,
+        width: 570,        
+        height: 295,
         modal: true
         });    
     

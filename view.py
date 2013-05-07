@@ -55,7 +55,7 @@ def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
-        session['userdata'] = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
+        session['userdata'] = {'id': '59', 'first_name': 'Richard', 'last_name': 'Silverton'}
         return redirect(url_for('default'))
 
 @app.route('/login',  methods=['GET', 'POST'])
@@ -96,28 +96,29 @@ def get_facebook_oauth_token():
 def default():
     fbdata = session['userdata']
     new_user = False
-    user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
+    user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == str(fbdata['id'])).first()
     if not user: 
         user = createUser(fbdata)
+        new_user = True
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten:
         topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=1))
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
     else:
-        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=None))
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id))
     return 'Hello World!'
 
-@app.route('/make_songs/<string:facebook_id>',  methods=['GET', 'POST'])
-def makeSongs(facebook_id):
+@app.route('/make_songs/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
+def makeSongs(facebook_id, new_user=False):
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:
         existing_ten = topten.topten_id
-    return render_template('accordionbase.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten)
+    return render_template('accordionbase.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten, new_user=new_user)
 
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
