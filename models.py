@@ -11,7 +11,7 @@ topten_song = Table('topten_song', Base.metadata,
 
 class TopTenUser(Base):
     __tablename__ = 'users'
-    facebook_id = Column(Integer, primary_key=True)
+    facebook_id = Column(String(20), primary_key=True)
     first_name = Column(String(50))
     last_name = Column(String(50))
     joined_on = Column(DateTime)
@@ -28,7 +28,7 @@ class TopTenUser(Base):
 class TopTen(Base):
     __tablename__ = 'toptens'
     topten_id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
-    facebook_id = Column(Integer, ForeignKey('users.facebook_id'))
+    facebook_id = Column(String(20), ForeignKey('users.facebook_id'))
     opened = Column(DateTime)
     closed = Column(DateTime)
     active = Column(Boolean)
@@ -48,7 +48,7 @@ class TopTen(Base):
 class Song(Base):
     __tablename__ = 'songs'
     song_id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
-    facebook_id = Column(Integer, ForeignKey('users.facebook_id'))
+    facebook_id = Column(String(20), ForeignKey('users.facebook_id'))
     title = Column(String(100))
     artist = Column(String(100))
     reason = Column(String(250))
@@ -69,7 +69,7 @@ class Token(Base):
     __tablename__ = 'tokens'
     token = Column(String(250), primary_key=True)
     expiry = Column(Integer)
-    facebook_id = Column(Integer, ForeignKey('users.facebook_id'))
+    facebook_id = Column(String(20), ForeignKey('users.facebook_id'))
 
     toptenuser = relationship("TopTenUser", backref=backref('tokens', order_by=facebook_id))
 
