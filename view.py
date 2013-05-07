@@ -85,10 +85,8 @@ def topframe_loader(url):
     return render_template('topframe_loader.html', url=url)
 
 @app.route('/facebook_loggedin')
-def facebook_loggedin(resp):
-    print str(resp)
-    print dir(resp)
-    return "hi!"
+def facebook_loggedin():
+    return str(request.args)
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
