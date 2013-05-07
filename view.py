@@ -75,8 +75,12 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    return facebook.authorize(callback="https://apps.facebook.com/mytoptenapp" + url_for('facebook_authorized',
-        next=request.args.get('next') or request.referrer or None, _external=False))
+    return facebook.authorize(callback=url_for('topframe_loader', url="https://apps.facebook.com/mytoptenapp"+url_for('facebook_authorized',
+        next=request.args.get('next') or request.referrer or None, _external=False)))
+
+@app.route('/topframe_loader/<path:url>', methods=['GET', 'POST'])
+def topframe_loader(url):
+    return render_template('topframe_loader.html', url=url)
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
