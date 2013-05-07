@@ -46,6 +46,10 @@ function doUpdate() {
 
 function doSetup() {
 
+    window.fbAsyncInit = function() {
+        FB.Canvas.setAutoGrow();
+        };
+
     $("#buttonbar").find("button").button();
 
     $('#edit').on("click", function() {

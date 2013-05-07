@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head style="overflow: hidden">
 <meta charset="utf-8" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
@@ -53,14 +53,6 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </head>
 <body>
 <div id="fb-root"></div>
-{% if new_user %}
-    <div id="dialog-modal" title="Welcome to My Top Ten!">
-        <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <strong>get started</strong>, fill in the title and artist of 
-        one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong>preview</strong> the track before confirming, and 
-        even <strong>add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong>replace</strong> any of the songs in your list as
-        many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
-    </div>
-{% endif %}
 <div id="loader" style="display: none"></div>
 {% block body %}{% endblock %}
 </body>

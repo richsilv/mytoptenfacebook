@@ -82,6 +82,12 @@ function doSetup() {
             });
         });
 
+    $(".slider").mouseenter(function() {
+        $(this).addClass("ui-state-hover");
+        }).mouseleave(function() {
+            $(this).removeClass("ui-state-hover");
+            });
+
     $(".slider").on("click", function() {
         if ($(this).hasClass("closed")) {
             $(this).addClass("open").removeClass("closed");

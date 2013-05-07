@@ -52,6 +52,10 @@ function updateSongDisplay() {
     }
 
 function doSetup() {
+
+    window.fbAsyncInit = function() {
+        FB.Canvas.setAutoGrow();
+        };
     
     $( "#dialog-modal" ).dialog({
         width: 570,        
