@@ -121,7 +121,6 @@ def facebook_loggedin():
 #    facebook_data['last_name'] = user.data['last_name']     
 #    return redirect(url_for('default'))
 
-@facebook.tokengetter
 def get_facebook_oauth_token():
     return sessiondata.get('token')
 
