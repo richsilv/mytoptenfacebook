@@ -1,5 +1,5 @@
 body {
-    width: 800px;    
+    width: 760px;    
     }
 
 .ui-accordion-content {
@@ -150,6 +150,7 @@ h3 span {
    width: 100px;
    margin-left: -110px;
    overflow: hidden;
+   cursor: pointer;
     }
 
 .slider h3 {

@@ -27,7 +27,7 @@ def db_connect(details):
     pg = Session()
     return pg
     
-FBAUTH = True
+FBAUTH = False
 app = Flask(__name__)
 app.config.update(DEBUG = True)
 app.secret_key = SECRET_KEY
