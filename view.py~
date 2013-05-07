@@ -85,13 +85,12 @@ def facebook_loggedin():
         session['token'] = token['access_token']
         graph = facebook.GraphAPI(token["access_token"])
         session['userdata'] = graph.get_object("me")
-        print facebook_data
         return redirect("https://apps.facebook.com/mytoptenapp"+url_for('default', _external=False))
     else:
         return "You should not be here!"
     
 def get_facebook_oauth_token():
-    return sessiondata.get('token')
+    return session.get('token')
 
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
