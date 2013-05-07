@@ -93,6 +93,7 @@ def facebook_loggedin():
               '&client_secret=' + FACEBOOK_APP_SECRET + '&code=' + request.args['code'])
         print rawtoken.data
         print str(dir(rawtoken))
+        print str(request.args)
         return "Kind of logged in, ish."
         token = {}
         for dat in rawtoken:
