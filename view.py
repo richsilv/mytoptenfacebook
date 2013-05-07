@@ -91,7 +91,7 @@ def facebook_loggedin():
     elif request.args.get('code'):
         return redirect('https://graph.facebook.com/oauth/access_token?client_id=' + FACEBOOK_APP_ID + '&redirect_uri=' + url_for('facebook_loggedin', _external=True) + 
               '&client_secret=' + FACEBOOK_APP_SECRET + '&code=' + request.args['code'])
-    else
+    else:
         return "Logged in!!!"
     
 @app.route('/facebook_token_received')
