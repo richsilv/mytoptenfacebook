@@ -94,7 +94,7 @@ def facebook_loggedin():
               'client_secret': FACEBOOK_APP_SECRET, 'code': request.args['code']}
         
         rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist)
-        print str(rawtoken)
+        print rawtoken.text
         return "Kind of logged in, ish."
         token = {}
         for dat in rawtoken:
