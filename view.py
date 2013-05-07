@@ -92,7 +92,6 @@ def facebook_loggedin(resp):
     return "hi!"
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
-@facebook.authorized_handler
 def facebook_authorized(resp):
     if resp is None:
         return 'Access denied: reason=%s error=%s' % (
