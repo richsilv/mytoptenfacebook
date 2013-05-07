@@ -97,7 +97,8 @@ def facebook_loggedin():
         sessiondata['token'] = token['access_token']
         graph = facebook.GraphAPI(token["access_token"])
         facebook_data = graph.get_object("me")
-        return redirect(url_for('default'))
+        print facebook_data
+        return redirect("https://apps.facebook.com/mytoptenapp"+url_for('default', _external=False))
     else:
         return "You should not be here!"
     
@@ -125,6 +126,7 @@ def get_facebook_oauth_token():
 
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
+    print facebook_data
     fbdata = facebook_data
     user = session.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
     if not user: user = createUser(fbdata)

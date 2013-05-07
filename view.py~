@@ -95,9 +95,9 @@ def facebook_loggedin():
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
         sessiondata['token'] = token['access_token']
-        graph = facebook.GraphAPI(user["access_token"])
+        graph = facebook.GraphAPI(token["access_token"])
         facebook_data = graph.get_object("me")
-        return redirect(url_for('default'))
+        return redirect("https://apps.facebook.com/mytoptenapp"+url_for('default', _external=False))
     else:
         return "You should not be here!"
     
