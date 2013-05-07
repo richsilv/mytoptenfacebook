@@ -99,14 +99,14 @@ def default():
     user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
     if not user: 
         user = createUser(fbdata)
-        new_user = True
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
-    if not topten: topten = createTopTen(fbdata)
+    if not topten:
+        topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=True)
     else:
-        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=new_user))
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=False))
     return 'Hello World!'
 
 @app.route('/make_songs/<string:facebook_id>',  methods=['GET', 'POST'])
