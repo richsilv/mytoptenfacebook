@@ -41,8 +41,8 @@ function updateSongDisplay() {
         headobj = $("#"+i+"header")
         headobj.find(".songtitleartist").html(
             '<div class="titleartist">' + i + '. <strong>' + songdeets[i-1][0] + '</strong> by <strong>' + songdeets[i-1][1] +
-            '</strong><input type="hidden" class="currenttitle" value="' + songdeets[i-1][0] + '"><input type="hidden" class="currentartist" value="' + songdeets[i-1][1] + '"></div>
-            <div class="reason"><div>' + songdeets[i-1][2] + '</div></div>'
+            '</strong><input type="hidden" class="currenttitle" value="' + songdeets[i-1][0] + '"><input type="hidden" class="currentartist" value="' + songdeets[i-1][1] +
+            '"></div><div class="reason"><div>' + songdeets[i-1][2] + '</div></div>'
             );
         headobj.find(".titleentry").val("");
         headobj.find(".artistentry").val("");

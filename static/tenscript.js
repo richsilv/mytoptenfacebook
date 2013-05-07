@@ -11,6 +11,12 @@ var NUMSONGS = 3;
 // ********************************
 
 function doUpdate() {
+    
+    $( "#dialog-modal" ).dialog({
+        height: 250,
+        modal: true
+        });    
+    
     $( "#accordion" ).accordion({
         heightStyle: "content",
         collapsible: false,

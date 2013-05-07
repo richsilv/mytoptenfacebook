@@ -52,6 +52,15 @@ $.ui.accordion.prototype._keydown = function( event ) {
 {% block title %}<title>jQuery Test</title>{% endblock %}
 </head>
 <body>
+<div id="fb-root"></div>
+{% if new_user %}
+    <div id="dialog-modal" title="Welcome to My Top Ten!">
+        <p>Welcome to My Top Ten, the easy way to share your favourite tracks with your friends.  To get started, fill in the title and artist of 
+        one of your favourite songs, and use the buttons below to search music providers for a match.  You an preview the track before confirming, and 
+        even add a comment to tell your friends why you love it.  Don't worry if you change your mind - you can replace any of the songs in your list as
+        many times as you like, but remember: you can only ever have ten at once!</p>
+    </div>
+{% endif %}
 <div id="loader" style="display: none"></div>
 {% block body %}{% endblock %}
 </body>

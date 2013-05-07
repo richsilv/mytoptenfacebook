@@ -95,15 +95,18 @@ def get_facebook_oauth_token():
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
     fbdata = session['userdata']
+    new_user = False
     user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
-    if not user: user = createUser(fbdata)
+    if not user: 
+        user = createUser(fbdata)
+        new_user = True
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten: topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id))
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
     else:
-        return redirect(url_for('showSongs', facebook_id=user.facebook_id))
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=new_user))
     return 'Hello World!'
 
 @app.route('/make_songs/<int:facebook_id>',  methods=['GET', 'POST'])
