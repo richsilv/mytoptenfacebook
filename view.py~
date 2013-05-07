@@ -88,8 +88,8 @@ def topframe_loader(url):
 def facebook_loggedin():
     if request.args.get('error_reason'):
         return request.args.get('error_description')
-    return redirect('https://graph.facebook.com/oauth/access_token?client_id=' & FACEBOOK_APP_ID & '&redirect_uri=' & url_for('facebook_token_received', _external=True) & 
-              '&client_secret=' & FACEBOOK_APP_SECRET & '&code=' & request.args['code'])
+    return redirect('https://graph.facebook.com/oauth/access_token?client_id=' + FACEBOOK_APP_ID + '&redirect_uri=' + url_for('facebook_loggedin', _external=True) + 
+              '&client_secret=' + FACEBOOK_APP_SECRET + '&code=' + request.args['code'])
     
 @app.route('/facebook_token_received')
 def facebook_token_received():
