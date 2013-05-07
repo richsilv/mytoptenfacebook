@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8" />
 <title></title>
+<script type="text/javascript">
+    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}';
+</script>
 </head>
 <body>
-<script type="text/javascript">
-    window.top.location = '{{ url }}';
-</script>
+    You must <a target="_top" href="https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}">authorize this application</a> in order to proceed.
 </body>
 </html>
