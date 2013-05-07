@@ -87,7 +87,6 @@ def facebook_loggedin():
         paramlist = {'client_id': FACEBOOK_APP_ID, 'redirect_uri': url_for('facebook_loggedin', _external=True),  
               'client_secret': FACEBOOK_APP_SECRET, 'code': request.args['code']}
         rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist).text
-        return "Kind of logged in, ish."
         token = {}
         for dat in rawtoken:
             decompose = dat.split["="]
