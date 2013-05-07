@@ -95,18 +95,21 @@ def get_facebook_oauth_token():
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
     fbdata = session['userdata']
+    new_user = False
     user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == fbdata['id']).first()
-    if not user: user = createUser(fbdata)
+    if not user: 
+        user = createUser(fbdata)
+        new_user = True
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten: topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id))
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
     else:
-        return redirect(url_for('showSongs', facebook_id=user.facebook_id))
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=new_user))
     return 'Hello World!'
 
-@app.route('/make_songs/<int:facebook_id>',  methods=['GET', 'POST'])
+@app.route('/make_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def makeSongs(facebook_id):
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
@@ -116,7 +119,7 @@ def makeSongs(facebook_id):
         existing_ten = topten.topten_id
     return render_template('accordionbase.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten)
 
-@app.route('/show_songs/<int:facebook_id>',  methods=['GET', 'POST'])
+@app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs  
@@ -162,13 +165,13 @@ def page_not_found(e):
 ############# UTILITIES ##################
 
 def createUser(fbdata):
-    newuser = TopTenUser(fbdata['id'], fbdata['first_name'], fbdata['last_name'])
+    newuser = TopTenUser(str(fbdata['id']), fbdata['first_name'], fbdata['last_name'])
     pg.add(newuser)
     pg.commit()
     return newuser
     
 def createTopTen(fbdata):
-    newtopten = TopTen(fbdata['id'])
+    newtopten = TopTen(str(fbdata['id']))
     pg.add(newtopten)
     pg.commit()
     return newtopten
