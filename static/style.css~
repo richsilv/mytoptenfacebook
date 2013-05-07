@@ -73,7 +73,7 @@ h3 span {
     }
 
 .selection {
-    width: 400px;
+    width: 370px;
     margin-left: 10px;
     display: inline-block;
     text-align: center;

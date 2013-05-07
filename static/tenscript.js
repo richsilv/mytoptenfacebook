@@ -12,12 +12,6 @@ var NUMSONGS = 3;
 
 function doUpdate() {
     
-    $( "#dialog-modal" ).dialog({
-        width: 570,        
-        height: 295,
-        modal: true
-        });    
-    
     $( "#accordion" ).accordion({
         heightStyle: "content",
         collapsible: false,
@@ -58,6 +52,12 @@ function updateSongDisplay() {
     }
 
 function doSetup() {
+    
+    $( "#dialog-modal" ).dialog({
+        width: 570,        
+        height: 295,
+        modal: true
+        });    
 
     $("#buttonbar").find("button").button();
     $("#confirm").button("option", "disabled", true);
