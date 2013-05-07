@@ -64,3 +64,19 @@ class Song(Base):
 
     def __repr__(self):
        return "<Song(%s by %s, belongs to %s)>" % (self.title, self.artist, self.facebook_id)    
+
+class Token(Base):
+    __tablename__ = 'tokens'
+    token = Column(String(250), primary_key=True)
+    expiry = Column(Integer)
+    facebook_id = Column(Integer, ForeignKey('users.facebook_id'))
+
+    toptenuser = relationship("TopTenUser", backref=backref('tokens', order_by=facebook_id))
+
+    def __init__(self, token, expiry, facebook_id):
+        self.token = token
+        self.expiry = expiry
+        self.facebook_id = facebook_id
+
+    def __repr__(self):
+       return "<Token(%s, secs to expiry: %s, belongs to %s)>" % (self.token, self.expiry, self.facebook_id)    

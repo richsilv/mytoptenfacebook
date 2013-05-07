@@ -8,19 +8,15 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_oauth import OAuth
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import facebook
 from models import *
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
 FACEBOOK_APP_ID = '447399068676640'
 FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
-
-songlist = [{'title': 'Loneliness of a Tower Crane Driver', 'artist': 'Elbow', 'reason': 'A brilliant use of an orchestra'},
-            {'title': 'Bloodbuzz Ohio', 'artist': 'The National', 'reason': "The best song about Ohio I can remember"},
-            {'title': 'Where is My Mind?', 'artist': 'The Pixies'},
-            {'title': 'Sweet Dreams', 'artist': 'The Eurythmics'},
-            {'title': 'Today', 'artist': 'The Smashing Pumpkins'},
-            ]
+graph = None
+facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 
 providers = ['SoundCloud', 'Spotify', 'YouTube']
 
@@ -33,10 +29,8 @@ def db_connect(details):
     return session
     
 FBAUTH = True
-facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
 app.config.update(DEBUG = True)
-#if FBAUTH: app.config.update(SERVER_NAME = "https://apps.facebook.com/mytopten",)
 app.secret_key = SECRET_KEY
 sessiondata = {}
 
@@ -52,16 +46,16 @@ else:
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
     session = db_connect(db_connection)
 
-oauth = OAuth()
-facebook = oauth.remote_app('facebook',
-   base_url='https://graph.facebook.com/',
-   request_token_url=None,
-   access_token_url='/oauth/access_token',
-   authorize_url='https://www.facebook.com/dialog/oauth',
-   consumer_key=FACEBOOK_APP_ID,
-   consumer_secret=FACEBOOK_APP_SECRET,
-   request_token_params={'scope': 'email'}
-   )
+#oauth = OAuth()
+#facebook = oauth.remote_app('facebook',
+#   base_url='https://graph.facebook.com/',
+#   request_token_url=None,
+#   access_token_url='/oauth/access_token',
+#   authorize_url='https://www.facebook.com/dialog/oauth',
+#   consumer_key=FACEBOOK_APP_ID,
+#   consumer_secret=FACEBOOK_APP_SECRET,
+#   request_token_params={'scope': 'email'}
+#   )
 
 ########## ACCESSIBLE URLS ##############
 
@@ -92,40 +86,44 @@ def facebook_loggedin():
     elif request.args.get('code'):
         paramlist = {'client_id': FACEBOOK_APP_ID, 'redirect_uri': url_for('facebook_loggedin', _external=True),  
               'client_secret': FACEBOOK_APP_SECRET, 'code': request.args['code']}
-        
-        rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist)
-        print rawtoken.text
+        rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist).text
         return "Kind of logged in, ish."
         token = {}
         for dat in rawtoken:
             decompose = dat.split["="]
             token[decompose[0]] = decompose[1]
-        return "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."                  
+        print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
+        checkparams = {'input_token': token['access_token'], 'access_token'='447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
+        ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
+        sessiondata['token'] = token['access_token']
+        graph = facebook.GraphAPI(user["access_token"])
+        facebook_data = graph.get_object("me")
+        return redirect(url_for('default'))
     else:
-        return "Logged in!!!"
+        return "You should not be here!"
     
-@app.route('/facebook_token_received')
-def facebook_token_received():
-    return str(request.args)
+#@app.route('/facebook_token_received')
+#def facebook_token_received():
+#    return str(request.args)
 
-@app.route('/login/authorized',  methods=['GET', 'POST'])
-@facebook.authorized_handler
-def facebook_authorized(resp):
-    if resp is None:
-        return 'Access denied: reason=%s error=%s' % (
-            request.args['error_reason'],
-            request.args['error_description']
-        )
-    sessiondata['oauth_token'] = (resp['access_token'], '')
-    user = facebook.get('/me')
-    facebook_data['id'] = user.data['id']
-    facebook_data['first_name'] = user.data['first_name']
-    facebook_data['last_name'] = user.data['last_name']     
-    return redirect(url_for('default'))
+#@app.route('/login/authorized',  methods=['GET', 'POST'])
+#@facebook.authorized_handler
+#def facebook_authorized(resp):
+#    if resp is None:
+#        return 'Access denied: reason=%s error=%s' % (
+#            request.args['error_reason'],
+#            request.args['error_description']
+#        )
+#    sessiondata['oauth_token'] = (resp['access_token'], '')
+#    user = facebook.get('/me')
+#    facebook_data['id'] = user.data['id']
+#    facebook_data['first_name'] = user.data['first_name']
+#    facebook_data['last_name'] = user.data['last_name']     
+#    return redirect(url_for('default'))
 
 @facebook.tokengetter
 def get_facebook_oauth_token():
-    return sessiondata.get('oauth_token')
+    return sessiondata.get('token')
 
 @app.route('/default',  methods=['GET', 'POST'])
 def default():

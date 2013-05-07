@@ -49,7 +49,6 @@ class Song(Base):
     __tablename__ = 'songs'
     song_id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     facebook_id = Column(Integer, ForeignKey('users.facebook_id'))
-    topten_id = Column(Integer, ForeignKey('toptens.topten_id'))
     title = Column(String(100))
     artist = Column(String(100))
     reason = Column(String(250))
