@@ -75,13 +75,13 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
-    return "hi"
     return facebook.authorize(callback="https://apps.facebook.com/mytoptenapp" + url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None, _external=False))
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
 @facebook.authorized_handler
 def facebook_authorized(resp):
+    return "hello again"
     if resp is None:
         return 'Access denied: reason=%s error=%s' % (
             request.args['error_reason'],
