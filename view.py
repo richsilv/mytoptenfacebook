@@ -71,8 +71,7 @@ def test():
 @app.route('/',  methods=['GET', 'POST'])
 def index():
     if FBAUTH:
-        return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin',
-        next=request.args.get('next') or request.referrer or None, _external=True))
+        return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
         return redirect(url_for('default'))
 

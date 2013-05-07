@@ -71,7 +71,7 @@ def test():
 @app.route('/',  methods=['GET', 'POST'])
 def index():
     if FBAUTH:
-        return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_authorized',
+        return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin',
         next=request.args.get('next') or request.referrer or None, _external=True))
     else:
         return redirect(url_for('default'))
@@ -92,6 +92,7 @@ def facebook_loggedin(resp):
     return "hi!"
 
 @app.route('/login/authorized',  methods=['GET', 'POST'])
+@facebook.authorized_handler
 def facebook_authorized(resp):
     if resp is None:
         return 'Access denied: reason=%s error=%s' % (
