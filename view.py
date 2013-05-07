@@ -104,9 +104,9 @@ def default():
         topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=True))
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=1))
     else:
-        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=False))
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=None))
     return 'Hello World!'
 
 @app.route('/make_songs/<string:facebook_id>',  methods=['GET', 'POST'])

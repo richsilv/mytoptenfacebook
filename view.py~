@@ -104,7 +104,7 @@ def default():
         topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=True)
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=True))
     else:
         return redirect(url_for('showSongs', facebook_id=user.facebook_id, new_user=False))
     return 'Hello World!'
