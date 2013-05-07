@@ -31,7 +31,7 @@ def db_connect(details):
     session = Session()
     return session
     
-FBAUTH = True
+FBAUTH = False
 facebook_data = {'id': 57, 'first_name': 'Richard', 'last_name': 'Silverton'}
 app = Flask(__name__)
 app.config.update(DEBUG = True)
@@ -75,6 +75,7 @@ def index():
 
 @app.route('/login',  methods=['GET', 'POST'])
 def login():
+    return "hi"
     return facebook.authorize(callback="https://apps.facebook.com/mytoptenapp" + url_for('facebook_authorized',
         next=request.args.get('next') or request.referrer or None, _external=False))
 
