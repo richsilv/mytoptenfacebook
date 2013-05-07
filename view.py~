@@ -86,10 +86,10 @@ def facebook_loggedin():
     elif request.args.get('code'):
         paramlist = {'client_id': FACEBOOK_APP_ID, 'redirect_uri': url_for('facebook_loggedin', _external=True),  
               'client_secret': FACEBOOK_APP_SECRET, 'code': request.args['code']}
-        rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist).text
+        rawtoken = requests.get('https://graph.facebook.com/oauth/access_token', params=paramlist).text.split("&")
         token = {}
         for dat in rawtoken:
-            decompose = dat.split["="]
+            decompose = dat.split("=")
             token[decompose[0]] = decompose[1]
         print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
