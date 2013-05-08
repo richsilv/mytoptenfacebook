@@ -57,7 +57,7 @@ def check_hypem_choice(choice):
 		return None
 
 def soundcloud_request(title, artist):
-	tracks = mytopten.settings.sc_client.get('/tracks', embeddable_by='all', q=title + ' ' + artist)
+	tracks = sc_client.get('/tracks', embeddable_by='all', q=title + ' ' + artist)
 	worthwhile = [t for t in tracks if t.title.lower().find(title.lower()) > 0]
 	return [{'title': t.title, 'artist': t.user['username'], 'url': t.uri} for t in worthwhile]
 

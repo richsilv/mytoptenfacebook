@@ -14,6 +14,9 @@ SPOTIFY_URL = 'http://ws.spotify.com/search/1/track.json'
 
 YOUTUBE_URL = 'http://gdata.youtube.com/feeds/api/videos'
 
+VIMEOTOKEN = 'b61a859e309f2c1f4a2324d0c75cd5b4'
+VIMEOSECRET = '4094574df5a0843c4ed4600fc241c54a8c2e6c32'
+
 yt_service = gdata.youtube.service.YouTubeService()
 yt_service.ssl = True
 
