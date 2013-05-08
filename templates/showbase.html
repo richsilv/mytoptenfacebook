@@ -4,6 +4,8 @@
 <script type="text/javascript">
     facebook_id = {{ facebook_id }};
     topten_id = {{ topten_id }};
+    user_id = {{ userdata.id }}
+    user_name = "{{ userdata.first_name }} {{ userdata.last_name }}"
     var songdeets = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
@@ -22,6 +24,11 @@
         {% endfor %}
     </div>
     <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
+    {% if owner %}
         <button id="edit">Edit Songs</button>
+    {% else %}
+        <button id="home">My Top Ten!</button>
+    {% endif %}
+        <button id="friends">Friends' Top Tens</button>
     </div>    
 {% endblock %}

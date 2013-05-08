@@ -15,6 +15,7 @@ SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
 FACEBOOK_APP_ID = '447399068676640'
 FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
+FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
 graph = None
 
 providers = ['SoundCloud', 'Spotify', 'YouTube']
@@ -27,7 +28,7 @@ def db_connect(details):
     pg = Session()
     return pg
     
-FBAUTH = False
+FBAUTH = True
 app = Flask(__name__)
 app.config.update(DEBUG = True)
 app.secret_key = SECRET_KEY
@@ -46,16 +47,13 @@ else:
 
 ########## ACCESSIBLE URLS ##############
 
-@app.route('/test')
-def test():
-    return "Test works"
-
 @app.route('/',  methods=['GET', 'POST'])
 def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
-        session['userdata'] = {'id': '59', 'first_name': 'Richard', 'last_name': 'Silverton'}
+        session['userdata'] = {'id': '59', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
+        session['token'] = FACEBOOK_TEMP_TOKEN
         return redirect(url_for('default'))
 
 @app.route('/login',  methods=['GET', 'POST'])
@@ -83,8 +81,7 @@ def facebook_loggedin():
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
         session['token'] = token['access_token']
-        graph = facebook.GraphAPI(token["access_token"])
-        session['userdata'] = graph.get_object("me")
+        session['userdata'] = facebook.GraphAPI(token["access_token"]).get_object("me")
         return redirect("https://apps.facebook.com/mytoptenapp"+url_for('default', _external=False))
     else:
         return str(request.args)
@@ -95,6 +92,7 @@ def get_facebook_oauth_token():
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
     fbdata = session['userdata']
+    fb = facebook.GraphAPI(session['token'])
     new_user = False
     user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == str(fbdata['id'])).first()
     if not user: 
@@ -123,8 +121,19 @@ def makeSongs(facebook_id, new_user=False):
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs  
-    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id)
+    songlist = topten.songs
+    if facebook_id == session['userdata']['id']:
+        owner = True
+    else:
+        owner = False
+    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+
+@app.route('/friends_list/<string:facebook_id>', methods=['GET', 'POST'])
+def friendList(facebook_id):
+    fb = facebook.GraphAPI(session['token'])    
+    allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
+    friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
+    return render_template('friends.html', friends=friendusers, userdata=session['userdata'])
 
 ########### AJAX REQUESTS #############
 
@@ -157,6 +166,9 @@ def save_songs():
         songinstance = saveSong(song)
         topten.songs.append(songinstance)
     pg.commit()
+    fb = facebook.GraphAPI(session['token'])
+    possessive = getPossessive(session['userdata'])
+    fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!")
     return 'success'
 
 @app.errorhandler(404)
@@ -186,3 +198,11 @@ def saveSong(song):
         pg.add(newsong)
         pg.commit()
         return newsong
+
+def getPossessive(data):
+    if data.get('gender') == "male":
+        return "his"
+    elif data.get('gender') == "female":
+        return "her"
+    else:
+        return "its"

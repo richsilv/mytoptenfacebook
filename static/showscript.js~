@@ -46,13 +46,27 @@ function doUpdate() {
 
 function doSetup() {
 
+    window.fbAsyncInit = function() {
+        FB.Canvas.setAutoGrow();
+        };
+
     $("#buttonbar").find("button").button();
 
     $('#edit').on("click", function() {
         console.log("click");
-        window.location = "/make_songs/" + facebook_id;        
+        window.location = "/make_songs/" + facebook_id + '/False';        
         });
         
+    $('#home').on("click", function() {
+        console.log("click");
+        window.location = "/show_songs/" + user_id;        
+        });
+
+    $('#friends').on("click", function() {
+        console.log("click");
+        window.location = "/friends_list/" + user_id;        
+        });            
+                
     $("#accordion").on("tabsbeforeactivate", ".panel .tabset", function(e, ui) {
         if (ui.newPanel.length) {
             panel = ui.newPanel;

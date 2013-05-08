@@ -152,11 +152,12 @@ h3 span {
    margin-left: -110px;
    overflow: hidden;
    cursor: pointer;
+   background-size: auto 100% !important;   
     }
 
 .slider h3 {
     margin-top: 50px;
-    display:block;
+    display: block;
     -webkit-transform: rotate(90deg); 
     -moz-transform: rotate(90deg); 
     filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
@@ -182,4 +183,11 @@ h3 span {
 .spotifyshow .player iframe {
     width: 250px;
     margin-left: 30px;    
+    }
+    
+    
+.friend {
+    cursor: pointer;
+    margin: 2px 0 0 0;
+    padding: 8px 8px 8px 38px;    
     }

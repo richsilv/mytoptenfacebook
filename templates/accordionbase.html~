@@ -17,11 +17,11 @@
 
 {% block body %}
 
-    {% if new_user %}
+    {% if new_user equals "True" %}
         <div id="dialog-modal" title="Welcome to My Top Ten!">
-            <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <span style="font-style:italic">get started</span>, fill in the title and artist of 
-            one of your favourite songs, and use the buttons below to search music providers for a match.  You can <span style="font-style:italic">preview</span> the track before confirming, and 
-            even <span style="font-style:italic">add a comment</span> to tell your friends why you love it.  Don't worry if you change your mind - you can <span style="font-style:italic">replace</span> any of the songs in your list as
+            <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <strong style="font-style:italic">get started</strong>, fill in the title and artist of 
+            one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 
+            even <strong style="font-style:italic">add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong style="font-style:italic">replace</strong> any of the songs in your list as
             many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
         </div>
     {% endif %}
