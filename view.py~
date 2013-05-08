@@ -87,7 +87,7 @@ def facebook_loggedin():
         session['userdata'] = graph.get_object("me")
         return redirect("https://apps.facebook.com/mytoptenapp"+url_for('default', _external=False))
     else:
-        return "You should not be here!"
+        return str(request.args)
     
 def get_facebook_oauth_token():
     return session.get('token')
