@@ -1,6 +1,8 @@
 {% extends "basepage.html" %}
 
 {% block head %}
+<link type="text/css" href="/static/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
+<script type="text/javascript" src="/static/jquery.jplayer.min.js"></script>
 <script type="text/javascript">var num_songs = {{ songlist|length }}</script>
 <script type="text/javascript">
     facebook_id = {{ facebook_id }};
@@ -17,7 +19,7 @@
 
 {% block body %}
 
-    {% if new_user equals "True" %}
+    {% if new_user == "True" %}
         <div id="dialog-modal" title="Welcome to My Top Ten!">
             <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <strong style="font-style:italic">get started</strong>, fill in the title and artist of 
             one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 

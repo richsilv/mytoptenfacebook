@@ -184,6 +184,13 @@ h3 span {
     overflow: hidden;
     }
 
+.player embed {
+    border: thin solid darkgrey;
+    position: relative;
+    left: 35px;
+    top: 15px;
+    }
+
 .spotifyshow {height: 105px;}
 .soundcloudshow {height: 105px;}
 .youtubeshow {height: 225px;}
@@ -203,6 +210,7 @@ h3 span {
 .friend {
     cursor: pointer;
     margin: 2px 0 0 0;
+    line-height: 1.5em;
     height: 30px;
     padding: 8px 8px 8px 38px;    
     }

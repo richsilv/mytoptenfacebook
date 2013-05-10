@@ -180,14 +180,12 @@ function doSetup() {
         var provider = parseInt(panel.attr("id").slice(-1));
         var songdeets = $.parseJSON(panel.find(".selectmenu").val());
         var songtag = songdeets.url;
-        if (provider === 2) {
-            var songtitle = songdeets.title;
-            var songartist = songdeets.artist;
-            }
-        else {
+        var songtitle = songdeets.title;
+        var songartist = songdeets.artist;
+/*        else {
             var songtitle = toTitleCase(panel.parents(".panel").prev().find(".titleentry").val());
             var songartist = toTitleCase(panel.parents(".panel").prev().find(".artistentry").val());
-            }
+            }    */
         $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
             panel.html(r);
             panel.find(".confirmbutton").button({
@@ -283,6 +281,9 @@ function embedPlayer(l, provider) {
             return '<iframe class="youtube-player" type="text/html" width="290" height="200" src="http://www.youtube.com/embed/' + l + '" allowfullscreen frameborder="0"></iframe>';
         case 4:
             return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="290" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+        case 5:
+            console.log('<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="400" height="27" quality="best"></embed>');
+            return '<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="400" height="27" quality="best"></embed>';
         }
    }
         

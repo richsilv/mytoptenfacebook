@@ -18,7 +18,7 @@ FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
 graph = None
 
-providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo"]
+providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
 
 NUMSONGS = 3
 
@@ -153,6 +153,7 @@ def get_selector():
             for s in SPLITSTRINGS:
                 if option['title'].find(s) > 0:
                     option['artist'], option['title'] = option['title'].split(s, 1)
+                    break
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
 @app.route('/get_confirm/', methods=['POST'])

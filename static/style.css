@@ -184,6 +184,12 @@ h3 span {
     overflow: hidden;
     }
 
+.player embed {
+    border: thin solid darkgrey;
+    position: relative;
+    left: 35px;
+    }
+
 .spotifyshow {height: 105px;}
 .soundcloudshow {height: 105px;}
 .youtubeshow {height: 225px;}
