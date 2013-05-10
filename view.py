@@ -28,7 +28,6 @@ def db_connect(details):
     pg = Session()
     return pg
     
-FBAUTH = True
 app = Flask(__name__)
 app.config.update(DEBUG = DEBUG)
 app.secret_key = SECRET_KEY
@@ -38,12 +37,14 @@ if 'HEROKU_RUN' in os.environ:
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
     db = SQLAlchemy(app)
     pg = db.session
+    FBAUTH = True
 else:
     print "Running locally!"
     FACEBOOK_APP_ID = '442425319177351'
     FACEBOOK_APP_SECRET = '940524184c7cb0318dd7a6229275002e'
     db_connection = 'postgresql+psycopg2://samduguqeoqreu:9kluutG-6Y13MOAvROkWW5q9eY@ec2-54-225-84-29.compute-1.amazonaws.com/dffdsram87s8dl'
     pg = db_connect(db_connection)
+    FBAUTH = False
 
 ########## ACCESSIBLE URLS ##############
 

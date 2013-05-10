@@ -203,6 +203,7 @@ h3 span {
 .friend {
     cursor: pointer;
     margin: 2px 0 0 0;
+    line-height: 1.5em;
     height: 30px;
     padding: 8px 8px 8px 38px;    
     }
