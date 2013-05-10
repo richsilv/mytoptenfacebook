@@ -5,7 +5,7 @@ $(function() {
 
 });
 
-var playerheights = Array(0, 80, 80, 200);
+var playerheights = Array(0, 80, 80, 200, 200);
 var NUMSONGS = 3;
 
 // ********************************
@@ -112,6 +112,9 @@ function doSetup() {
         provider = panel.attr("id").slice(-1);
         $.post('/get_selector/', {'songtitle': songtitle, 'songartist': songartist, 'provider': provider}, function(r) {
             panel.html(r);
+            if (panel.children(".noresults").length > 0) {
+                panel.css("height", "50px");
+                }
             panel.find(".choosebutton").button({
                 icons: {primary: "ui-icon-circle-check"},
                 text: false
@@ -222,13 +225,13 @@ function doSetup() {
                     doUpdate();
                     });
                 }
-            else {
-                $("#confirm").button("option", "disabled", false);            
-                }
             }
         else {
             songdeets[songnum-1] =[$(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
                 $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
+            }
+        if (num_songs === NUMSONGS) {
+            $("#confirm").button("option", "disabled", false);            
             }
         $("#"+songnum+"tabs").tabs("option", "active", false);
         updateSongDisplay();
@@ -275,6 +278,8 @@ function embedPlayer(l, provider) {
             return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="290" height="80" frameborder="0" allowtransparency="true"></iframe>';
         case 3:
             return '<iframe class="youtube-player" type="text/html" width="290" height="200" src="http://www.youtube.com/embed/' + l + '" allowfullscreen frameborder="0"></iframe>';
+        case 4:
+            return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="290" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         }
    }
         

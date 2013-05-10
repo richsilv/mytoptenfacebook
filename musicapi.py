@@ -3,6 +3,12 @@ from difflib import SequenceMatcher
 import gdata.youtube
 import gdata.youtube.service
 import soundcloud
+import time
+import uuid
+import urllib2
+import base64
+import hashlib
+import hmac
 
 HYPEMURL = 'http://hypem.com/playlist/search/'
 HYPEMSTUB = '/json/1/data.js'
@@ -14,8 +20,12 @@ SPOTIFY_URL = 'http://ws.spotify.com/search/1/track.json'
 
 YOUTUBE_URL = 'http://gdata.youtube.com/feeds/api/videos'
 
-VIMEOTOKEN = 'b61a859e309f2c1f4a2324d0c75cd5b4'
-VIMEOSECRET = '4094574df5a0843c4ed4600fc241c54a8c2e6c32'
+VIMEO_QUERYURL = 'http://vimeo.com/api/rest/v2'
+VIMEO_REQUESTURL = 'https://vimeo.com/oauth/request_token'
+VIMEO_AUTHORIZEURL = 'https://vimeo.com/oauth/authorize'
+VIMEO_ACCESSURL = 'https://vimeo.com/oauth/access_token'
+VIMEO_CLIENTID = 'a05d6bc133d68e3fff30da84b60c58b93020045c'
+VIMEO_SECRET = 'd25250be08636c69dd661e3505bb69bdbe69bf08'
 
 yt_service = gdata.youtube.service.YouTubeService()
 yt_service.ssl = True
@@ -81,3 +91,31 @@ def youtube_request(title, artist):
     req = requests.get(YOUTUBE_URL, params = paramlist)
     if not req: return None
     return [{'title': x['title']['$t'], 'artist': None, 'url': x['media$group']['yt$videoid']['$t']} for x in req.json()['feed'].get('entry')]
+    
+def vimeo_request(title, artist):
+    nonce = str(uuid.uuid4().hex)
+    timestamp = str(int(time.time()))
+    paramlist = {'format': 'json',
+                 'method': 'videos.search',
+                 'query': title + " AND " + artist,
+                 'sort': 'relevant',
+                 'summary_response': 'true',
+                 'oauth_consumer_key': VIMEO_CLIENTID,
+                 'oauth_nonce': nonce,
+                 'oauth_signature_method': 'HMAC-SHA1',
+                 'oauth_timestamp': timestamp,
+                 'oauth_version': '1.0'}
+    sbs = '&'.join([oauthEscape("GET"), oauthEscape(VIMEO_QUERYURL), oauthEscape('&'.join([oauthEscape(x) + "=" + oauthEscape(paramlist[x]) for x in sorted(paramlist.keys())]))])
+    signature = base64.b64encode(hmac.new(VIMEO_SECRET+"&", sbs, hashlib.sha1).digest())
+    paramlist['oauth_signature'] = signature
+    req = requests.get(VIMEO_QUERYURL, params = paramlist).json()['videos']['video']
+    return [{'title': x['title'], 'artist': x['owner'].get('display_name'), 'url': x['id']} for x in req if title.lower() in x['title'].lower()]
+    
+def oauthEscape(string):
+    if not string:
+        return ''
+    string = urllib2.quote(string)
+    return string.replace('/', '%2F').replace('+', '%20')\
+            .replace('!', '%21').replace('*', '%2A')\
+            .replace('\\', '%27').replace('(', '%28').\
+            replace(')', '%29')

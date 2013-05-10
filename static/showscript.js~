@@ -5,7 +5,7 @@ $(function() {
 
 });
 
-var playerheights = Array(0, 80, 80, 200);
+var playerheights = Array(0, 80, 80, 200, 200);
 var playerwidths = Array(0, 250, 290, 290);
 var NUMSONGS = 3;
 
@@ -53,17 +53,14 @@ function doSetup() {
     $("#buttonbar").find("button").button();
 
     $('#edit').on("click", function() {
-        console.log("click");
         window.location = "/make_songs/" + facebook_id + '/False';        
         });
         
     $('#home').on("click", function() {
-        console.log("click");
         window.location = "/show_songs/" + user_id;        
         });
 
     $('#friends').on("click", function() {
-        console.log("click");
         window.location = "/friends_list/" + user_id;        
         });            
                 
@@ -139,6 +136,8 @@ function embedPlayer(l, provider) {
             return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="290" height="80" frameborder="0" allowtransparency="true"></iframe>';
         case 3:
             return '<iframe class="youtube-player" type="text/html" width="290" height="200" src="http://www.youtube.com/embed/' + l + '" allowfullscreen frameborder="0"></iframe>';
+       case 4:
+            return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="290" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         }
    }
         

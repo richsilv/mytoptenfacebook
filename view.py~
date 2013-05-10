@@ -12,13 +12,13 @@ import facebook
 from models import *
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
-DEBUG = True
+DEBUG = False
 FACEBOOK_APP_ID = '447399068676640'
 FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
 graph = None
 
-providers = ['SoundCloud', 'Spotify', 'YouTube']
+providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo"]
 
 NUMSONGS = 3
     
@@ -30,7 +30,7 @@ def db_connect(details):
     
 FBAUTH = False
 app = Flask(__name__)
-app.config.update(DEBUG = True)
+app.config.update(DEBUG = DEBUG)
 app.secret_key = SECRET_KEY
 
 if 'HEROKU_RUN' in os.environ:
@@ -141,7 +141,7 @@ def friendList(facebook_id):
 def get_selector():
     rdata = request.form
     provider = int(rdata['provider'])
-    searchfunction = [None, soundcloud_request, spotify_request, youtube_request][provider]
+    searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
@@ -166,9 +166,10 @@ def save_songs():
         songinstance = saveSong(song)
         topten.songs.append(songinstance)
     pg.commit()
-    fb = facebook.GraphAPI(session['token'])
-    possessive = getPossessive(session['userdata'])
-    fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!")
+    if FBAUTH:
+        fb = facebook.GraphAPI(session['token'])
+        possessive = getPossessive(session['userdata'])
+        fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!")
     return 'success'
 
 @app.errorhandler(404)

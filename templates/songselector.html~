@@ -2,7 +2,7 @@
     <span class="selection">    
     	<select class="selectmenu" name="chosen">
     		{% for entry in optionset %}
-    			<option value="{url: '{{ entry.url }}', title: '{{ entry.title }}', artist: '{{ entry.artist }}'}">{{ entry.title }} by {{ entry.artist }}</option>
+    			<option value='{"url": "{{ entry.url }}", "title": "{{ entry.title }}", "artist": "{{ entry.artist }}"}'>{{ entry.title }} by {{ entry.artist }}</option>
     		{% endfor %}
     	</select>
     	<span class="buttons">
@@ -11,4 +11,8 @@
     	</span>
     </span>
 	<span class="player"></span>
+{% else %}	
+    <span class="noresults">
+    Sorry, no matches found from this provider    
+    </span>
 {% endif %}
