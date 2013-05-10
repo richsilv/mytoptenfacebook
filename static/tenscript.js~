@@ -112,7 +112,7 @@ function doSetup() {
         provider = panel.attr("id").slice(-1);
         $.post('/get_selector/', {'songtitle': songtitle, 'songartist': songartist, 'provider': provider}, function(r) {
             panel.html(r);
-            if (panel.children(".noresults").length > 1) {
+            if (panel.children(".noresults").length > 0) {
                 panel.css("height", "50px");
                 }
             panel.find(".choosebutton").button({
