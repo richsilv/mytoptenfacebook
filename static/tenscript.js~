@@ -115,6 +115,9 @@ function doSetup() {
             if (panel.children(".noresults").length > 0) {
                 panel.css("height", "50px");
                 }
+            else {
+                panel.css("height", "auto");               
+                }
             panel.find(".choosebutton").button({
                 icons: {primary: "ui-icon-circle-check"},
                 text: false

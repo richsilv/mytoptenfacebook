@@ -180,14 +180,12 @@ function doSetup() {
         var provider = parseInt(panel.attr("id").slice(-1));
         var songdeets = $.parseJSON(panel.find(".selectmenu").val());
         var songtag = songdeets.url;
-        if (provider === 2) {
-            var songtitle = songdeets.title;
-            var songartist = songdeets.artist;
-            }
-        else {
+        var songtitle = songdeets.title;
+        var songartist = songdeets.artist;
+/*        else {
             var songtitle = toTitleCase(panel.parents(".panel").prev().find(".titleentry").val());
             var songartist = toTitleCase(panel.parents(".panel").prev().find(".artistentry").val());
-            }
+            }    */
         $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
             panel.html(r);
             panel.find(".confirmbutton").button({

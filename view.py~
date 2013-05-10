@@ -21,6 +21,8 @@ graph = None
 providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo"]
 
 NUMSONGS = 3
+
+SPLITSTRINGS = (" - ", " | ", " -", " |", "- ", "| ", "-", "|")
     
 def db_connect(details):
     engine = create_engine(details)
@@ -28,7 +30,6 @@ def db_connect(details):
     pg = Session()
     return pg
     
-FBAUTH = True
 app = Flask(__name__)
 app.config.update(DEBUG = DEBUG)
 app.secret_key = SECRET_KEY
@@ -145,6 +146,13 @@ def get_selector():
     provider = int(rdata['provider'])
     searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
+    for option in optionset:
+        if option['title'].find (" by ") > 0:
+            option['title'], option['artist'] = option['title'].split(" by ", 1)
+        else:
+            for s in SPLITSTRINGS:
+                if option['title'].find(s) > 0:
+                    option['artist'], option['title'] = option['title'].split(s, 1)
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
 @app.route('/get_confirm/', methods=['POST'])
