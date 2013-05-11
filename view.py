@@ -80,7 +80,6 @@ def facebook_loggedin():
         for dat in rawtoken:
             decompose = dat.split("=")
             token[decompose[0]] = decompose[1]
-        print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
         session['token'] = token['access_token']
@@ -177,7 +176,7 @@ def friendListMob(facebook_id):
     return render_template('friendsmob.html', friends=friendusers, userdata=session['userdata'])
     
 @app.route('/make_songs_mob/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
-def makeSongs(facebook_id, new_user=False):
+def makeSongsMob(facebook_id, new_user=False):
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
     if len(songlist) < NUMSONGS:

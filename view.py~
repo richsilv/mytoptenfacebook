@@ -80,7 +80,6 @@ def facebook_loggedin():
         for dat in rawtoken:
             decompose = dat.split("=")
             token[decompose[0]] = decompose[1]
-        print "The returned token is " + token['access_token'] + ". This expires at UNIX time " + token['expires'] + "."
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
         session['token'] = token['access_token']
@@ -141,7 +140,23 @@ def friendList(facebook_id):
 ########### MOBILE PAGES ##############
 
 @app.route('/mobile',  methods=['GET', 'POST'])
-
+def mobile():
+    fbdata = session['userdata']
+    fb = facebook.GraphAPI(session['token'])
+    new_user = False
+    user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == str(fbdata['id'])).first()
+    if not user: 
+        user = createUser(fbdata)
+        new_user = True
+    topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
+    if not topten:
+        topten = createTopTen(fbdata)
+    songlist = topten.songs
+    if (len(songlist) < NUMSONGS):
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
+    else:
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id))
+    return 'Hello World!'
 
 @app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongsMob(facebook_id):

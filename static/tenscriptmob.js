@@ -230,20 +230,23 @@ function toTitleCase(str) {
     }
 
 function toggleTitleArtist(header) {
-    header.children('.songtitleartist').toggle(0, function() {
-        $(this).siblings('.songentry').toggle(0);
-        });
+    if (header.children('.songentry').css("display")==="none") {
+        hideTitleArtist(header);        
+        }
+    else {
+        showTitleArtist(header);
+        }
     }
     
 function showTitleArtist(header) {
-    header.children('.songentry').hide(0, function() {
-        $(this).siblings('.songtitleartist').show(0);
+    header.children('.songentry').css("display", "none");
+    header.children('.songtitleartist').css("display", "inline-block");
         });
     }
  
 function hideTitleArtist(header) {
-    header.children('.songtitleartist').hide(0, function() {
-        $(this).siblings('.songentry').show(0);
+    header.children('.songtitleartist').css("display", "none");
+    header.children('.songentry').css("display", "inline-block");
         });
     }
 
