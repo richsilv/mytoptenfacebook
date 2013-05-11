@@ -50,8 +50,9 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </script>
 {% set num_songs = 3 %}
 {% block head %}{% endblock %}
-<link rel="stylesheet" href="/static/style.css" />
-{% block title %}<title>jQuery Test</title>{% endblock %}
+<link media="screen and (min-width:761px)" rel="stylesheet" href="/static/style.css" />
+<link media="screen and (max-width:760px)" rel="stylesheet" href="/static/mobstyle.css" />
+{% block title %}<title>My Top Ten</title>{% endblock %}
 </head>
 <body style="overflow: hidden">
 <div id="fb-root"></div>

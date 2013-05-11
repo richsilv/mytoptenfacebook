@@ -1,0 +1,118 @@
+body {
+    width: 320px;  
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    }
+
+.header {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    }
+
+.showpanel {
+    border: thin solid #3b5998;
+    border-radius: 2px;
+    height: auto;
+    display: none;    
+    }
+
+.reasonbox {
+    color: #444444;
+    font-size: 1.1em;
+    font-style: italic;
+    position: relative;
+    top: 5px;
+    left: 10px;
+    margin-bottom: 15px;   
+    }
+
+.slider {
+    height: 25px;
+    margin: 5px 5px;
+    cursor: pointer;
+    background-color: #8b9dc3;
+    border-radius: 5px;
+    }
+
+.slider h3 {
+    position: relative;
+    top: 5px;
+    left: 30px;
+    margin: 0;
+    }
+
+
+.friend {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    }
+
+
+#buttonbar {
+    text-align: center;
+    margin-top: 10px;
+    }
+
+.mobibutton {
+    background-color: #8b9dc3;
+    border-radius: 5px;
+    color: black;
+    font-size: 1.2em;
+    height: 20px;
+    padding: 5px;
+    margin: 0 3px 0;
+    cursor: pointer;
+    }
+
+
+
+.fb-comments {
+    margin-top: 10px;
+    }
+
+
+
+.playerbox {
+    width: 320px;
+    margin-left: 0;
+    display: none;
+    }
+
+.player embed {
+    border: thin solid darkgrey;
+    position: relative;
+    left: 35px;
+    }
+
+.spotifyshow {}
+.soundcloudshow {}
+.youtubeshow {}
+.vimeoshow {}
+
+.playerbox .player iframe {
+    margin: 10px;
+    overflow: hidden;
+    }
+
+.spotifyshow .player iframe {
+    width: 250px;
+    margin-left: 30px;    
+    }
+    
+.friend {
+    cursor: pointer;
+    margin: 2px 0 0 0;
+    line-height: 1.5em;
+    height: 30px;
+    padding: 8px 8px 8px 38px;    
+    }

@@ -1,0 +1,35 @@
+{% macro acc_header(number, title, artist) -%}
+    <h3 class="header closed{% if newsong %} newsong{% endif %}" id="{{ number }}header">
+        <span class="songtitleartist">
+            {{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">
+        </span>
+    </h3>
+{% endmacro %}
+
+{% macro prov_class(provider) -%}
+    {% if provider == 1 %}
+        soundcloudshow
+    {% elif provider == 2 %}
+        spotifyshow
+    {% elif provider == 3 %}
+        youtubeshow
+    {% elif provider == 4 %}
+        vimeoshow        
+    {% else %}
+        unknownshow
+    {% endif %}    
+{% endmacro -%}
+
+{% macro acc_panel(number, reason, provider) -%}
+    <div class="showpanel" id="{{ number }}panel">       
+        <div class="reasonbox">
+            {% if reason %}"{{ reason }}"{% endif %}                   
+        </div>
+        <div class="slider closed">
+            <h3>Player</h3>                
+        </div>
+        <span id="play{{ number }}" class="playerbox {{ prov_class(provider=provider) }}">
+            <div class="player"></div>
+        </span>
+    </div>
+{% endmacro %}

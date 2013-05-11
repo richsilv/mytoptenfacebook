@@ -1,0 +1,43 @@
+{% extends "basepagemob.html" %}
+
+{% block head %}
+<script type="text/javascript">
+    facebook_id = {{ facebook_id }};
+    topten_id = {{ topten_id }};
+    user_id = {{ userdata.id }}
+    user_name = "{{ userdata.first_name }} {{ userdata.last_name }}"
+    var songdeets = new Array ();
+    {% if userid %}var userid = {{ userid }}{% endif %};
+    {% for song in songlist %}
+        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
+    {% endfor %}
+</script>
+<script src="/static/showscriptmob.js"></script>
+{% endblock %}
+
+{% block body %}
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=442425319177351";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    {% import 'showpanel.html' as showpanel %}
+    <div id="accordion">
+        {% for song in songlist %}
+			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}
+			{{ showpanel.acc_panel(number=loop.index, reason=song.reason, provider=song.provider) }}
+        {% endfor %}
+    </div>
+    <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
+    {% if owner %}
+        <span class="mobibutton" id="edit">Edit Songs</span>
+    {% else %}
+        <span class="mobibutton" id="home">My Top Ten!</span>
+    {% endif %}
+        <span class="mobibutton" id="friends">Friends' Top Tens</span>
+    </div> 
+    <div class="fb-comments" data-href="http://apps.facebook.com/mytoptenapp/show_songs/{{ facebook_id }}" data-width="320" data-num-posts="3"></div>   
+{% endblock %}

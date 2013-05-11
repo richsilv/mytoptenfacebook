@@ -138,6 +138,54 @@ def friendList(facebook_id):
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     return render_template('friends.html', friends=friendusers, userdata=session['userdata'])
 
+########### MOBILE PAGES ##############
+
+@app.route('/mobile',  methods=['GET', 'POST'])
+def mobile():
+    fbdata = session['userdata']
+    fb = facebook.GraphAPI(session['token'])
+    new_user = False
+    user = pg.query(TopTenUser).filter(TopTenUser.facebook_id == str(fbdata['id'])).first()
+    if not user: 
+        user = createUser(fbdata)
+        new_user = True
+    topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
+    if not topten:
+        topten = createTopTen(fbdata)
+    songlist = topten.songs
+    if (len(songlist) < NUMSONGS):
+        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
+    else:
+        return redirect(url_for('showSongs', facebook_id=user.facebook_id))
+    return 'Hello World!'
+
+@app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
+def showSongsMob(facebook_id):
+    topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
+    songlist = topten.songs
+    if facebook_id == session['userdata']['id']:
+        owner = True
+    else:
+        owner = False
+    return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+
+@app.route('/friends_list_mob/<string:facebook_id>', methods=['GET', 'POST'])
+def friendListMob(facebook_id):
+    fb = facebook.GraphAPI(session['token'])    
+    allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
+    friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
+    return render_template('friendsmob.html', friends=friendusers, userdata=session['userdata'])
+    
+@app.route('/make_songs_mob/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
+def makeSongs(facebook_id, new_user=False):
+    topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
+    songlist = topten.songs
+    if len(songlist) < NUMSONGS:
+        existing_ten = False
+    else:
+        existing_ten = topten.topten_id
+    return render_template('accordionbasemob.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten, new_user=new_user)
+
 ########### AJAX REQUESTS #############
 
 @app.route('/get_selector/', methods=['POST'])

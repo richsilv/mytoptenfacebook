@@ -138,13 +138,45 @@ def friendList(facebook_id):
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     return render_template('friends.html', friends=friendusers, userdata=session['userdata'])
 
+########### MOBILE PAGES ##############
+
+@app.route('/mobile',  methods=['GET', 'POST'])
+
+
+@app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
+def showSongsMob(facebook_id):
+    topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
+    songlist = topten.songs
+    if facebook_id == session['userdata']['id']:
+        owner = True
+    else:
+        owner = False
+    return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+
+@app.route('/friends_list_mob/<string:facebook_id>', methods=['GET', 'POST'])
+def friendListMob(facebook_id):
+    fb = facebook.GraphAPI(session['token'])    
+    allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
+    friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
+    return render_template('friendsmob.html', friends=friendusers, userdata=session['userdata'])
+    
+@app.route('/make_songs_mob/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
+def makeSongs(facebook_id, new_user=False):
+    topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
+    songlist = topten.songs
+    if len(songlist) < NUMSONGS:
+        existing_ten = False
+    else:
+        existing_ten = topten.topten_id
+    return render_template('accordionbasemob.html', songlist=songlist, providers=providers, facebook_id=facebook_id, topten_id=topten.topten_id, existing_ten=existing_ten, new_user=new_user)
+
 ########### AJAX REQUESTS #############
 
 @app.route('/get_selector/', methods=['POST'])
 def get_selector():
     rdata = request.form
     provider = int(rdata['provider'])
-    searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request][provider]
+    searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request, hypem_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
     for option in optionset:
         if option['title'].find (" by ") > 0:

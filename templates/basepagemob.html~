@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head style="overflow: hidden">
+<meta charset="utf-8" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
+<!-- <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> -->
+<!--  ANNOYINGLY NEED TO OVERWRITE THE CODE FOR ACCORDION KEYDOWN TO STOP IT SUPPRESSING SPACE -->
+{% set num_songs = 3 %}
+{% block head %}{% endblock %}
+<link media="screen and (min-width:761px)" rel="stylesheet" href="/static/style.css" />
+<link media="screen and (max-width:760px)" rel="stylesheet" href="/static/mobstyle.css" />
+{% block title %}<title>My Top Ten</title>{% endblock %}
+</head>
+<body style="overflow: hidden">
+<div id="fb-root"></div>
+<div id="loader" style="display: none"></div>
+{% block body %}{% endblock %}
+</body>
+</html>
