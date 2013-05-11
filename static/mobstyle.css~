@@ -46,6 +46,18 @@ body {
     margin: 0;
     }
 
+
+.friend {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    }
+
+
 #buttonbar {
     text-align: center;
     margin-top: 10px;
@@ -62,9 +74,47 @@ body {
     cursor: pointer;
     }
 
+
+#dialog-modal {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    width: 280px;
+    border: thin solid #3b5998;
+    background-color: white;
+    padding: 5px;
+    text-align: center;  
+    }
+
+#dialog-modal p {
+    text-align: justify;
+    }
+
+#dialog-modal .mobibutton {
+    text-align: center;
+    position: relative;
+    top: -5px;        
+    }
+
+.songentry {
+    display: none;
+    }
+
+.panel {
+    display: none;
+    }
+
+.reason {
+    display: none;
+    }
+
+
+
 .fb-comments {
     margin-top: 10px;
     }
+
+
 
 .playerbox {
     width: 320px;

@@ -1,8 +1,6 @@
 {% extends "basepage.html" %}
 
 {% block head %}
-<link type="text/css" href="/static/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />
-<script type="text/javascript" src="/static/jquery.jplayer.min.js"></script>
 <script type="text/javascript">var num_songs = {{ songlist|length }}</script>
 <script type="text/javascript">
     facebook_id = {{ facebook_id }};

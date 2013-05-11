@@ -75,6 +75,45 @@ body {
     }
 
 
+#dialog-modal {
+    position: fixed;
+    top: 70px;
+    left: 20px;
+    width: 280px;
+    border: thin solid #3b5998;
+    background-color: white;
+    padding: 5px;
+    text-align: center;  
+    }
+
+#dialog-modal p {
+    text-align: justify;
+    }
+
+#dialog-modal .mobibutton {
+    text-align: center;
+    position: relative;
+    top: -5px;        
+    }
+
+.songentry {
+    display: none;
+    }
+
+.panel {
+    display: none;
+    }
+
+.reason {
+    display: none;
+    }
+
+.entryform {
+    float: right;
+    margin-left: 5px;
+    width: 280px;
+    }
+
 
 .fb-comments {
     margin-top: 10px;

@@ -1,4 +1,4 @@
-{% extends "basepage.html" %}
+{% extends "basepagemob.html" %}
 
 {% block head %}
 <script type="text/javascript">var num_songs = {{ songlist|length }}</script>
@@ -12,7 +12,7 @@
         songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
     {% endfor %}
 </script>
-<script src="/static/tenscript.js"></script>
+<script src="/static/tenscriptmob.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -23,10 +23,11 @@
             one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 
             even <strong style="font-style:italic">add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong style="font-style:italic">replace</strong> any of the songs in your list as
             many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
+            <span id="close" class="mobibutton">Close</span>
         </div>
     {% endif %}
 
-    {% import 'accordionpanel.html' as accpanel %}
+    {% import 'accordionpanelmob.html' as accpanel %}
     <div id="accordion">
         {% for song in songlist %}
 			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
@@ -38,8 +39,8 @@
         {% endif %}
     </div>
     <div id="buttonbar">
-        <button id="confirm">Confirm</button>
-        <button id="cancel">Cancel</button>    
+        <span id="confirm" class="mobibutton">Confirm</span>
+        <span id="cancel" class="mobibutton">Cancel</span>    
     </div>    
     
 {% endblock %}
