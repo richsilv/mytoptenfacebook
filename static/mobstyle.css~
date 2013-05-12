@@ -138,6 +138,7 @@ body {
     width: 20px;
     height: 20px;
     display: inline-block;
+    cursor: pointer;
     }
 
 .cancelchange {
@@ -181,7 +182,7 @@ body {
 
 
 .fb-comments {
-    margin-top: 10px;
+    margin-top: 20px;
     }
 
 

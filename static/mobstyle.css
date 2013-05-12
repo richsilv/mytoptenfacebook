@@ -182,7 +182,7 @@ body {
 
 
 .fb-comments {
-    margin-top: 10px;
+    margin-top: 20px;
     }
 
 
@@ -215,9 +215,11 @@ body {
     }
     
 .friend {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
     cursor: pointer;
-    margin: 2px 0 0 0;
-    line-height: 1.5em;
-    height: 30px;
-    padding: 8px 8px 8px 38px;    
+    margin: 5px 0;   
     }
