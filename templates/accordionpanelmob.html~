@@ -14,7 +14,7 @@
         <div class="{{ class }}" id="{{ number }}tabs">
             <ul>
                 {% for prov in providers %}
-                    <li class="mobiminibutton"><span class="{{ prov|lower }}" href="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</span></li>
+                    <li class="mobiminibutton"><span class="{{ prov|lower }}" title="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</span></li>
                 {% endfor %}
             </ul>
             {% for prov in providers %}

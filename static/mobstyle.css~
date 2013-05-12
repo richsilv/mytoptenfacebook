@@ -76,7 +76,8 @@ body {
 
 .mobibutton.disabled {
     background-color: #dfe3ee;
-    
+    cursor: default;
+    color: grey;
     }
 
 .mobiminibutton {
