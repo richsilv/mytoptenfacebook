@@ -4,7 +4,8 @@
             <div class="titleartist">{% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}</div>
             <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
         </div>
-        <span class="songentry">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist"><button class="cancelchange"></button></form></span>            
+        <span class="songentry">{{ number }}. <form class="entryform"><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist">
+        <div class="searchbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div></form></span>            
     </h3>
 {% endmacro %}
 
@@ -13,7 +14,7 @@
         <div class="{{ class }}" id="{{ number }}tabs">
             <ul>
                 {% for prov in providers %}
-                    <li><a class="{{ prov|lower }}" href="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</a></li>
+                    <li class="mobiminibutton"><span class="{{ prov|lower }}" href="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</span></li>
                 {% endfor %}
             </ul>
             {% for prov in providers %}

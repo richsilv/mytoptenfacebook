@@ -69,42 +69,88 @@ function doSetup() {
         $(this).siblings(".artistentry").val("")
         if (!$(this).parents(".header").hasClass("newsong")) {showTitleArtist($(this).parents(".header"))} 
         });
+
+    $('#accordion').on("click", ".header .songentry form .searchbutton", function() {
+        $(this).parents(".header").next(".panel").css("display", "block");
+        });
     
-    $("#accordion").on("tabsbeforeactivate", ".panel .tabset", function(e, ui) {
-        if (ui.newPanel.length) {
-            panel = ui.newPanel;
+    $('#accordion').on("click", ".panel .tabset ul .mobiminibutton", function() {
+        panel = $(this).parents(".tabset").find($(this).find("span").attr("title"))
+        $(this).siblings(".highlight").removeClass("highlight");        
+        $(this).addClass("highlight");
+        $(this).parents(".tabset").find(".clicked").removeClass("clicked").css("display", "none");
+        panel.css("display", "block").addClass("clicked");
+        showSelect(panel, $(this));
+        });
+
+    $("#accordion").on("focus change", ".panel .tabset .selector .selection .selectmenu", function() {
+        var selection = $.parseJSON($(this).val()).url;
+        var provider = parseInt($(this).parents(".selector").attr("id").slice(-1));
+        var player = $(this).parents(".selector").find(".player");
+        if (provider === 1) {
+            var promise = scloudPlayer(selection);
+            promise.success(function(result) {
+                player.html(result.html);
+                });
             }
         else {
-            panel = ui.oldPanel;
+            player.html(embedPlayer(selection, provider));                                
             }
-        if ($(this).parents(".panel").prev().find('.songentry').is(":visible")) {
-            songtitle = $(this).parents(".panel").prev().find('.titleentry').val();
-            songartist = $(this).parents(".panel").prev().find('.artistentry').val();
+        player.children("iframe").css("height", playerheights[provider]+"px");
+        player.siblings(".selection").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
+        });
+
+    $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .cancelchange", function() {
+        var headobj = $(this).parents(".panel").prev();       
+        headobj.find(".titleentry").val("");
+        headobj.find(".artistentry").val("");
+        if (!headobj.hasClass("newsong")) {showTitleArtist(headobj)}
+        $(this).parents(".tabset").find("ul.highlight").removeClass("highlight");
+        $(this).parents(".panel").css("display", "none");        
+        $(this).parents(".selector").css("display", "none");
+        });
+
+    $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .confirmbutton", function() {
+        var panel = $(this).parents(".selector");
+        var provider = parseInt(panel.attr("id").slice(-1));
+        var songdeets = $.parseJSON(panel.find(".selectmenu").val());
+        var songtag = songdeets.url;
+        var songtitle = songdeets.title;
+        var songartist = songdeets.artist;
+        $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
+            panel.html(r);
+            panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div>');
+            header = panel.parents(".panel").prev(".header");
+            if (header.find(".songtitleartist").css("display") != "none") {
+                panel.find(".songtitle").val(header.find(".currenttitle").val());
+                panel.find(".songartist").val(header.find(".currentartist").val());
+                panel.find(".songreason").val(header.find(".reason").children("div").text());
+                }
+            });
+        });
+    
+    function showSelect(panel, clicked) {
+        if (clicked.parents(".panel").prev().find('.songentry').is(":visible")) {
+            songtitle = clicked.parents(".panel").prev().find('.titleentry').val();
+            songartist = clicked.parents(".panel").prev().find('.artistentry').val();
             }
         else {
-            songtitle = $(this).parents(".panel").prev().find('.currenttitle').val();
-            songartist = $(this).parents(".panel").prev().find('.currentartist').val();
+            songtitle = clicked.parents(".panel").prev().find('.currenttitle').val();
+            songartist = clicked.parents(".panel").prev().find('.currentartist').val();
             }
         provider = panel.attr("id").slice(-1);
         $.post('/get_selector/', {'songtitle': songtitle, 'songartist': songartist, 'provider': provider}, function(r) {
             panel.html(r);
+            panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div>');
             if (panel.children(".noresults").length > 0) {
                 panel.css("height", "50px");
                 }
             else {
                 panel.css("height", "auto");               
                 }
-            panel.find(".choosebutton").button({
-                icons: {primary: "ui-icon-circle-check"},
-                text: false
-                });
-            panel.find(".cancelbutton").button({
-                icons: {primary: "ui-icon-circle-close"},
-                text: false
-                });
             panel.find('.selectmenu').focus();
             });
-        });
+        }
     
     $("#accordion").on("keypress", ".header .songentry form input", function(e) {
         if (e.which === 13) {
@@ -124,31 +170,6 @@ function doSetup() {
         if (e.which === 13) {
             $(this).parents(".confirmholder").find(".confirmbutton").click();
             }
-        });
-        
-    $("#accordion").on("focus change", ".panel .tabset .selector .selection .selectmenu", function() {
-        var selection = $.parseJSON($(this).val()).url;
-        var provider = parseInt($(this).parents(".selector").attr("id").slice(-1));
-        var player = $(this).parents(".selector").find(".player");
-        if (provider === 1) {
-            var promise = scloudPlayer(selection);
-            promise.success(function(result) {
-                player.html(result.html);
-                });
-            }
-        else {
-            player.html(embedPlayer(selection, provider));                                
-            }
-        player.children("iframe").css("height", playerheights[provider]+"px");
-        player.siblings(".selection").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
-        });
-
-    $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .cancelbutton", function() {
-        var headobj = $(this).parents(".panel").prev();       
-        headobj.find(".titleentry").val("");
-        headobj.find(".artistentry").val("");
-        if (!headobj.hasClass("newsong")) {showTitleArtist(headobj)}
-        $(this).parents(".tabset").tabs("option", "active", false)
         });
         
     $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .choosebutton", function() {
@@ -241,14 +262,12 @@ function toggleTitleArtist(header) {
 function showTitleArtist(header) {
     header.children('.songentry').css("display", "none");
     header.children('.songtitleartist').css("display", "inline-block");
-        });
-    }
+        }
  
 function hideTitleArtist(header) {
     header.children('.songtitleartist').css("display", "none");
     header.children('.songentry').css("display", "inline-block");
-        });
-    }
+        }
 
 function embedPlayer(l, provider) {
     switch(provider) {
