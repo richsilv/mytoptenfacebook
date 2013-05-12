@@ -2,11 +2,9 @@
 <html>
 <head style="overflow: hidden">
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name = "viewport" content = "width = 320,
+       initial-scale = 2.3, user-scalable = no">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
-<!-- <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> -->
-<!--  ANNOYINGLY NEED TO OVERWRITE THE CODE FOR ACCORDION KEYDOWN TO STOP IT SUPPRESSING SPACE -->
 {% set num_songs = 3 %}
 {% block head %}{% endblock %}
 <link rel="stylesheet" href="/static/mobstyle.css" />
