@@ -8,11 +8,12 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from flask_oauth import OAuth
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from user_agents import parse
 import facebook
 from models import *
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
-DEBUG = False
+DEBUG = True
 FACEBOOK_APP_ID = '447399068676640'
 FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
@@ -93,6 +94,11 @@ def get_facebook_oauth_token():
 
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
+    user_agent_string = request.user_agent.string
+    print user_agent_string
+    user_agent = parse(user_agent_string)
+    if user_agent.is_bot:
+        return "Bot query"
     fbdata = session['userdata']
     fb = facebook.GraphAPI(session['token'])
     new_user = False
@@ -105,9 +111,15 @@ def default():
         topten = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
-        return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
+        if user_agent.is_mobile:
+            return redirect(url_for('makeSongsMob', facebook_id=user.facebook_id, new_user=new_user))
+        else:
+            return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))            
     else:
-        return redirect(url_for('showSongs', facebook_id=user.facebook_id))
+        if user_agent.is_mobile:
+            return redirect(url_for('showSongsMob', facebook_id=user.facebook_id))
+        else:    
+            return redirect(url_for('showSongs', facebook_id=user.facebook_id))
     return 'Hello World!'
 
 @app.route('/make_songs/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
@@ -227,7 +239,7 @@ def save_songs():
     if FBAUTH:
         fb = facebook.GraphAPI(session['token'])
         possessive = getPossessive(session['userdata'])
-        fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!")
+        fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
     return 'success'
 
 @app.errorhandler(404)

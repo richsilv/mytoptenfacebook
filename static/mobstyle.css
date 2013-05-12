@@ -74,6 +74,12 @@ body {
     cursor: pointer;
     }
 
+.mobibutton.disabled {
+    background-color: #dfe3ee;
+    cursor: default;
+    color: grey;
+    }
+
 .mobiminibutton {
     background-color: #8b9dc3;
     border-radius: 3px;
@@ -134,6 +140,18 @@ body {
     top: 5px;
     }
 
+.confirmholder {
+    padding: 5px 10px;    
+    }
+
+.confirmholder .buttons {
+    display: inline-block;
+    }
+    
+.confirm {
+    font-weight: bold;
+    }
+
 .searchbutton, .cancelchange, .confirmbutton {
     width: 20px;
     height: 20px;
@@ -180,6 +198,11 @@ body {
     left: 5px;
     }
 
+.reasoninput {
+    display: inline-block;
+    width: 240px;
+    }
+
 
 .fb-comments {
     margin-top: 35px;
@@ -196,7 +219,7 @@ body {
 .player embed {
     border: thin solid darkgrey;
     position: relative;
-    left: 35px;
+    height: 22px;
     }
 
 .spotifyshow {}

@@ -32,19 +32,19 @@ function updateSongDisplay() {
 
 function doSetup() {
     
-    if (!existing_ten) { $("#cancel").css("background-color", "#dfe3ee").css("cursor", "default").css("color", "grey")};
-    $("#confirm").css("background-color", "#dfe3ee").css("cursor", "default").css("color", "grey")
+    if (!existing_ten) { $("#cancel").addClass("disabled")};
+    $("#confirm").addClass("disabled");
 
     $('#cancel').on("click", function() {
         if (existing_ten) {
-            window.location = "/show_songs/" + facebook_id;                    
+            window.location = "/show_songs_mob/" + facebook_id;                    
             }
         });
         
     $('#confirm').on("click", function() {
-        if ($(this).css("cursor") == "pointer") {
+        if (!$(this).hasClass("disabled")) {
             $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
-                window.location = "/show_songs/" + facebook_id;        
+                window.location = "/show_songs_mob/" + facebook_id;        
                 });
             }            
         });
@@ -57,17 +57,13 @@ function doSetup() {
     $('#accordion').on("click", '.header .songentry form', function(e) {
         if (e.target === this) { showTitleArtist($(this).parents('.header')); }
         });
-
-    $('#accordion').on("accordionactivate", function(e, ui) {
-        if ((ui.oldHeader.length) && !(ui.oldHeader.hasClass("newsong"))) {
-            showTitleArtist(ui.oldHeader);           
-            }    
-        });
     
     $('#accordion').on("click", ".header .songentry form .cancelchange", function() {
-        $(this).siblings(".titleentry").val("")
-        $(this).siblings(".artistentry").val("")
-        if (!$(this).parents(".header").hasClass("newsong")) {showTitleArtist($(this).parents(".header"))} 
+        if ($(this).parents(".header").next(".panel").find("selector").css("display") == "none") {
+            $(this).siblings(".titleentry").val("")
+            $(this).siblings(".artistentry").val("")
+            if (!$(this).parents(".header").hasClass("newsong")) {showTitleArtist($(this).parents(".header"))} 
+            }
         });
 
     $('#accordion').on("click", ".header .songentry form .searchbutton", function() {
@@ -151,27 +147,9 @@ function doSetup() {
             panel.find('.selectmenu').focus();
             });
         }
-    
-    $("#accordion").on("keypress", ".header .songentry form input", function(e) {
-        if (e.which === 13) {
-            t = $(this).parents(".header").next().find(".tabset");
-            if (t.tabs("option", "active")) {
-                a = t.tabs("option", "active");
-                t.tabs("option", "active", false);
-                t.tabs("option", "active", a);
-                }
-            else {
-                t.tabs("option", "active", 0);
-                }
-            }
-        });
-        
-    $("#accordion").on("keypress", ".panel .tabset .selector .confirmholder .confirm input, .panel .tabset .selector .confirmholder .reasoninput input", function(e) {
-        if (e.which === 13) {
-            $(this).parents(".confirmholder").find(".confirmbutton").click();
-            }
-        });
-        
+
+/*
+   
     $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .choosebutton", function() {
         var panel = $(this).parents(".selector");
         var provider = parseInt(panel.attr("id").slice(-1));
@@ -179,10 +157,6 @@ function doSetup() {
         var songtag = songdeets.url;
         var songtitle = songdeets.title;
         var songartist = songdeets.artist;
-/*        else {
-            var songtitle = toTitleCase(panel.parents(".panel").prev().find(".titleentry").val());
-            var songartist = toTitleCase(panel.parents(".panel").prev().find(".artistentry").val());
-            }    */
         $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
             panel.html(r);
             panel.find(".confirmbutton").button({
@@ -208,7 +182,7 @@ function doSetup() {
         headobj.find(".artistentry").val("");
         if (!headobj.hasClass("newsong")) {showTitleArtist(headobj)}
         $(this).parents(".tabset").tabs("option", "active", false)
-        });
+        });   */
 
     $("#accordion").on("click", ".panel .tabset .selector .confirmholder .buttons .confirmbutton", function() {
         var songnum = panelNumber(($(this).parents(".selector").attr("id")));
@@ -218,8 +192,8 @@ function doSetup() {
             $("#"+songnum+"header").removeClass('newsong');
             num_songs += 1;
             if (num_songs < NUMSONGS) {
-                $.post('/new_panel/', {'newsong': num_songs+1}, function(r) {
-                    $('#accordion').append(r).accordion("destroy");
+                $.post('/new_panel_mob/', {'newsong': num_songs+1}, function(r) {
+                    $('#accordion').append(r);
                     doUpdate();
                     });
                 }
@@ -229,11 +203,11 @@ function doSetup() {
                 $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
             }
         if (num_songs === NUMSONGS) {
-            $("#confirm").button("option", "disabled", false);            
+            $("#confirm").removeClass("disabled");            
             }
-        $("#"+songnum+"tabs").tabs("option", "active", false);
+        $(this).parents(".panel").css("display", "none");
+        showTitleArtist($(this).parents(".panel").prev(".header"));
         updateSongDisplay();
-        $("#accordion").accordion("option", "active", num_songs);
         setTimeout(function() {
             $("#"+num_songs+"header").find(".titleentry").focus();
             }, 100);
