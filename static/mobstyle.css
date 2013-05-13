@@ -2,7 +2,10 @@ body {
     width: 320px;  
     font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
     font-size: 11px;
-    margin: 0 0 0 5px;
+    }
+
+.accordion {
+    margin-left: 5px;
     }
 
 .header {
