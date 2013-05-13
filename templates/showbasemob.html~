@@ -24,7 +24,7 @@
         fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
-    {% import 'showpanel.html' as showpanel %}
+    {% import 'showpanelmob.html' as showpanel %}
     <div id="accordion">
         {% for song in songlist %}
 			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}

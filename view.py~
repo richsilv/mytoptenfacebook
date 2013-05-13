@@ -56,7 +56,7 @@ def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
-        session['userdata'] = {'id': '59', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
+        session['userdata'] = {'id': '52', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
         session['token'] = FACEBOOK_TEMP_TOKEN
         return redirect(url_for('default'))
 
@@ -94,8 +94,7 @@ def get_facebook_oauth_token():
 
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
-    print dir(request)
-    user_agent_string = request.META.get('HTTP_USER_AGENT')
+    user_agent_string = request.user_agent.string
     print user_agent_string
     user_agent = parse(user_agent_string)
     if user_agent.is_bot:

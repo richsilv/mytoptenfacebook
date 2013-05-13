@@ -194,6 +194,7 @@ function doSetup() {
             if (num_songs < NUMSONGS) {
                 $.post('/new_panel_mob/', {'newsong': num_songs+1}, function(r) {
                     $('#accordion').append(r);
+                    $("#"+num_songs+"header").find(".songentry").css("display", "inline-block");
                     doUpdate();
                     });
                 }
