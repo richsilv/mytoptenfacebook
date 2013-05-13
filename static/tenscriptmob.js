@@ -53,9 +53,14 @@ function doSetup() {
         $('#dialog-modal').css("display", "none");
         });
 
-    $('#accordion').on("click", '.header .songtitleartist strong', function() { hideTitleArtist($(this).parents('.header')) });
+    $('#accordion').on("click", '.header .songtitleartist strong', function() { 
+        hideTitleArtist($(this).parents('.header'));   
+        });
+        
     $('#accordion').on("click", '.header .songentry form', function(e) {
-        if (e.target === this) { showTitleArtist($(this).parents('.header')); }
+        if ((e.target === this) && (!$(this).parents(".header").hasClass("newsong"))) {
+            showTitleArtist($(this).parents('.header'));
+            }
         });
     
     $('#accordion').on("click", ".header .songentry form .cancelchange", function() {
@@ -117,11 +122,6 @@ function doSetup() {
             panel.html(r);
             panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div>');
             header = panel.parents(".panel").prev(".header");
-            if (header.find(".songtitleartist").css("display") != "none") {
-                panel.find(".songtitle").val(header.find(".currenttitle").val());
-                panel.find(".songartist").val(header.find(".currentartist").val());
-                panel.find(".songreason").val(header.find(".reason").children("div").text());
-                }
             });
         });
     
@@ -148,42 +148,6 @@ function doSetup() {
             });
         }
 
-/*
-   
-    $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .choosebutton", function() {
-        var panel = $(this).parents(".selector");
-        var provider = parseInt(panel.attr("id").slice(-1));
-        var songdeets = $.parseJSON(panel.find(".selectmenu").val());
-        var songtag = songdeets.url;
-        var songtitle = songdeets.title;
-        var songartist = songdeets.artist;
-        $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
-            panel.html(r);
-            panel.find(".confirmbutton").button({
-                icons: {primary: "ui-icon-circle-check"},
-                text: false
-                });
-            panel.find(".cancelbutton").button({
-                icons: {primary: "ui-icon-circle-close"},
-                text: false
-                });
-            header = panel.parents(".panel").prev(".header");
-            if (header.find(".songtitleartist").css("display") != "none") {
-                panel.find(".songtitle").val(header.find(".currenttitle").val());
-                panel.find(".songartist").val(header.find(".currentartist").val());
-                panel.find(".songreason").val(header.find(".reason").children("div").text());
-                }
-            });
-        });
-        
-    $("#accordion").on("click", ".panel .tabset .selector .confirmholder .buttons .cancelbutton", function() {
-        var headobj = $(this).parents(".panel").prev();       
-        headobj.find(".titleentry").val("");
-        headobj.find(".artistentry").val("");
-        if (!headobj.hasClass("newsong")) {showTitleArtist(headobj)}
-        $(this).parents(".tabset").tabs("option", "active", false)
-        });   */
-
     $("#accordion").on("click", ".panel .tabset .selector .confirmholder .buttons .confirmbutton", function() {
         var songnum = panelNumber(($(this).parents(".selector").attr("id")));
         if (songnum > num_songs) {
@@ -194,7 +158,6 @@ function doSetup() {
             if (num_songs < NUMSONGS) {
                 $.post('/new_panel_mob/', {'newsong': num_songs+1}, function(r) {
                     $('#accordion').append(r);
-                    $("#"+num_songs+"header").find(".songentry").css("display", "inline-block");
                     doUpdate();
                     });
                 }
@@ -207,11 +170,10 @@ function doSetup() {
             $("#confirm").removeClass("disabled");            
             }
         $(this).parents(".panel").css("display", "none");
-        showTitleArtist($(this).parents(".panel").prev(".header"));
         updateSongDisplay();
-        setTimeout(function() {
-            $("#"+num_songs+"header").find(".titleentry").focus();
-            }, 100);
+        console.log($(this).parents(".panel").prev(".header").children(".songentry"));
+        $(this).parents(".panel").prev(".header").children(".songentry").css("display", "none");
+        console.log("has this executed?")
         });
 
     }

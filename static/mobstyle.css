@@ -103,8 +103,8 @@ body {
 
 #dialog-modal {
     position: fixed;
-    top: 70px;
-    left: 20px;
+    top: 50px;
+    left: 15px;
     width: 280px;
     border: thin solid #3b5998;
     background-color: white;
@@ -135,7 +135,7 @@ body {
     }
 
 .entryform {
-    float: right;
+    display: inline-block;
     margin-left: 5px;
     width: 280px;
     }
@@ -151,6 +151,10 @@ body {
 
 .confirmholder .buttons {
     display: inline-block;
+    }
+
+.confirmholder input {
+    width: 225px;
     }
     
 .confirm {
@@ -174,6 +178,14 @@ body {
     border-radius: 5px
     }
 
+.entryform input {
+    width: 225px;
+    }
+
+.number {
+    vertical-align: 135%;
+    }
+
 .tabset ul {
     padding-left: 7px;
     }
@@ -193,8 +205,12 @@ body {
     width: 240px;    
     }
 
+.selection {
+    margin-left: 5px;    
+    }
+
 .player {
-    margin-left: 5px;
+    margin-left: 10px;
     }
 
 .noresults {

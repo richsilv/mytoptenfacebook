@@ -226,6 +226,11 @@ def new_panel():
     rdata = request.form
     return render_template('newpanel.html', songnum=int(rdata['newsong']), providers=providers)
 
+@app.route('/new_panel_mob/', methods=['POST'])
+def new_panel_mob():
+    rdata = request.form
+    return render_template('newpanelmob.html', songnum=int(rdata['newsong']), providers=providers)
+
 @app.route('/save_songs/', methods=['POST'])
 def save_songs():
     rdata = json.loads(request.form['songlist'])
