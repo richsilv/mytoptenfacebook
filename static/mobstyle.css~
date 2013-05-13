@@ -206,7 +206,7 @@ body {
     }
 
 .selection {
-    margin-left: 5px    
+    margin-left: 5px;    
     }
 
 .player {
