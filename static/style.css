@@ -19,6 +19,9 @@ body {
     padding: 5px;
     }
 
+.ui-tabs-anchor {
+    font-size: 0.9em;
+    }
 
 
 .header {

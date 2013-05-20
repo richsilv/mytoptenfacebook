@@ -5,7 +5,7 @@ $(function() {
 
 });
 
-var playerheights = Array(0, 80, 80, 200, 200);
+var playerheights = Array(0, 80, 80, 200, 200, 80, 400);
 var NUMSONGS = 3;
 
 // ********************************
@@ -283,6 +283,8 @@ function embedPlayer(l, provider) {
             return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="290" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         case 5:
             return '<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="290" height="27" quality="best"></embed>';
+        case 6:
+            return '<iframe scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/en/plugins/player?autoplay=false&playlist=true&width=290&height=400&cover=true&type=tracks&id=' + l + '&title=&format=vertical&app_id=undefined" width="290" height="400"></iframe>';        
         }
    }
         

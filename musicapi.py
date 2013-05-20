@@ -28,6 +28,8 @@ VIMEO_ACCESSURL = 'https://vimeo.com/oauth/access_token'
 VIMEO_CLIENTID = 'a05d6bc133d68e3fff30da84b60c58b93020045c'
 VIMEO_SECRET = 'd25250be08636c69dd661e3505bb69bdbe69bf08'
 
+DEEZER_URL = 'https://api.deezer.com/2.0/search'
+
 yt_service = gdata.youtube.service.YouTubeService()
 yt_service.ssl = True
 
@@ -119,6 +121,12 @@ def vimeo_request(title, artist):
     paramlist['oauth_signature'] = signature
     req = requests.get(VIMEO_QUERYURL, params = paramlist).json()['videos']['video']
     return [{'title': x['title'], 'artist': x['owner'].get('display_name'), 'url': x['id']} for x in req if title.lower() in x['title'].lower()]
+
+def deezer_request(title, artist):
+    paramlist = {'q': title + ' ' + artist}
+    req = requests.get(DEEZER_URL, params=paramlist)
+    if not req: return None
+    return [{'title': x['title'], 'artist': x['artist']['name'], 'url': x['link']} for x in req.json()['data'] if x['type'] == 'track']
     
 def oauthEscape(string):
     if not string:

@@ -19,7 +19,7 @@ FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
 graph = None
 
-providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
+providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine", "Deezer"]
 
 NUMSONGS = 3
 
@@ -203,7 +203,7 @@ def makeSongsMob(facebook_id, new_user=False):
 def get_selector():
     rdata = request.form
     provider = int(rdata['provider'])
-    searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request, hypem_request][provider]
+    searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request, hypem_request, deezer_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
     for option in optionset:
         if option['title'].find (" by ") > 0:

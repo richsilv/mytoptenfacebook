@@ -19,6 +19,9 @@ body {
     padding: 5px;
     }
 
+.ui-tabs-anchor {
+    font-size: 0.9em;
+    }
 
 
 .header {
@@ -188,7 +191,6 @@ h3 span {
     border: thin solid darkgrey;
     position: relative;
     left: 35px;
-    top: 15px;
     }
 
 .spotifyshow {height: 105px;}
