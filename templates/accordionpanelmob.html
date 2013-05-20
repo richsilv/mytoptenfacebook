@@ -1,0 +1,26 @@
+{% macro acc_header(number, title, artist, reason, newsong=False) -%}
+    <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header">
+        <span class="songtitleartist">
+            <div class="titleartist">{% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}</div>
+            <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
+        </span>
+        <span class="songentry"{% if newsong %} style="display: inline-block"{% endif %}><span class="number">{{ number }}.</span> <form class="entryform"><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist">
+        <div class="searchbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div></form></span>            
+    </h3>
+{% endmacro %}
+
+{% macro acc_panel(number, providers, class="tabset") -%}
+    <div class="panel" id="{{ number }}panel">
+        <div class="{{ class }}" id="{{ number }}tabs">
+            <ul>
+                {% for prov in providers %}
+                    <li class="mobiminibutton"><span class="{{ prov|lower }}" title="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</span></li>
+                {% endfor %}
+            </ul>
+            {% for prov in providers %}
+                <div id="{{ number }}tabs-{{ loop.index }}" class="selector">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}

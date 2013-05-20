@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head style="overflow: hidden">
+<meta charset="utf-8" />
+<meta name = "viewport" content = "width = 320,
+       initial-scale = 2, user-scalable = no">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
+{% set num_songs = 3 %}
+{% block head %}{% endblock %}
+<link rel="stylesheet" href="/static/mobstyle.css" />
+{% block title %}<title>My Top Ten</title>{% endblock %}
+</head>
+<body style="overflow: hidden">
+<div id="fb-root"></div>
+<div id="loader" style="display: none"></div>
+{% block body %}{% endblock %}
+</body>
+</html>

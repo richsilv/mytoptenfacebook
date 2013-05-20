@@ -1,0 +1,272 @@
+body {
+    width: 310px;  
+    font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size: 11px;
+    }
+
+.accordion {
+    margin-left: 5px;
+    }
+
+.header {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    }
+
+.showpanel {
+    border: thin solid #3b5998;
+    border-radius: 2px;
+    height: auto;
+    display: none;    
+    }
+
+.reasonbox {
+    color: #444444;
+    font-size: 1.1em;
+    font-style: italic;
+    position: relative;
+    top: 5px;
+    left: 10px;
+    margin-bottom: 15px;   
+    }
+
+.slider {
+    height: 25px;
+    margin: 5px 5px;
+    cursor: pointer;
+    background-color: #8b9dc3;
+    border-radius: 5px;
+    }
+
+.slider h3 {
+    position: relative;
+    top: 5px;
+    left: 30px;
+    margin: 0;
+    }
+
+
+.friend {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    }
+
+
+#buttonbar {
+    text-align: center;
+    margin-top: 10px;
+    }
+    
+#buttonbar.make {
+    margin-top: 20px;
+    }
+
+.mobibutton {
+    background-color: #8b9dc3;
+    border-radius: 5px;
+    color: black;
+    font-size: 1.2em;
+    height: 20px;
+    padding: 5px;
+    margin: 0 3px 0;
+    cursor: pointer;
+    }
+
+.mobibutton.disabled {
+    background-color: #dfe3ee;
+    cursor: default;
+    color: grey;
+    }
+
+.mobiminibutton {
+    background-color: #8b9dc3;
+    border-radius: 3px;
+    color: black;
+    font-size: 0.9em;
+    height: 14px;
+    padding: 3px;
+    margin: 0 2px 0;
+    cursor: pointer;
+    }
+
+.mobiminibutton.highlight {
+    background-color: #3b5998;
+    color: white;
+    }
+
+#dialog-modal {
+    position: fixed;
+    top: 50px;
+    left: 15px;
+    width: 280px;
+    border: thin solid #3b5998;
+    background-color: white;
+    padding: 5px;
+    text-align: center;  
+    }
+
+#dialog-modal p {
+    text-align: justify;
+    }
+
+#dialog-modal .mobibutton {
+    text-align: center;
+    position: relative;
+    top: -5px;        
+    }
+
+.songentry {
+    display: none;
+    }
+
+.panel {
+    display: none;
+    }
+
+.reason {
+    display: none;
+    }
+
+.entryform {
+    display: inline-block;
+    margin-left: 5px;
+    width: 280px;
+    }
+
+.buttons {
+    position: relative;
+    top: 5px;
+    }
+
+.confirmholder {
+    padding: 5px 10px;    
+    }
+
+.confirmholder .buttons {
+    display: inline-block;
+    }
+
+.confirmholder input {
+    width: 225px;
+    }
+    
+.confirm {
+    font-weight: bold;
+    }
+
+.searchbutton, .cancelchange, .confirmbutton {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    cursor: pointer;
+    }
+
+.cancelchange {
+    margin-left: 4px;
+    margin-right: -10px;
+    }
+
+.searchbutton img, .cancelchange img, .confirmbutton img {
+    max-width: 100%;
+    border-radius: 5px
+    }
+
+.entryform input {
+    width: 225px;
+    }
+
+.number {
+    vertical-align: 135%;
+    }
+
+.tabset ul {
+    padding-left: 7px;
+    }
+
+.tabset ul li {
+    list-style-type: none;
+    display: inline; 
+    }
+
+.selector {
+    border: thin solid #3b5998;    
+    }
+
+.selectmenu {
+    margin: 3px;
+    font-size: 0.8em;
+    width: 240px;    
+    }
+
+.selection {
+    margin-left: 5px;    
+    }
+
+.player {
+    margin-left: 2px;
+    }
+
+.noresults {
+    position: relative;
+    top: 5px;
+    left: 5px;
+    }
+
+.reasoninput {
+    display: inline-block;
+    width: 240px;
+    }
+
+
+.fb-comments {
+    top: 10px;
+    }
+
+
+
+.playerbox {
+    width: 320px;
+    margin-left: 0;
+    display: none;
+    }
+
+.player embed {
+    border: thin solid darkgrey;
+    position: relative;
+    height: 22px;
+    }
+
+.spotifyshow {}
+.soundcloudshow {}
+.youtubeshow {}
+.vimeoshow {}
+
+.playerbox .player iframe {
+    margin: 10px;
+    overflow: hidden;
+    }
+
+.spotifyshow .player iframe {
+    width: 250px;
+    margin-left: 30px;    
+    }
+    
+.friend {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;   
+    }

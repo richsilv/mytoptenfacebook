@@ -1,0 +1,10 @@
+songlist = [{'title': 'Loneliness of a Tower Crane Driver', 'artist': 'Elbow', 'reason': 'A brilliant use of an orchestra'},
+            {'title': 'Bloodbuzz Ohio', 'artist': 'The National', 'reason': "The best song about Ohio I can remember"},
+            {'title': 'Where is My Mind?', 'artist': 'The Pixies'},
+            {'title': 'Sweet Dreams', 'artist': 'The Eurythmics'},
+            {'title': 'Today', 'artist': 'The Smashing Pumpkins'},
+            ]
+
+@app.route('/test/')
+def test():
+    return render_template('accordionbase.html', songlist=songlist)

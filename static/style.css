@@ -1,5 +1,6 @@
 body {
-    width: 800px;    
+    margin: 5px;
+    width: 740px;    
     }
 
 .ui-accordion-content {
@@ -14,17 +15,41 @@ body {
     margin-bottom: 5px;
     }
 
+.selector.ui-tabs-panel {
+    padding: 5px;
+    }
 
 
-
+.header {
+    line-height: 1.5em;
+    }
 
 h3 span {
     display: inline-block;
     }
 
 .songtitleartist {
+    width: 100%;
+    height: 28px;
+    }
+
+.titleartist {
+    max-width: 500px;
+    float: left;
+    }
+
+.reason {
+    height: 28px;
+    line-height: 1.5em;
+    vertical-align: top;
+    font-style: italic;
+    overflow-y: auto;
     }
     
+.reason div {
+    margin-left: 10px;
+    }
+  
 .songentry {
     display: none;    
     }
@@ -48,4 +73,142 @@ h3 span {
 .selectmenu {
     width: 400px;
     font-size: 0.7em !important;    
+    }
+
+.selection {
+    width: 370px;
+    margin-left: 10px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    }
+
+.noresults {
+    top: 15px;
+    left: 30px;
+    position: relative;
+    font-size: 1.2em;
+    font-style: italic;
+    color: darkgrey;
+    }
+
+.player iframe {
+    margin-left: 35px;
+    height: 80px;
+    width: 290px;
+    background: #ffffff url("/static/359.gif/") no-repeat center center;
+    border: thin solid gray; 
+    }
+
+.buttons {
+    text-align: center;
+    }
+    
+.buttons button {
+    margin: 5px 10px;
+    }
+
+.cancelchange {
+    height: 20px;
+    margin: 0 10px;    
+    }
+    
+.songreason {
+    width: 525px;
+    }
+    
+.confirmholder {
+    width: 535px;
+    padding-left: 100px;
+    }
+    
+#buttonbar {
+    text-align: center;
+    margin-top: 2px;
+    }
+    
+#buttonbar button {
+    margin: 0 1em;
+    }
+
+
+
+.lefthalf {
+    margin: 0 auto;    
+    }
+
+.reasoncontainer {
+   float: left;
+   width: 100%;
+    }
+
+.reasonbox {
+   padding-right: 140px;
+   display: block;
+   text-align: justify;
+   overflow-y: auto;
+    }
+
+.reasonshow {
+   top: 15px;
+   left: 15px;
+   position: relative;
+   font-size: 1.2em;
+   font-style: italic;
+   color: darkgrey;
+   }
+
+.slider {
+   float: left;
+   width: 100px;
+   margin-left: -110px;
+   overflow: hidden;
+   cursor: pointer;
+   background-size: auto 100% !important;   
+    }
+
+.slider h3 {
+    margin-top: 50px;
+    display: block;
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg); 
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    }
+
+.playerbox {
+    width: 320px;
+    margin-left: 0;
+    float: right;
+    display: none;
+    overflow: hidden;
+    }
+
+.player embed {
+    border: thin solid darkgrey;
+    position: relative;
+    left: 35px;
+    }
+
+.spotifyshow {height: 105px;}
+.soundcloudshow {height: 105px;}
+.youtubeshow {height: 225px;}
+.vimeoshow {height: 225px;}
+
+.playerbox .player iframe {
+    margin: 10px;
+    overflow: hidden;
+    }
+
+.spotifyshow .player iframe {
+    width: 250px;
+    margin-left: 30px;    
+    }
+    
+    
+.friend {
+    cursor: pointer;
+    margin: 2px 0 0 0;
+    line-height: 1.5em;
+    height: 30px;
+    padding: 8px 8px 8px 38px;    
     }

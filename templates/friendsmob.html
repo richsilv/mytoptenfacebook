@@ -1,0 +1,23 @@
+{% extends "basepagemob.html" %}
+
+{% block head %}
+<script type="text/javascript">
+    user_id = {{ userdata.id }}
+    user_name = {{ userdata.first_name }} + " " + {{ userdata.last_name }}
+</script>
+<script src="/static/friendscriptmob.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="friendholder">
+        {% for friend in friends %}
+        			 <h3 class="friend">
+        			     <strong>{{ friend.first_name }} {{ friend.last_name }}</strong>
+        			 </h3>
+        			 <input type="hidden" value="{{ friend.facebook_id }}">
+        {% endfor %}
+    </div>
+    <div id="buttonbar">
+        <span class="mobibutton" id="home">My Top Ten!</span>
+    </div>    
+{% endblock %}

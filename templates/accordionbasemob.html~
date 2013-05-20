@@ -1,0 +1,46 @@
+{% extends "basepagemob.html" %}
+
+{% block head %}
+<script type="text/javascript">var num_songs = {{ songlist|length }}</script>
+<script type="text/javascript">
+    facebook_id = {{ facebook_id }};
+    topten_id = {{ topten_id }};
+    existing_ten = {% if existing_ten %}{{ existing_ten }}{% else %}false{% endif %};
+    var songdeets = new Array ();
+    {% if userid %}var userid = {{ userid }}{% endif %};
+    {% for song in songlist %}
+        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
+    {% endfor %}
+</script>
+<script src="/static/tenscriptmob.js"></script>
+{% endblock %}
+
+{% block body %}
+
+    {% if new_user == "True" %}
+        <div id="dialog-modal" title="Welcome to My Top Ten!">
+            <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <strong style="font-style:italic">get started</strong>, fill in the title and artist of 
+            one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 
+            even <strong style="font-style:italic">add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong style="font-style:italic">replace</strong> any of the songs in your list as
+            many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
+            <span id="close" class="mobibutton">Close</span>
+        </div>
+    {% endif %}
+
+    {% import 'accordionpanelmob.html' as accpanel %}
+    <div id="accordion">
+        {% for song in songlist %}
+			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
+			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
+        {% endfor %}
+        {% if songlist|length < num_songs %}
+            {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
+			       {{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
+        {% endif %}
+    </div>
+    <div id="buttonbar" class="make">
+        <span id="confirm" class="mobibutton">Confirm</span>
+        <span id="cancel" class="mobibutton">Cancel</span>    
+    </div>    
+    
+{% endblock %}

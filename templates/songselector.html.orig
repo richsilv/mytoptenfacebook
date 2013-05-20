@@ -1,0 +1,31 @@
+{% if optionset %}
+<<<<<<< HEAD
+<form method="POST" class="songchoice">
+	<select class="selectmenu" name="chosen">
+		{% for entry in optionset %}
+			<option value="{{ entry.url }}">{{ entry.title }} by {{ entry.artist }}</option>
+		{% endfor %}
+	</select>
+	<span class="player"></span>
+	<input type="submit" value="Choose"/>
+	<input type="submit" value="Cancel" name="cancel"/>
+</form>
+=======
+    <span class="selection">    
+    	<select class="selectmenu" name="chosen">
+    		{% for entry in optionset %}
+    			<option value='{"url": "{{ entry.url }}", "title": "{{ entry.title }}", "artist": "{{ entry.artist }}"}'>{{ entry.title }} by {{ entry.artist }}</option>
+    		{% endfor %}
+    	</select>
+    	<span class="buttons">
+        	<button class="choosebutton"/></button>
+        	<button class="cancelbutton"/></button>
+    	</span>
+    </span>
+	<span class="player"></span>
+{% else %}	
+    <span class="noresults">
+    Sorry, no matches found from this provider.    
+    </span>
+>>>>>>> 25759b06097eecd880adfea87a3119274083fda9
+{% endif %}

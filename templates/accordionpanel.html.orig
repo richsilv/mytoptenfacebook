@@ -1,0 +1,39 @@
+{% macro acc_header(number, title, artist, reason, newsong=False) -%}
+    <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header">
+<<<<<<< HEAD
+        <span class="songtitleartist">
+            {% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}
+            <span class="songreason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></span>        
+        </span>
+        <span class="songentry">{{ number }}. <form><input type="text" name="title" class="titleentry"> by <input type="text" name="artist" class="artistentry"><input type="button" value="Cancel" class="cancelchange"></form></span>            
+    </h3>
+{% endmacro %}
+
+{% macro acc_panel(number, providers) -%}
+    <div class="panel" id="{{ number }}panel">
+        <div class="tabset" id="{{ number }}tabs">
+=======
+        <div class="songtitleartist">
+            <div class="titleartist">{% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}</div>
+            <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
+        </div>
+        <span class="songentry">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist"><button class="cancelchange"></button></form></span>            
+    </h3>
+{% endmacro %}
+
+{% macro acc_panel(number, providers, class="tabset") -%}
+    <div class="panel" id="{{ number }}panel">
+        <div class="{{ class }}" id="{{ number }}tabs">
+>>>>>>> 25759b06097eecd880adfea87a3119274083fda9
+            <ul>
+                {% for prov in providers %}
+                    <li><a class="{{ prov|lower }}" href="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</a></li>
+                {% endfor %}
+            </ul>
+            {% for prov in providers %}
+                <div id="{{ number }}tabs-{{ loop.index }}" class="selector">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}
