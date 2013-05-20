@@ -205,14 +205,15 @@ def get_selector():
     provider = int(rdata['provider'])
     searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request, hypem_request, deezer_request][provider]
     optionset = searchfunction(rdata['songtitle'], rdata['songartist'])
-    for option in optionset:
-        if option['title'].find (" by ") > 0:
-            option['title'], option['artist'] = option['title'].split(" by ", 1)
-        else:
-            for s in SPLITSTRINGS:
-                if option['title'].find(s) > 0:
-                    option['artist'], option['title'] = option['title'].split(s, 1)
-                    break
+    if provider in [1, 3, 4, 5]:
+        for option in optionset:
+            if option['title'].find (" by ") > 0:
+                option['title'], option['artist'] = option['title'].split(" by ", 1)
+            else:
+                for s in SPLITSTRINGS:
+                    if option['title'].find(s) > 0:
+                        option['artist'], option['title'] = option['title'].split(s, 1)
+                        break
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
 @app.route('/get_confirm/', methods=['POST'])
