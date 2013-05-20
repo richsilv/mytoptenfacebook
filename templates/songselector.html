@@ -1,0 +1,12 @@
+{% if optionset %}
+<form method="POST" class="songchoice">
+	<select class="selectmenu" name="chosen">
+		{% for entry in optionset %}
+			<option value="{{ entry.url }}">{{ entry.title }} by {{ entry.artist }}</option>
+		{% endfor %}
+	</select>
+	<span class="player"></span>
+	<input type="submit" value="Choose"/>
+	<input type="submit" value="Cancel" name="cancel"/>
+</form>
+{% endif %}

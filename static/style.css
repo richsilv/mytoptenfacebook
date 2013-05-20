@@ -1,0 +1,51 @@
+body {
+    width: 800px;    
+    }
+
+.ui-accordion-content {
+    padding: 0 !important; 
+    }
+    
+.ui-accordion-header-icon {
+    display: none;
+    }
+    
+.ui-accordion-content {
+    margin-bottom: 5px;
+    }
+
+
+
+
+
+h3 span {
+    display: inline-block;
+    }
+
+.songtitleartist {
+    }
+    
+.songentry {
+    display: none;    
+    }
+
+.songentry form {
+    display: inline-block;
+    }
+
+.newsong .songentry {
+    display: inline-block;
+    }
+    
+.newsong .songtitleartist {
+    display: none;
+    }
+    
+.newsong .songreason {
+    display: none;
+    }
+    
+.selectmenu {
+    width: 400px;
+    font-size: 0.7em !important;    
+    }
