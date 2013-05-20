@@ -35,7 +35,7 @@
         {% endfor %}
         {% if songlist|length < num_songs %}
             {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
-			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
+			       {{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
         {% endif %}
     </div>
     <div id="buttonbar" class="make">

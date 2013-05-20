@@ -21,11 +21,9 @@ $.ui.accordion.prototype._keydown = function( event ) {
 			toFocus = false;
 
 		switch ( event.keyCode ) {
-			case keyCode.RIGHT:
 			case keyCode.DOWN:
 				toFocus = this.headers[ ( currentIndex + 1 ) % length ];
 				break;
-			case keyCode.LEFT:
 			case keyCode.UP:
 				toFocus = this.headers[ ( currentIndex - 1 + length ) % length ];
 				break;
@@ -38,6 +36,13 @@ $.ui.accordion.prototype._keydown = function( event ) {
 			case keyCode.END:
 				toFocus = this.headers[ length - 1 ];
 				break;
+			case 34:
+			case 36:
+			case 60:
+			case 62:
+			case 191:
+			case 220:
+			 break;
 		}
 
 		if ( toFocus ) {
@@ -50,8 +55,7 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </script>
 {% set num_songs = 3 %}
 {% block head %}{% endblock %}
-<link media="screen and (min-width:761px)" rel="stylesheet" href="/static/style.css" />
-<link media="screen and (max-width:760px)" rel="stylesheet" href="/static/mobstyle.css" />
+<link rel="stylesheet" href="/static/style.css" />
 {% block title %}<title>My Top Ten</title>{% endblock %}
 </head>
 <body style="overflow: hidden">

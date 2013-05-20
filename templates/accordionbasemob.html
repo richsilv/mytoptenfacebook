@@ -9,7 +9,7 @@
     var songdeets = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
-        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
+        songdeets.push(new Array ("{{ song.title|e }}", "{{ song.artist|e }}", "{{ song.reason|e }}", "{{ song.url }}", "{{ song.provider }}"));          
     {% endfor %}
 </script>
 <script src="/static/tenscriptmob.js"></script>

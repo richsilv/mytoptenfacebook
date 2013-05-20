@@ -41,7 +41,7 @@ def hypem_request(title, artist):
 	results = []
 	reqs = 	(grequests.get(x['url'], headers={'id':x['id']}) for x in structure)
 	data = grequests.map(reqs)
-	unpack = [([{'title': y['title'], 'artist': y['artist']} for y in structure if y['id'] == x.request.headers['id']][0], x.text, x.request.headers['id']) for x in data if x.status_code == 200]
+	unpack = [([{'title': y['title'], 'artist': y['artist']} for y in structure if y['id'] == x.request.headers['id']][0], x.text, x.request.headers['id']) for x in [y for y in data if y] if x.status_code == 200]
 	links = [{'url': bestmp3choice(find_mp3(x[1]), x[0]), 'title': x[0]['title'], 'artist': x[0]['artist'], 'id': x[2]} for x in unpack]
 	secondreqs = (grequests.head(x['url'], headers={'id': x['id']}) for x in links if x['url'])
 	feedback = grequests.map(secondreqs)
@@ -61,15 +61,14 @@ def find_mp3(r):
 		linkend = r.find('"', linkstart)
 		link = r[linkstart:linkend]
 		if link[-4:] in [".mp3"]:
-			mp3s.append(link)
+		    t = getTitleArtist(link)
+		    mp3s.append((link, t))
 	return mp3s
 
 def bestmp3choice(cand, song):
 	if not cand	: return None
-	bestbytitle = max([(x, SequenceMatcher(None, song['title'], x).quick_ratio()) for x in cand], key=lambda y: y[1])
-	bestbyartist = max([(x, SequenceMatcher(None, song['artist'], x).quick_ratio()) for x in cand], key=lambda y: y[1])
-	if bestbytitle[1] > bestbyartist[1]: return bestbytitle[0]
-	return bestbyartist[0]
+	best = max([(x[0], SequenceMatcher(None, song['title'], x[1]['title']).quick_ratio() + SequenceMatcher(None, song['artist'], x[1]['artist']).quick_ratio()) for x in cand], key=lambda y: y[1])
+	return best[0]
 
 def check_hypem_choice(choice):
 	mp3link = bestmp3choice(find_mp3(choice['url']), choice)
@@ -126,7 +125,7 @@ def deezer_request(title, artist):
     paramlist = {'q': title + ' ' + artist}
     req = requests.get(DEEZER_URL, params=paramlist)
     if not req: return None
-    return [{'title': x['title'], 'artist': x['artist']['name']} for x in req.json()['data'] if x['type'] == 'track']
+    return [{'title': x['title'], 'artist': x['artist']['name'], 'url': x['link']} for x in req.json()['data'] if x['type'] == 'track']
     
 def oauthEscape(string):
     if not string:
@@ -136,3 +135,21 @@ def oauthEscape(string):
             .replace('!', '%21').replace('*', '%2A')\
             .replace('\\', '%27').replace('(', '%28').\
             replace(')', '%29')
+
+def getTitleArtist(url):
+    r = requests.get(url, stream=True)
+    h = r.raw.read(4096)
+    tags = MP3Tags(h)
+    return {'title': tags.get('TIT2'), 'artist': tags.get('TPE1')}
+            
+def MP3Tags(h):
+    tags = {}
+    h = h[10:]
+    while h:
+        tid = h[:4]
+        if not int(tid.encode("hex"), 16): break
+        l = int(h[4:8].encode("hex"), 16)   
+        dat = h[11:10+l]
+        tags[tid] = dat
+        h = h[10+l:]
+    return tags

@@ -7,6 +7,13 @@ $(function() {
 
 var playerheights = Array(0, 80, 80, 200, 200, 80, 183);
 var NUMSONGS = 3;
+var BANNED = Array(String.fromCharCode(34), 
+                   String.fromCharCode(38),
+                   String.fromCharCode(60),
+                   String.fromCharCode(62),
+                   String.fromCharCode(47),
+                   String.fromCharCode(92)
+                   )
 
 // ********************************
 
@@ -61,7 +68,14 @@ function doSetup() {
         width: 570,        
         height: 295,
         modal: true
-        });    
+        });  
+        
+    $( "#bad-data" ).dialog({
+        width: 325,        
+        height: 200,
+        modal: true,
+        autoOpen: false
+        });   
 
     $("#buttonbar").find("button").button();
     $("#confirm").button("option", "disabled", true);
@@ -215,36 +229,49 @@ function doSetup() {
 
     $("#accordion").on("click", ".panel .tabset .selector .confirmholder .buttons .confirmbutton", function() {
         var songnum = panelNumber(($(this).parents(".selector").attr("id")));
-        if (songnum > num_songs) {
-            songdeets.push(Array($(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
-                $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()));
-            $("#"+songnum+"header").removeClass('newsong');
-            num_songs += 1;
-            if (num_songs < NUMSONGS) {
-                $.post('/new_panel/', {'newsong': num_songs+1}, function(r) {
-                    $('#accordion').append(r).accordion("destroy");
-                    doUpdate();
-                    });
+        if (!checkDeets($(this))) {
+            if (songnum > num_songs) {
+                songdeets.push(Array($(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
+                    $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()));
+                $("#"+songnum+"header").removeClass('newsong');
+                num_songs += 1;
+                if (num_songs < NUMSONGS) {
+                    $.post('/new_panel/', {'newsong': num_songs+1}, function(r) {
+                        $('#accordion').append(r).accordion("destroy");
+                        doUpdate();
+                        });
+                    }
                 }
+            else {
+                songdeets[songnum-1] =[$(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
+                    $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
+                }
+            if (num_songs === NUMSONGS) {
+                $("#confirm").button("option", "disabled", false);            
+                }
+            $("#"+songnum+"tabs").tabs("option", "active", false);
+            updateSongDisplay();
+            $("#accordion").accordion("option", "active", num_songs);
+            setTimeout(function() {
+                $("#"+num_songs+"header").find(".titleentry").focus();
+                }, 100);
             }
         else {
-            songdeets[songnum-1] =[$(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
-                $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
+             $("#bad-data").dialog("open");               
             }
-        if (num_songs === NUMSONGS) {
-            $("#confirm").button("option", "disabled", false);            
-            }
-        $("#"+songnum+"tabs").tabs("option", "active", false);
-        updateSongDisplay();
-        $("#accordion").accordion("option", "active", num_songs);
-        setTimeout(function() {
-            $("#"+num_songs+"header").find(".titleentry").focus();
-            }, 100);
         });
-
     }
 
 // **************************************************************
+function checkDeets(panel) {
+    v = panel.parents(".confirmholder").find(".songtitle").val() + panel.parents(".confirmholder").find(".songartist").val() + panel.parents(".confirmholder").find(".songreason").val();
+    console.log(v);
+    for (i=0; i<BANNED.length; i++) {
+        if (v.indexOf(BANNED[i]) > -1) {return true;}
+        }
+    return false;
+    }
+
 function panelNumber(id) {
     return parseInt(id.slice(0, id.indexOf("tabs")));    
     }

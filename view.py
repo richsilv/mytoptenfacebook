@@ -19,7 +19,7 @@ FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
 graph = None
 
-providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine", "Deezer"]
+providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
 
 NUMSONGS = 3
 
@@ -199,7 +199,7 @@ def makeSongsMob(facebook_id, new_user=False):
 
 ########### AJAX REQUESTS #############
 
-@app.route('/get_selector/', methods=['POST'])
+@app.route('/get_selector/', methods=['POST', 'GET'])
 def get_selector():
     rdata = request.form
     provider = int(rdata['provider'])
