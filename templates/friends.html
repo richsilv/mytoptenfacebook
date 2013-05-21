@@ -2,8 +2,8 @@
 
 {% block head %}
 <script type="text/javascript">
-    user_id = {{ userdata.id }}
-    user_name = {{ userdata.first_name }} + " " + {{ userdata.last_name }}
+    user_id = "{{ userdata.id }}"
+    user_name = "{{ userdata.first_name }} {{ userdata.last_name }}"
 </script>
 <script src="/static/friendscript.js"></script>
 {% endblock %}

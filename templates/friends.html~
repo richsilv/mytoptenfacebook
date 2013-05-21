@@ -14,7 +14,7 @@
         			 <h3 class="friend ui-widget ui-helper-reset ui-state-default ui-corner-all">
         			     <strong>{{ friend.first_name }} {{ friend.last_name }}</strong>
         			 </h3>
-        			 <input type="hidden" value="{{ friend.id }}">
+        			 <input type="hidden" value="{{ friend.facebook_id }}">
         {% endfor %}
     </div>
     <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
