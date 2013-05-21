@@ -26,9 +26,12 @@
         });
  
     FB.Event.subscribe("comment.create", function(response) {
-        console.log(response);
-        FB.api("/comments/?ids=" + response.href, function(response) {
+        firstresponse = response.href;
+        FB.api("/comments/?ids=" + firstresponse, function(response) {
             console.log(response);
+            secondresponse = response;
+            console.log(response.firstresponse.comments.data);
+            z = response.firstresponse.comments.data;
             });
         }
     );
