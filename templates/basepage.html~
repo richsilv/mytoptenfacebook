@@ -67,7 +67,7 @@ $.ui.accordion.prototype._keydown = function( event ) {
 
     FB.Event.subscribe('comment.create',
         function(response) {
-            alert('You liked the URL: ' + response);
+            console.log(response);
         }
     );
   };
