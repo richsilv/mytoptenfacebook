@@ -29,7 +29,11 @@
         firstresponse = response.href;
         FB.api("/comments/?ids=" + firstresponse, function(response) {
             console.log(response);
-            console.log(response[0].comments.data[-1].message);
+            z = response[firstresponse]['comments']['data']
+            console.log(z[Object.keys(z).pop()]['message'])
+            console.log(topten_id)
+            console.log(facebook_id)
+            console.log(user_id)
             });
         }
     );
