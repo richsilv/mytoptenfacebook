@@ -29,9 +29,7 @@
         firstresponse = response.href;
         FB.api("/comments/?ids=" + firstresponse, function(response) {
             console.log(response);
-            secondresponse = response;
-            console.log(response.firstresponse.comments.data);
-            z = response.firstresponse.comments.data;
+            console.log(response[0].comments.data[-1].message);
             });
         }
     );
