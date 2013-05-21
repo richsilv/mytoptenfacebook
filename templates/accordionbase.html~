@@ -25,7 +25,7 @@
             many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
         </div>
     {% endif %}
-        <div id="bad-data" title="Reserved Characters">
+        <div id="bad-data" title="Reserved Characters" style="display: none">
             <p>Sorry, but the characters <strong>\</strong>, <strong>/</strong>, <strong><</strong>, <strong>></strong>, <strong>"</strong> and <strong>&</strong> are <strong>reserved characters</strong> and
             cannot be used in a song title, artist name or reason.  Thanks!</p>
         </div>

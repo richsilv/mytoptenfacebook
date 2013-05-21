@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <script type="text/javascript">
-    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}';
+    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions';
 </script>
 </head>
 <body>

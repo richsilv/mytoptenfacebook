@@ -21,7 +21,7 @@ body {
 
 
 .header {
-    line-height: 1.5em;
+    height: 30px;
     }
 
 h3 span {
@@ -34,9 +34,14 @@ h3 span {
     }
 
 .titleartist {
-    max-width: 500px;
     float: left;
+    height: 28px;
+    overflow-y: auto;
     }
+
+.titleartist.make {
+    max-width: 500px;
+    }    
 
 .reason {
     height: 28px;
@@ -187,6 +192,7 @@ h3 span {
     border: thin solid darkgrey;
     position: relative;
     left: 35px;
+    top: 25px;
     }
 
 .spotifyshow {height: 105px;}

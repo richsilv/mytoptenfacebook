@@ -7,12 +7,13 @@ $(function() {
 
 var playerheights = Array(0, 80, 80, 200, 200);
 var NUMSONGS = 3;
+var baddata = false;
 
 // ********************************
 
 function doUpdate() {
 
-/*    $(".selector").hide();   */
+    $(".selector").hide();
 
     }
 
@@ -53,6 +54,11 @@ function doSetup() {
         $('#dialog-modal').css("display", "none");
         });
 
+    $('#closebad').on("click", function() {
+        $('#bad-data').css("display", "none");
+        baddata = false
+        });
+
     $('#accordion').on("click", '.header .songtitleartist strong', function() { 
         hideTitleArtist($(this).parents('.header'));   
         });
@@ -64,11 +70,11 @@ function doSetup() {
         });
     
     $('#accordion').on("click", ".header .songentry form .cancelchange", function() {
-        if ($(this).parents(".header").next(".panel").find("selector").css("display") == "none") {
-            $(this).siblings(".titleentry").val("")
-            $(this).siblings(".artistentry").val("")
-            if (!$(this).parents(".header").hasClass("newsong")) {showTitleArtist($(this).parents(".header"))} 
-            }
+        $(this).siblings(".titleentry").val("")
+        $(this).siblings(".artistentry").val("")
+        if (!$(this).parents(".header").hasClass("newsong")) {showTitleArtist($(this).parents(".header"))}
+        $(this).parents(".header").next(".panel").css("display", "none")        
+        $(this).parents(".header").next(".panel").find("selector").css("display", "none")
         });
 
     $('#accordion').on("click", ".header .songentry form .searchbutton", function() {
@@ -150,35 +156,49 @@ function doSetup() {
 
     $("#accordion").on("click", ".panel .tabset .selector .confirmholder .buttons .confirmbutton", function() {
         var songnum = panelNumber(($(this).parents(".selector").attr("id")));
-        if (songnum > num_songs) {
-            songdeets.push(Array($(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
-                $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()));
-            $("#"+songnum+"header").removeClass('newsong');
-            num_songs += 1;
-            if (num_songs < NUMSONGS) {
-                $.post('/new_panel_mob/', {'newsong': num_songs+1}, function(r) {
-                    $('#accordion').append(r);
-                    doUpdate();
-                    });
+        if (!checkDeets($(this))) {
+            if (songnum > num_songs) {
+                songdeets.push(Array($(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
+                    $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()));
+                $("#"+songnum+"header").removeClass('newsong');
+                num_songs += 1;
+                if (num_songs < NUMSONGS) {
+                    $.post('/new_panel_mob/', {'newsong': num_songs+1}, function(r) {
+                        $('#accordion').append(r);
+                        doUpdate();
+                        });
+                    }
                 }
+            else {
+                songdeets[songnum-1] =[$(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
+                    $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
+                }
+            if (num_songs === NUMSONGS) {
+                $("#confirm").removeClass("disabled");            
+                }
+            $(this).parents(".panel").css("display", "none");
+            updateSongDisplay();
+            console.log($(this).parents(".panel").prev(".header").children(".songentry"));
+            $(this).parents(".panel").prev(".header").children(".songentry").css("display", "none");
             }
         else {
-            songdeets[songnum-1] =[$(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
-                $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
-            }
-        if (num_songs === NUMSONGS) {
-            $("#confirm").removeClass("disabled");            
-            }
-        $(this).parents(".panel").css("display", "none");
-        updateSongDisplay();
-        console.log($(this).parents(".panel").prev(".header").children(".songentry"));
-        $(this).parents(".panel").prev(".header").children(".songentry").css("display", "none");
-        console.log("has this executed?")
+            $("#bad-data").css("display", "block");
+            baddata = true;
+            }        
         });
 
     }
 
 // **************************************************************
+function checkDeets(panel) {
+    v = panel.parents(".confirmholder").find(".songtitle").val() + panel.parents(".confirmholder").find(".songartist").val() + panel.parents(".confirmholder").find(".songreason").val();
+    console.log(v);
+    for (i=0; i<BANNED.length; i++) {
+        if (v.indexOf(BANNED[i]) > -1) {return true;}
+        }
+    return false;
+    }
+
 function panelNumber(id) {
     return parseInt(id.slice(0, id.indexOf("tabs")));    
     }

@@ -2,6 +2,8 @@
 <html>
 <head style="overflow: hidden">
 <meta charset="utf-8" />
+<meta property="fb:app_id" content="447399068676640"/>
+<meta property="fb:admins" content="447399068676640"/>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 <!-- <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> -->
@@ -36,13 +38,6 @@ $.ui.accordion.prototype._keydown = function( event ) {
 			case keyCode.END:
 				toFocus = this.headers[ length - 1 ];
 				break;
-			case 34:
-			case 36:
-			case 60:
-			case 62:
-			case 191:
-			case 220:
-			 break;
 		}
 
 		if ( toFocus ) {
@@ -60,6 +55,32 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </head>
 <body style="overflow: hidden">
 <div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    // init the FB JS SDK
+    FB.init({
+      appId      : '447399068676640',                        // App ID from the app dashboard
+      channelUrl : '//vast-harbor-5605.herokuapp.com/channel', // Channel file for x-domain comms
+      status     : true,                                 // Check Facebook Login status
+      xfbml      : true                                  // Look for social plugins on the page
+    });
+
+    FB.Event.subscribe('comment.create',
+        function(response) {
+            alert('You liked the URL: ' + response);
+        }
+    );
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 <div id="loader" style="display: none"></div>
 {% block body %}{% endblock %}
 </body>
