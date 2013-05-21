@@ -22,7 +22,6 @@
       appId      : '447399068676640',                        // App ID from the app dashboard
       status     : true,                                 // Check Facebook Login status
       cookie     : true,
-      oauth      : true,
       xfbml      : true                                  // Look for social plugins on the page
         });
     
