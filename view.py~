@@ -263,7 +263,11 @@ def post_comment():
     comment = request.form['comment']
     if len(comment) > 50:
         comment = comment[:comment.rfind(" ", 0, 50)] + "..."
+    print session['userdata']['first_name']
+    print owner['first_name']
+    print comment
     fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just commented on  " + owner['first_name'] + " " + owner['last_name'] + "'s list on My Top Ten: " + comment + " http://apps.facebook.com/mytoptenapp")    
+    return 'success'
 
 @app.errorhandler(404)
 def page_not_found(e):
