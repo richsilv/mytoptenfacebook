@@ -21,17 +21,18 @@
     // init the FB JS SDK
     FB.init({
       appId      : '447399068676640',                        // App ID from the app dashboard
-      channelUrl : '//apps.facebook.com/mytoptenapp/channel', // Channel file for x-domain comms
       status     : true,                                 // Check Facebook Login status
+      cookie     : true,
+      oauth      : true,
       xfbml      : true                                  // Look for social plugins on the page
-    });
-
-    FB.Event.subscribe('comment.create',
-        function(response) {
-            console.log(response);
+        });
+    
+    FB.Event.subscribe("comment.create", function(response) {
+        console.log(JSON.stringify(response));
         }
     );
-  };
+  }
+
   (function(d, s, id) {
      var js, fjs = d.getElementsByTagName(s)[0];
      if (d.getElementById(id)) {return;}
