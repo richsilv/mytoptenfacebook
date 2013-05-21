@@ -201,6 +201,10 @@ def makeSongsMob(facebook_id, new_user=False):
 
 ########### AJAX REQUESTS #############
 
+@app.route('/channel', methods=['POST', 'GET'])
+def channel():
+    return render_template('channel.html')
+
 @app.route('/get_selector/', methods=['POST', 'GET'])
 def get_selector():
     rdata = request.form
@@ -250,6 +254,13 @@ def save_songs():
         possessive = getPossessive(session['userdata'])
         fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
     return 'success'
+
+@app.route('/post_comment/', methods=['POST'])
+def post_comment():
+    fb = facebook.GraphAPI(session['token'])
+    possessive = getPossessive(session['userdata'])
+    owner = fb.get(request.form['owner'])  
+    fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")    
 
 @app.errorhandler(404)
 def page_not_found(e):
