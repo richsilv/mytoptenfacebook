@@ -27,7 +27,7 @@
  
     FB.Event.subscribe("comment.create", function(response) {
         console.log(response);
-        FB.api("/" + response.href, function(response) {
+        FB.api("/comments/?ids=" + response.href, function(response) {
             console.log(response);
             });
         }
