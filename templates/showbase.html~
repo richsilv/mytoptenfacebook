@@ -18,7 +18,6 @@
 {% block body %}
 <script>
   window.fbAsyncInit = function() {
-    // init the FB JS SDK
     FB.init({
       appId      : '447399068676640',                        // App ID from the app dashboard
       status     : true,                                 // Check Facebook Login status
