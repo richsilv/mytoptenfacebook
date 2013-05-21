@@ -24,6 +24,8 @@
       cookie     : true,
       xfbml      : true                                  // Look for social plugins on the page
         });
+        
+    FB.Canvas.setAutoGrow();
     
     FB.Event.subscribe("comment.create", function(response) {
         console.log("hello")
