@@ -54,5 +54,5 @@
     {% endif %}
         <button id="friends">Friends' Top Tens</button>
     </div> 
-    <div class="fb-comments" data-href="http://apps.facebook.com/mytoptenapp/show_songs/{{ facebook_id }}" data-width="740" data-num-posts="10"></div>   
+    <fb:comments notify="true" href="http://apps.facebook.com/mytoptenapp/show_songs/{{ facebook_id }}" width="740" num-posts="10">   
 {% endblock %}

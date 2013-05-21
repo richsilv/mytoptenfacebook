@@ -26,6 +26,7 @@
         });
     
     FB.Event.subscribe("comment.create", function(response) {
+        console.log("hello")
         console.log(JSON.stringify(response));
         }
     );
