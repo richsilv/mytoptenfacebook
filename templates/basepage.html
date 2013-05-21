@@ -55,23 +55,6 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </head>
 <body style="overflow: hidden">
 <div id="fb-root"></div>
-<script>
-  window.fbAsyncInit = function() {
-    // init the FB JS SDK
-    FB.init({
-      appId      : '447399068676640',                        // App ID from the app dashboard
-      channelUrl : '//vast-harbor-5605.herokuapp.com/channel', // Channel file for x-domain comms
-      status     : true,                                 // Check Facebook Login status
-      xfbml      : true                                  // Look for social plugins on the page
-    });
-
-    FB.Event.subscribe('comment.create',
-        function(response) {
-            console.log(response);
-        }
-    );
-  };
-</script>
 <div id="loader" style="display: none"></div>
 {% block body %}{% endblock %}
 </body>
