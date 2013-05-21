@@ -259,7 +259,7 @@ def save_songs():
 def post_comment():
     fb = facebook.GraphAPI(session['token'])
     possessive = getPossessive(session['userdata'])
-    owner = fb.get(request.form['owner'])  
+    owner = fb.get_object(request.form['owner'])  
     comment = request.form['comment']
     if len(comment) > 50:
         comment = comment[:comment.rfind(" ", 0, 50)] + "..."
