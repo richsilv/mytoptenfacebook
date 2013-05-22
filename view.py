@@ -11,6 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from user_agents import parse
 import facebook
 from models import *
+from datetime import datetime
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
@@ -97,7 +98,6 @@ def get_facebook_oauth_token():
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
     user_agent_string = request.user_agent.string
-    print user_agent_string
     user_agent = parse(user_agent_string)
     if user_agent.is_bot:
         return "Bot query"
@@ -110,9 +110,11 @@ def default():
     if not user: 
         user = createUser(fbdata)
         new_user = True
+    user.last_login = datetime.now()
+    pg.commit()
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten:
-        topten = createTopTen(fbdata)
+        topten   = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
         if user_agent.is_mobile:
@@ -216,12 +218,14 @@ def get_selector():
     if provider in [1, 3, 4, 5]:
         for option in optionset:
             if option['title'].find (" by ") > 0:
-                option['title'], option['artist'] = option['title'].split(" by ", 1)
+                option['title'], option['artist'] = [x.title() for x in option['title'].split(" by ", 1)]
             else:
                 for s in SPLITSTRINGS:
                     if option['title'].find(s) > 0:
-                        option['artist'], option['title'] = option['title'].split(s, 1)
+                        option['artist'], option['title'] = [x.title() for x in option['title'].split(s, 1)]
                         break
+            option['artist'] = option['artist'].title()
+            option['title'] = option['title'].title()
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
 @app.route('/get_confirm/', methods=['POST'])
