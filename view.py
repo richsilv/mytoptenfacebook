@@ -259,7 +259,10 @@ def save_songs():
     if FBAUTH:
         fb = facebook.GraphAPI(session['token'])
         possessive = getPossessive(session['userdata'])
-        fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
+        try:
+            fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
+        except:
+            pass    
     return 'success'
 
 @app.route('/post_comment/', methods=['POST'])
