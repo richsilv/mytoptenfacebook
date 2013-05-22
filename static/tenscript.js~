@@ -257,7 +257,7 @@ function doSetup() {
                 }, 100);
             }
         else {
-             $("#bad-data").open();               
+             $("#bad-data").dialog("open");               
             }
         });
     }

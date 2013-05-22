@@ -191,7 +191,7 @@ h3 span {
 .player embed {
     border: thin solid darkgrey;
     position: relative;
-    left: 35px;
+    left: 10px;
     top: 25px;
     }
 
@@ -199,6 +199,7 @@ h3 span {
 .soundcloudshow {height: 105px;}
 .youtubeshow {height: 225px;}
 .vimeoshow {height: 225px;}
+.hypemshow {height: 105px;}
 
 .playerbox .player iframe {
     margin: 10px;

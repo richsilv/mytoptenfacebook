@@ -101,6 +101,8 @@ def default():
     user_agent = parse(user_agent_string)
     if user_agent.is_bot:
         return "Bot query"
+    if not session.get('userdata'):
+        return redirect("https://apps.facebook.com/mytoptenapp"+url_for('index', _external=False))
     fbdata = session['userdata']
     fb = facebook.GraphAPI(session['token'])
     new_user = False
