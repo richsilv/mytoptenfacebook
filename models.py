@@ -15,12 +15,16 @@ class TopTenUser(Base):
     first_name = Column(String(50))
     last_name = Column(String(50))
     joined_on = Column(DateTime)
+    last_login = Column(DateTime)
+    notified = Column(Boolean)
 
     def __init__(self, facebook_id, first_name, last_name):
         self.facebook_id = facebook_id
         self.first_name = first_name
         self.last_name = last_name
         self.joined_on = datetime.datetime.today()
+#        self.last_login =  datetime.datetime.today()
+#        self.notified = False
 
     def __repr__(self):
        return "<User('%s %s', %s)>" % (self.first_name, self.last_name, self.facebook_id)

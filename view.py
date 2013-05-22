@@ -266,6 +266,7 @@ def post_comment():
     if len(comment) > 50:
         comment = comment[:comment.rfind(" ", 0, 50)] + "..."
     fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just commented on  " + owner['first_name'] + " " + owner['last_name'] + "'s list on My Top Ten: " + comment + " http://apps.facebook.com/mytoptenapp")    
+    fb.put_object(request.form['owner'], "notifications", template=session['userdata']['first_name']+" "+session['userdata']['last_name']+" just commented on your list on My Top Ten!", href="/show_songs/"+request.form['owner'])
     return 'success'
 
 @app.errorhandler(404)
