@@ -28,11 +28,7 @@
     FB.Event.subscribe("comment.create", function(response) {
         firstresponse = response.href;
         FB.api("/comments/?ids=" + firstresponse, function(response) {
-            console.log(response);
             z = response[firstresponse]['comments']['data']
-            console.log(z[Object.keys(z).pop()]['message'])
-            console.log(facebook_id)   // owner of list
-            console.log(user_id)       // poster of comment
             $.post("/post_comment/", {'comment': z[Object.keys(z).pop()]['message'], 'owner': facebook_id, 'poster': user_id})
             });
         }

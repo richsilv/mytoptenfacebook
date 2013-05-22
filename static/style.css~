@@ -35,7 +35,7 @@ h3 span {
 
 .titleartist {
     float: left;
-    height: 1.5em;
+    height: 28px;
     overflow-y: auto;
     }
 

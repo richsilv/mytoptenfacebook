@@ -20,7 +20,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=442425319177351";
+        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=447399068676640";
         fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     </script>
@@ -31,7 +31,7 @@
 			{{ showpanel.acc_panel(number=loop.index, reason=song.reason, provider=song.provider) }}
         {% endfor %}
     </div>
-    <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
+    <div id="buttonbar">
     {% if owner %}
         <span class="mobibutton" id="edit">Edit Songs</span>
     {% else %}

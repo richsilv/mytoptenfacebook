@@ -33,7 +33,7 @@
             console.log(z[Object.keys(z).pop()]['message'])
             console.log(facebook_id)   // owner of list
             console.log(user_id)       // poster of comment
-            $.post("/post_comment/", {'message': z[Object.keys(z).pop()]['message'], 'owner': facebook_id, 'poster': user_id})
+            $.post("/post_comment/", {'comment': z[Object.keys(z).pop()]['message'], 'owner': facebook_id, 'poster': user_id})
             });
         }
     );

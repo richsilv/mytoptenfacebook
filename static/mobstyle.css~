@@ -125,7 +125,7 @@ body {
     top: -5px;        
     }
 
-#dialog-modal {
+#bad-data {
     position: fixed;
     top: 50px;
     left: 15px;
@@ -136,11 +136,11 @@ body {
     text-align: center;  
     }
 
-#dialog-modal p {
+#bad-data p {
     text-align: justify;
     }
 
-#dialog-modal .mobibutton {
+#bad-data .mobibutton {
     text-align: center;
     position: relative;
     top: -5px;        
