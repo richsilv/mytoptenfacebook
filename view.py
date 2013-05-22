@@ -296,7 +296,7 @@ def createTopTen(fbdata):
     return newtopten
 
 def saveSong(song):
-    songsearch = pg.query(Song).filter(Song.title == song[0]).filter(Song.artist == song[1]).filter(Song.reason == song[2]).first()
+    songsearch = pg.query(Song).filter(Song.title == song[0]).filter(Song.artist == song[1]).filter(Song.reason == song[2]).filter(Song.url == song[3]).first()
     if songsearch:
         return songsearch
     else:
