@@ -140,6 +140,7 @@ def makeSongs(facebook_id, new_user=False):
 
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
+    if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
     if facebook_id == session['userdata']['id']:
