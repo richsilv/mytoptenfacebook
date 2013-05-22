@@ -125,6 +125,28 @@ body {
     top: -5px;        
     }
 
+#bad-data {
+    position: fixed;
+    top: 50px;
+    left: 15px;
+    width: 280px;
+    border: thin solid #3b5998;
+    background-color: white;
+    padding: 5px;
+    text-align: center;  
+    }
+
+#bad-data p {
+    text-align: justify;
+    }
+
+#bad-data .mobibutton {
+    text-align: center;
+    position: relative;
+    top: -5px;        
+    }
+
+
 .songentry {
     display: none;
     }
@@ -140,7 +162,7 @@ body {
 .entryform {
     display: inline-block;
     margin-left: 5px;
-    width: 280px;
+    width: 270px;
     }
 
 .buttons {
@@ -250,6 +272,7 @@ body {
 .soundcloudshow {}
 .youtubeshow {}
 .vimeoshow {}
+.hypemshow {}
 
 .playerbox .player iframe {
     margin: 10px;

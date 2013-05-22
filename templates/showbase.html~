@@ -16,14 +16,37 @@
 {% endblock %}
 
 {% block body %}
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=442425319177351";
-        fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '447399068676640',                        // App ID from the app dashboard
+      status     : true,                                 // Check Facebook Login status
+      cookie     : true,
+      xfbml      : true                                  // Look for social plugins on the page
+        });
+ 
+    FB.Event.subscribe("comment.create", function(response) {
+        firstresponse = response.href;
+        FB.api("/comments/?ids=" + firstresponse, function(response) {
+            console.log(response);
+            z = response[firstresponse]['comments']['data']
+            console.log(z[Object.keys(z).pop()]['message'])
+            console.log(facebook_id)   // owner of list
+            console.log(user_id)       // poster of comment
+            $.post("/post_comment/", {'comment': z[Object.keys(z).pop()]['message'], 'owner': facebook_id, 'poster': user_id})
+            });
+        }
+    );
+  };
+
+  (function(d, s, id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=447399068676640";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
     {% import 'showpanel.html' as showpanel %}
     <div id="accordion">
         {% for song in songlist %}
@@ -39,5 +62,5 @@
     {% endif %}
         <button id="friends">Friends' Top Tens</button>
     </div> 
-    <div class="fb-comments" data-href="http://apps.facebook.com/mytoptenapp/show_songs/{{ facebook_id }}" data-width="760" data-num-posts="10"></div>   
+    <fb:comments notify="true" href="http://apps.facebook.com/mytoptenapp/show_songs/{{ facebook_id }}" width="740" num-posts="10">   
 {% endblock %}

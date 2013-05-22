@@ -1,7 +1,7 @@
 {% macro acc_header(number, title, artist) -%}
     <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header">
         <span class="songtitleartist">
-            <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">
+            <span class="titleartist show">{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}"></span>
         </span>
     </h3>
 {% endmacro %}

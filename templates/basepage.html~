@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="https://www.facebook.com/2008/fbml">
 <head style="overflow: hidden">
 <meta charset="utf-8" />
+<meta property="fb:app_id" content="447399068676640"/>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 <!-- <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> -->
@@ -36,13 +37,6 @@ $.ui.accordion.prototype._keydown = function( event ) {
 			case keyCode.END:
 				toFocus = this.headers[ length - 1 ];
 				break;
-			case 34:
-			case 36:
-			case 60:
-			case 62:
-			case 191:
-			case 220:
-			 break;
 		}
 
 		if ( toFocus ) {
@@ -60,7 +54,6 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </head>
 <body style="overflow: hidden">
 <div id="fb-root"></div>
-<div id="loader" style="display: none"></div>
 {% block body %}{% endblock %}
 </body>
 </html>

@@ -23,9 +23,7 @@
 {% macro acc_panel(number, reason, provider) -%}
     <div class="showpanel" id="{{ number }}panel">       
         <div class="reasonbox">
-            <div class="reasonshow">
-                {% if reason %}"{{ reason }}"{% endif %}             
-            </div>          
+            {% if reason %}"{{ reason }}"{% endif %}                   
         </div>
         <div class="slider closed">
             <h3>Player</h3>                

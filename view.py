@@ -56,7 +56,7 @@ def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
-        session['userdata'] = {'id': '52', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
+        session['userdata'] = {'id': '59', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
         session['token'] = FACEBOOK_TEMP_TOKEN
         return redirect(url_for('default'))
 
@@ -82,9 +82,11 @@ def facebook_loggedin():
             decompose = dat.split("=")
             token[decompose[0]] = decompose[1]
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
-        ###  ADD TOKEN CHECKER HERE FOR SECURITY ###
+        r = requests.get("https://graph.facebook.com/debug_token", params=checkparams).json()['data']
         session['token'] = token['access_token']
         session['userdata'] = facebook.GraphAPI(token["access_token"]).get_object("me")
+        if int(r['user_id']) != int(session['userdata']['id']) or int(r['app_id']) != int(FACEBOOK_APP_ID):
+            return render_template('csrf_problem.html')
         return redirect("https://apps.facebook.com/mytoptenapp"+url_for('default', _external=False))
     else:
         return str(request.args)
@@ -199,6 +201,10 @@ def makeSongsMob(facebook_id, new_user=False):
 
 ########### AJAX REQUESTS #############
 
+@app.route('/channel', methods=['POST', 'GET'])
+def channel():
+    return render_template('channel.html')
+
 @app.route('/get_selector/', methods=['POST', 'GET'])
 def get_selector():
     rdata = request.form
@@ -235,6 +241,7 @@ def new_panel_mob():
 @app.route('/save_songs/', methods=['POST'])
 def save_songs():
     rdata = json.loads(request.form['songlist'])
+    print rdata
     oldtopten = pg.query(TopTen).filter(TopTen.topten_id == request.form['topten_id']).first()
     oldtopten.active = False
     topten = createTopTen({'id': request.form['facebook_id']})
@@ -246,6 +253,17 @@ def save_songs():
         fb = facebook.GraphAPI(session['token'])
         possessive = getPossessive(session['userdata'])
         fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
+    return 'success'
+
+@app.route('/post_comment/', methods=['POST'])
+def post_comment():
+    fb = facebook.GraphAPI(session['token'])
+    possessive = getPossessive(session['userdata'])
+    owner = fb.get_object(request.form['owner'])  
+    comment = request.form['comment']
+    if len(comment) > 50:
+        comment = comment[:comment.rfind(" ", 0, 50)] + "..."
+    fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just commented on  " + owner['first_name'] + " " + owner['last_name'] + "'s list on My Top Ten: " + comment + " http://apps.facebook.com/mytoptenapp")    
     return 'success'
 
 @app.errorhandler(404)
