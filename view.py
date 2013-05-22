@@ -225,8 +225,8 @@ def get_selector():
                     if option['title'].find(s) > 0:
                         option['artist'], option['title'] = [x.title() for x in option['title'].split(s, 1)]
                         break
-            option['artist'] = option['artist'].title()
-            option['title'] = option['title'].title()
+            if option['artist']: option['artist'] = option['artist'].title()
+            if option['title']: option['title'] = option['title'].title()
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
 @app.route('/get_confirm/', methods=['POST'])
