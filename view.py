@@ -141,13 +141,17 @@ def makeSongs(facebook_id, new_user=False):
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
     if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
+    owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
+    if not owner:
+        return redirect(url_for('showSongs', facebook_id=session['userdata']['id']))
+    ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
-    if facebook_id == session['userdata']['id']:
-        owner = True
-    else:
-        owner = False
-    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+#    if facebook_id == session['userdata']['id']:
+#        owner = True
+#    else:
+#        owner = False
+    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list/<string:facebook_id>', methods=['GET', 'POST'])
 def friendList(facebook_id):
@@ -179,13 +183,18 @@ def mobile():
 
 @app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongsMob(facebook_id):
+    if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
+    owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
+    if not owner:
+        return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
+    ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
-    if facebook_id == session['userdata']['id']:
-        owner = True
-    else:
-        owner = False
-    return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+#    if facebook_id == session['userdata']['id']:
+#        owner = True
+#    else:
+#        owner = False
+    return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list_mob/<string:facebook_id>', methods=['GET', 'POST'])
 def friendListMob(facebook_id):

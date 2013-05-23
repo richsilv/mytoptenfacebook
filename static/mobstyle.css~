@@ -62,6 +62,13 @@ body {
     }
 
 
+#headerbar h3 {
+    background-color: #dfe3ee;
+    border-radius: 5px;
+    margin: 5px 0;
+    line-height: 2.2em;
+    }
+
 #buttonbar {
     text-align: center;
     margin-top: 10px;
@@ -272,6 +279,7 @@ body {
 .soundcloudshow {}
 .youtubeshow {}
 .vimeoshow {}
+.hypemshow {}
 
 .playerbox .player iframe {
     margin: 10px;

@@ -136,6 +136,10 @@ h3 span {
     margin: 0 1em;
     }
 
+#headerbar {
+    text-align: center;
+    height: 38px;
+    }
 
 
 .lefthalf {
@@ -191,8 +195,12 @@ h3 span {
 .player embed {
     border: thin solid darkgrey;
     position: relative;
-    left: 10px;
+    left: 15px;
     top: 25px;
+    }
+    
+.player .selectembed {
+    left: 35px;
     }
 
 .spotifyshow {height: 105px;}

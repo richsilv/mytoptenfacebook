@@ -62,6 +62,14 @@ body {
     }
 
 
+#headerbar h3 {
+    background-color: #dfe3ee;
+    border-radius: 5px;
+    margin: 5px 0;
+    line-height: 2.2em;
+    text-align: center;
+    }
+
 #buttonbar {
     text-align: center;
     margin-top: 10px;

@@ -136,6 +136,14 @@ h3 span {
     margin: 0 1em;
     }
 
+#headerbar {
+    text-align: center;
+    height: 38px;
+    }
+
+#headerbar h3 {
+    margin: 5px 0;    
+    }
 
 
 .lefthalf {

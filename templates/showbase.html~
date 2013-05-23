@@ -6,6 +6,7 @@
     topten_id = {{ topten_id }};
     user_id = {{ userdata.id }}
     user_name = "{{ userdata.first_name }} {{ userdata.last_name }}"
+    owner_name = "{{ ownername }}"
     var songdeets = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
@@ -28,11 +29,7 @@
     FB.Event.subscribe("comment.create", function(response) {
         firstresponse = response.href;
         FB.api("/comments/?ids=" + firstresponse, function(response) {
-            console.log(response);
             z = response[firstresponse]['comments']['data']
-            console.log(z[Object.keys(z).pop()]['message'])
-            console.log(facebook_id)   // owner of list
-            console.log(user_id)       // poster of comment
             $.post("/post_comment/", {'comment': z[Object.keys(z).pop()]['message'], 'owner': facebook_id, 'poster': user_id})
             });
         }
@@ -48,6 +45,7 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
     {% import 'showpanel.html' as showpanel %}
+    <div id="headerbar" class="ui-widget-header ui-widget ui-corner-top"><h3>{{ owner_name }}'s Top Ten</h3></div>
     <div id="accordion">
         {% for song in songlist %}
 			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}

@@ -6,6 +6,7 @@
     topten_id = {{ topten_id }};
     user_id = {{ userdata.id }}
     user_name = "{{ userdata.first_name }} {{ userdata.last_name }}"
+    owner_name = "{{ ownername }}"
     var songdeets = new Array ();
     {% if userid %}var userid = {{ userid }}{% endif %};
     {% for song in songlist %}
@@ -44,6 +45,7 @@
    }(document, 'script', 'facebook-jssdk'));
 </script>
     {% import 'showpanel.html' as showpanel %}
+    <div id="headerbar" class="ui-widget-header ui-widget ui-corner-top"><h3>{{ ownername }}'s Top Ten</h3></div>
     <div id="accordion">
         {% for song in songlist %}
 			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}

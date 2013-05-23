@@ -44,6 +44,7 @@
         }(document, 'script', 'facebook-jssdk'));
     </script>
     {% import 'showpanelmob.html' as showpanel %}
+    <div id="headerbar"><h3>{{ ownername }}'s Top Ten</h3></div>
     <div id="accordion">
         {% for song in songlist %}
 			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}
