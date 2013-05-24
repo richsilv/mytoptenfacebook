@@ -231,3 +231,27 @@ h3 span {
     height: 30px;
     padding: 8px 8px 8px 38px;    
     }
+    
+
+#jukebox {
+    }
+    
+#details {
+    display: inline-block;
+    padding: 0 18px;
+    position: relative;
+    top: 25px;
+    vertical-align: top;
+    }
+
+#jukereason {
+    text-align: center;
+    font-style: italic;
+    }
+#jukeplayer {
+    display: inline-block;
+    }
+    
+#jukeholder {
+    margin-top: 5px;
+    }

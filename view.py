@@ -160,6 +160,13 @@ def friendList(facebook_id):
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     return render_template('friends.html', friends=friendusers, userdata=session['userdata'])
 
+@app.route('/jukebox/<string:facebook_id>', methods=['GET', 'POST'])
+def jukeBox(facebook_id):
+    songlist = [{'title': "September Song", 'artist': "Hosts", 'reason': "Yorkshire.", 'url': "40995778", 'provider': "4", 'owner': "Craig Shakespeare"}, 
+                {'title': "Couleurs", 'artist': "M83", 'reason': "The best thing at the Somerset House gig.", 'url': "WtUWsVNJHdc", 'provider': "3", 'owner': "Alan Tankard"},
+                {'title': "Hey", 'artist': "Pixies", 'reason': "Another one of my faves.", 'url': "http://www.electricadolescence.com/audio/pixies%20-%20hey.mp3", 'provider': "5", 'owner': "Craig Shakespeare"}]
+    return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])
+
 ########### MOBILE PAGES ##############
 
 @app.route('/mobile',  methods=['GET', 'POST'])

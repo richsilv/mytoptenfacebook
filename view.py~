@@ -160,6 +160,13 @@ def friendList(facebook_id):
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     return render_template('friends.html', friends=friendusers, userdata=session['userdata'])
 
+@app.route('/jukebox/<string:facebook_id>', methods=['GET', 'POST'])
+def jukeBox(facebook_id):
+    songlist = [{'title': "Down To The Well", 'artist': "Pixies", 'reason': "One of my faves.", 'url': "https://api.soundcloud.com/tracks/5084402", 'provider': "1", 'owner': "Craig Shakespeare"}, 
+                {'title': "Couleurs", 'artist': "M83", 'reason': "The best thing at the Somerset House gig.", 'url': "WtUWsVNJHdc", 'provider': "3", 'owner': "Alan Tankard"},
+                {'title': "Hey", 'artist': "Pixies", 'reason': "Another one of my faves.", 'url': "http://www.electricadolescence.com/audio/pixies%20-%20hey.mp3", 'provider': "5", 'owner': "Craig Shakespeare"}]
+    return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])
+
 ########### MOBILE PAGES ##############
 
 @app.route('/mobile',  methods=['GET', 'POST'])
@@ -187,6 +194,7 @@ def showSongsMob(facebook_id):
     owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
     if not owner:
         return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
+    ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
 #    if facebook_id == session['userdata']['id']:
