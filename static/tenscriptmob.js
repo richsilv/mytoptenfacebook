@@ -6,7 +6,7 @@ $(function() {
 });
 
 var playerheights = Array(0, 80, 80, 200, 200);
-var NUMSONGS = 3;
+var NUMSONGS = 10;
 var baddata = false;
 var BANNED = Array(String.fromCharCode(34), 
                    String.fromCharCode(38),
