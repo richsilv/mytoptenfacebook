@@ -143,7 +143,7 @@ def makeSongs(facebook_id, new_user=False):
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
     if not session.get('userdata'): return redirect(url_for('index'))
-    if not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendList', facebook_id=session['userdata']['id']))
+    if facebook_id != session['userdata']['id'] and not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendList', facebook_id=session['userdata']['id']))
     if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
     owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
     if not owner:
@@ -207,7 +207,7 @@ def mobile():
 @app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongsMob(facebook_id):
     if not session.get('userdata'): return redirect(url_for('index'))
-    if not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendListMob', facebook_id=session['userdata']['id']))
+    if facebook_id != session['userdata']['id'] and not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendListMob', facebook_id=session['userdata']['id']))
     if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
     owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
     if not owner:

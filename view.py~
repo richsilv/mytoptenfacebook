@@ -22,7 +22,7 @@ graph = None
 
 providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
 
-NUMSONGS = 3
+NUMSONGS = 10
 
 SPLITSTRINGS = (" - ", " | ", " -", " |", "- ", "| ", "-", "|")
     
