@@ -19,6 +19,12 @@ window.onYouTubePlayerReady = function(playerId) {
 
 function doSetup() {
 
+    $( "#dialog-modal" ).dialog({
+        width: 570,        
+        height: 230,
+        modal: true
+        }); 
+
     $("#buttonbar").find("button").button();
 
     $('#edit').on("click", function() {

@@ -31,6 +31,10 @@ function doSetup() {
     $('#home').on("click", function() {
         window.location = "/show_songs/" + user_id;        
         });
+
+    $('#jukebox').on("click", function() {
+        window.location = "/jukebox/" + user_id;        
+        });
      
     $(".friend").mouseenter(function() {
         $(this).addClass("ui-state-hover");

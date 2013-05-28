@@ -36,6 +36,7 @@ class TopTen(Base):
     opened = Column(DateTime)
     closed = Column(DateTime)
     active = Column(Boolean)
+    private = Column(Boolean)
     
     toptenuser = relationship("TopTenUser", backref=backref('toptens', order_by=facebook_id))
     
@@ -45,6 +46,7 @@ class TopTen(Base):
         self.facebook_id = facebook_id
         self.opened = datetime.datetime.today()
         self.active = True
+        self.private = True
 
     def __repr__(self):
        return "<Top Ten(%s, belongs to %s, ACTIVE = %s)>" % (self.topten_id, self.facebook_id, self.active)
