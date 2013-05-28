@@ -33,7 +33,7 @@ function doSetup() {
         });
 
     $('#jukebox').on("click", function() {
-        window.location = "/show_songs/" + user_id;        
+        window.location = "/jukebox/" + user_id;        
         });
      
     $(".friend").mouseenter(function() {

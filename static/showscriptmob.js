@@ -7,7 +7,7 @@ $(function() {
 
 var playerheights = Array(0, 80, 80, 200, 200);
 var playerwidths = Array(0, 250, 290, 290, 290);
-var NUMSONGS = 3;
+var NUMSONGS = 10;
 
 // ********************************
 
