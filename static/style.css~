@@ -237,17 +237,51 @@ h3 span {
     }
     
 #details {
-    display: inline-block;
+    display: inline-table;
     padding: 0 18px;
     position: relative;
-    top: 25px;
     vertical-align: top;
+    text-align: center;
+    margin-left:5px;
+    background-color: #3b5998;
+    color: white;
+    }
+
+#details > p {
+    display: table-cell;
+    vertical-align: middle;
     }
 
 #jukereason {
     text-align: center;
     font-style: italic;
+    margin: 0 5px;
+    background-color: #8b9dc3;
     }
+    
+#jukereason > h4 {
+    margin: 10px;
+    padding: 13px;    
+    }    
+    
 #jukeplayer {
     display: inline-block;
+    }
+    
+#jukeholder {
+    margin-top: 5px;
+    }
+    
+.songchange {
+    font-size: 0.8em;
+    width: 348px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    background-color: #dfe3ee;
+    }
+    
+#prevdeets, #nextdeets {
+    height: 75px;
     }

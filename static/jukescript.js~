@@ -1,12 +1,12 @@
 $(function() {
     
-    updateSong(songnum);
     doSetup();
+    updateSong(songnum);
 
 });
 
-var playerheights = Array(0, 80, 80, 220, 200, 183);
-var playerwidths = Array(0, 250, 290, 290, 290, 290);
+var playerheights = Array(0, 80, 80, 220, 220, 183);
+var playerwidths = Array(0, 250, 290, 365, 365, 300);
 var NUMSONGS = 3;
 
 // ********************************
@@ -21,12 +21,13 @@ function doSetup() {
 
     $( "#dialog-modal" ).dialog({
         width: 570,        
-        height: 220,
+        height: 230,
         modal: true
         }); 
 
     $("#buttonbar").find("button").button();
-
+    $("#changesong").find("button").button();
+    
     $('#edit').on("click", function() {
         window.location = "/make_songs/" + facebook_id + '/False';        
         });
@@ -38,6 +39,14 @@ function doSetup() {
     $('#friends').on("click", function() {
         window.location = "/friends_list/" + user_id;        
         });            
+    
+    $('#next').on("click", function() {
+        playNextTrack(1);
+        });    
+
+    $('#prev').on("click", function() {
+        playNextTrack(-1);
+        });   
                 
     $("#accordion").on("tabsbeforeactivate", ".panel .tabset", function(e, ui) {
         if (ui.newPanel.length) {
@@ -136,12 +145,30 @@ function updateSong(songnum) {
         }
 
     $('#jukeplayer').children("iframe").css("height", playerheights[provider]+"px");
+    $("#details").css("height", playerheights[provider]+"px");
     $('#jukeplayer').css("width", (w) + "px");
-    $('#details').css("width", (650 - w) + "px");
+    $('#details').css("width", (685 - w) + "px");
     
     $('#details').html("<p><strong>" + songdeets[songnum][0] + "</strong> by <strong>" + songdeets[songnum][1] + "</strong>, chosen by <strong>" + songdeets[songnum][5] + "</strong></p>");
     $('#jukereason').html('<h4>"' + songdeets[songnum][2] + '"</h4>');
     
+    if (songnum > 0) {
+        $('#prevdeets').html("<p><strong>" + songdeets[songnum-1][0] + "</strong> by <strong>" + songdeets[songnum-1][1] + "</strong>, chosen by <strong>" + songdeets[songnum-1][5] + "</strong></p>");       
+        $('#prev').button("option", "disabled", false);
+        }
+    else {
+        $('#prevdeets').html("<p></p>");       
+        $('#prev').button("option", "disabled", true);    
+        }
+
+    if (songnum + 1 < listlength) {
+        $('#nextdeets').html("<p><strong>" + songdeets[songnum+1][0] + "</strong> by <strong>" + songdeets[songnum+1][1] + "</strong>, chosen by <strong>" + songdeets[songnum+1][5] + "</strong></p>");       
+        $('#next').button("option", "disabled", false);        
+        }    
+    else {
+        $('#nextdeets').html("<p></p>");       
+        $('#next').button("option", "disabled", true);    
+        }   
     }
 
 function vimeoMessageHandler(e) {
@@ -166,7 +193,8 @@ function youtubeStateChange(newState) {
     if (newState === 0) { playNextTrack(); }
     }
 
-function playNextTrack() {
+function playNextTrack(offset) {
+    if(typeof(offset)==='undefined') offset = 1;
     var provider = parseInt(songdeets[songnum][4]);
     switch(provider) {
         case 1:
@@ -177,13 +205,9 @@ function playNextTrack() {
         case 3:
             break;
         }
-    if (songnum + 1 < listlength) {
-        songnum += 1;
-        updateSong(songnum)        
-        }
-    else {
-        console.log("last song")        
-        }
+    songnum += offset;
+    songnum = songnum % listlength;
+    updateSong(songnum)
     }
 
 function embedPlayer(l, provider) {
@@ -191,15 +215,13 @@ function embedPlayer(l, provider) {
         case 1:
             return 'Use <strong>scloudPlayer</strong> rather than <strong>embedPlayer</strong>';
         case 2:
-            return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="290" height="80" frameborder="0" allowtransparency="true"></iframe>';
+            return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="' + playerwidths[2] + '" height="' + playerheights[2] + '" frameborder="0" allowtransparency="true"></iframe>';
         case 3:
-            return '<iframe class="youtube-player" type="text/html" width="290" height="220" src="http://www.youtube.com/embed/' + l + '?autoplay=1&enablejsapi=1&playerapiid=ytplayer" allowfullscreen frameborder="0"></iframe>';
+            return '<iframe class="youtube-player" type="text/html" width="' + playerwidths[3] + '" height="' + playerheights[3] + '" src="http://www.youtube.com/embed/' + l + '?autoplay=1&enablejsapi=1&playerapiid=ytplayer" allowfullscreen frameborder="0"></iframe>';
         case 4:
-            return '<iframe id="vimeo-player" src="http://player.vimeo.com/video/' + l + '?api=1&autoplay=1" width="290" height="220" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+            return '<iframe id="vimeo-player" src="http://player.vimeo.com/video/' + l + '?api=1&autoplay=1" width="' + playerwidths[4] + '" height="' + playerheights[4] + '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         case 5:
-            return '<audio autoplay="autoplay" controls="controls" style="margin-top: 30px"><source src="' + l + '" type="audio/mpeg">Your browser does not support the audio tag.</audio>'
-/*            return '<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="290" height="27" quality="best"></embed>';
-*/
+            return '<audio autoplay="autoplay" controls="controls" style="margin-top: 78px"><source src="' + l + '" type="audio/mpeg">Your browser does not support the audio tag.</audio>'
         case 6:
             return '<iframe scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/en/plugins/player?autoplay=false&playlist=true&width=290&height=183&cover=false&type=tracks&id=' + l + '&title=&format=vertical&app_id=undefined" width="290" height="183"></iframe>';        
         }
@@ -208,7 +230,7 @@ function embedPlayer(l, provider) {
 function scloudPlayer(url, panelnum) {
      xhr = $.ajax({type: "GET",
         url: "http://soundcloud.com/oembed",
-        data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: true, show_comments: false},
+        data: {'url': url, 'format': 'json', maxwidth: playerwidths[1], maxheight: playerheights[1], auto_play: true, show_comments: false},
         dataType: "json",
         });
     xhr.panelnum = panelnum;
@@ -219,7 +241,7 @@ function youtubePlayer(url) {
     var params = { allowScriptAccess: "always" };
     var atts = { id: "ytplayer" };
     swfobject.embedSWF("http://www.youtube.com/v/" + url + "?enablejsapi=1&playerapiid=ytplayer&version=3&autoplay=1",
-                       "tempdiv", "290", "220", "8", null, null, params, atts);
+                       "tempdiv", playerwidths[3], playerheights[3], "8", null, null, params, atts);
     }
 
 function addEvent(element, eventName, callback) {

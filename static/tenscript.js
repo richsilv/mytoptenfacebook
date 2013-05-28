@@ -6,7 +6,7 @@ $(function() {
 });
 
 var playerheights = Array(0, 80, 80, 200, 200, 80, 183);
-var NUMSONGS = 3;
+var NUMSONGS = 10;
 var BANNED = Array(String.fromCharCode(34), 
                    String.fromCharCode(38),
                    String.fromCharCode(60),
@@ -77,7 +77,7 @@ function doSetup() {
         autoOpen: false
         });   
 
-    $("#buttonbar").find("button").button();
+    $("#buttonbar").find("button").button(); 
     $("#confirm").button("option", "disabled", true);
     if (!existing_ten) { $("#cancel").button("option", "disabled", true)};
 

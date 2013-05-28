@@ -22,7 +22,7 @@ graph = None
 
 providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
 
-NUMSONGS = 3
+NUMSONGS = 10
 
 SPLITSTRINGS = (" - ", " | ", " -", " |", "- ", "| ", "-", "|")
     
@@ -163,6 +163,11 @@ def friendList(facebook_id):
 
 @app.route('/jukebox/<string:facebook_id>', methods=['GET', 'POST'])
 def jukeBox(facebook_id):
+    if not FBAUTH:
+        songlist = [{'title': "September Song", 'artist': "Hosts", 'reason': "Yorkshire.", 'url': "40995778", 'provider': "4", 'owner': "Craig Shakespeare"}, 
+                {'title': "Couleurs", 'artist': "M83", 'reason': "The best thing at the Somerset House gig.", 'url': "WtUWsVNJHdc", 'provider': "3", 'owner': "Alan Tankard"},
+                {'title': "Hey", 'artist': "Pixies", 'reason': "Another one of my faves.", 'url': "http://www.electricadolescence.com/audio/pixies%20-%20hey.mp3", 'provider': "5", 'owner': "Craig Shakespeare"}]
+        return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])        
     if not session.get('userdata'): return redirect(url_for('index'))
     fb = facebook.GraphAPI(session['token'])  
     allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
@@ -210,10 +215,6 @@ def showSongsMob(facebook_id):
     ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
-#    if facebook_id == session['userdata']['id']:
-#        owner = True
-#    else:
-#        owner = False
     return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list_mob/<string:facebook_id>', methods=['GET', 'POST'])
