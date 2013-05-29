@@ -136,6 +136,14 @@ h3 span {
     margin: 0 1em;
     }
 
+#headerbar {
+    text-align: center;
+    height: 38px;
+    }
+
+#headerbar h3 {
+    margin: 5px 0;    
+    }
 
 
 .lefthalf {
@@ -191,14 +199,19 @@ h3 span {
 .player embed {
     border: thin solid darkgrey;
     position: relative;
-    left: 35px;
+    left: 15px;
     top: 25px;
+    }
+    
+.player .selectembed {
+    left: 35px;
     }
 
 .spotifyshow {height: 105px;}
 .soundcloudshow {height: 105px;}
 .youtubeshow {height: 225px;}
 .vimeoshow {height: 225px;}
+.hypemshow {height: 105px;}
 
 .playerbox .player iframe {
     margin: 10px;
@@ -217,4 +230,58 @@ h3 span {
     line-height: 1.5em;
     height: 30px;
     padding: 8px 8px 8px 38px;    
+    }
+    
+
+#jukebox {
+    }
+    
+#details {
+    display: inline-table;
+    padding: 0 18px;
+    position: relative;
+    vertical-align: top;
+    text-align: center;
+    margin-left:5px;
+    background-color: #3b5998;
+    color: white;
+    }
+
+#details > p {
+    display: table-cell;
+    vertical-align: middle;
+    }
+
+#jukereason {
+    text-align: center;
+    font-style: italic;
+    margin: 0 5px;
+    background-color: #8b9dc3;
+    }
+    
+#jukereason > h4 {
+    margin: 10px;
+    padding: 13px;    
+    }    
+    
+#jukeplayer {
+    display: inline-block;
+    }
+    
+#jukeholder {
+    margin-top: 5px;
+    }
+    
+.songchange {
+    font-size: 0.8em;
+    width: 348px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    background-color: #dfe3ee;
+    }
+    
+#prevdeets, #nextdeets {
+    height: 75px;
     }

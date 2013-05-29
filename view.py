@@ -11,6 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from user_agents import parse
 import facebook
 from models import *
+from datetime import datetime
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
@@ -21,7 +22,7 @@ graph = None
 
 providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
 
-NUMSONGS = 3
+NUMSONGS = 10
 
 SPLITSTRINGS = (" - ", " | ", " -", " |", "- ", "| ", "-", "|")
     
@@ -97,10 +98,11 @@ def get_facebook_oauth_token():
 @app.route('/default',  methods=['GET', 'POST'])
 def default():
     user_agent_string = request.user_agent.string
-    print user_agent_string
     user_agent = parse(user_agent_string)
     if user_agent.is_bot:
         return "Bot query"
+    if not session.get('userdata'):
+        return redirect("https://apps.facebook.com/mytoptenapp"+url_for('index', _external=False))
     fbdata = session['userdata']
     fb = facebook.GraphAPI(session['token'])
     new_user = False
@@ -108,9 +110,11 @@ def default():
     if not user: 
         user = createUser(fbdata)
         new_user = True
+    user.last_login = datetime.now()
+    pg.commit()
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten:
-        topten = createTopTen(fbdata)
+        topten   = createTopTen(fbdata)
     songlist = topten.songs
     if (len(songlist) < NUMSONGS):
         if user_agent.is_mobile:
@@ -126,6 +130,8 @@ def default():
 
 @app.route('/make_songs/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
 def makeSongs(facebook_id, new_user=False):
+    if not session.get('userdata'): return redirect(url_for('index'))
+    if session['userdata']['id'] != facebook_id: return redirect(url_for('showSongs', facebook_id=session['userdata']['id']))
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
     if len(songlist) < NUMSONGS:
@@ -136,20 +142,46 @@ def makeSongs(facebook_id, new_user=False):
 
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
+    if not session.get('userdata'): return redirect(url_for('index'))
+    if facebook_id != session['userdata']['id'] and not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendList', facebook_id=session['userdata']['id']))
+    if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
+    owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
+    if not owner:
+        return redirect(url_for('showSongs', facebook_id=session['userdata']['id']))
+    ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
-    if facebook_id == session['userdata']['id']:
-        owner = True
-    else:
-        owner = False
-    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+    return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list/<string:facebook_id>', methods=['GET', 'POST'])
 def friendList(facebook_id):
+    if not session.get('userdata'): return redirect(url_for('index'))
     fb = facebook.GraphAPI(session['token'])    
     allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     return render_template('friends.html', friends=friendusers, userdata=session['userdata'])
+
+@app.route('/jukebox/<string:facebook_id>', methods=['GET', 'POST'])
+def jukeBox(facebook_id):
+    if not FBAUTH:
+        songlist = [{'title': "September Song", 'artist': "Hosts", 'reason': "Yorkshire.", 'url': "40995778", 'provider': "4", 'owner': "Craig Shakespeare"}, 
+                {'title': "Couleurs", 'artist': "M83", 'reason': "The best thing at the Somerset House gig.", 'url': "WtUWsVNJHdc", 'provider': "3", 'owner': "Alan Tankard"},
+                {'title': "Hey", 'artist': "Pixies", 'reason': "Another one of my faves.", 'url': "http://www.electricadolescence.com/audio/pixies%20-%20hey.mp3", 'provider': "5", 'owner': "Craig Shakespeare"}]
+        return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])        
+    if not session.get('userdata'): return redirect(url_for('index'))
+    fb = facebook.GraphAPI(session['token'])  
+    allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
+    friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
+    songlist = []
+    for friend in friendusers:
+        topten = g.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == friend.facebook_id).filter(TopTen.active == True).first()
+        for song in topten.songs:
+            if song.provider != 2:
+                songlist.append({'title': song.title, 'artist': song.artist, 'reason': song.reason, 'url': song.url, 'provider': song.provider, 'owner': friend.first_name + " " + friend.last_name})
+    songlist = [{'title': "September Song", 'artist': "Hosts", 'reason': "Yorkshire.", 'url': "40995778", 'provider': "4", 'owner': "Craig Shakespeare"}, 
+                {'title': "Couleurs", 'artist': "M83", 'reason': "The best thing at the Somerset House gig.", 'url': "WtUWsVNJHdc", 'provider': "3", 'owner': "Alan Tankard"},
+                {'title': "Hey", 'artist': "Pixies", 'reason': "Another one of my faves.", 'url': "http://www.electricadolescence.com/audio/pixies%20-%20hey.mp3", 'provider': "5", 'owner': "Craig Shakespeare"}]
+    return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])
 
 ########### MOBILE PAGES ##############
 
@@ -174,16 +206,20 @@ def mobile():
 
 @app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongsMob(facebook_id):
+    if not session.get('userdata'): return redirect(url_for('index'))
+    if facebook_id != session['userdata']['id'] and not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendListMob', facebook_id=session['userdata']['id']))
+    if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
+    owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
+    if not owner:
+        return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
+    ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
-    if facebook_id == session['userdata']['id']:
-        owner = True
-    else:
-        owner = False
-    return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], owner=owner)
+    return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list_mob/<string:facebook_id>', methods=['GET', 'POST'])
 def friendListMob(facebook_id):
+    if not session.get('userdata'): return redirect(url_for('index'))
     fb = facebook.GraphAPI(session['token'])    
     allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
@@ -191,6 +227,8 @@ def friendListMob(facebook_id):
     
 @app.route('/make_songs_mob/<string:facebook_id>/<new_user>',  methods=['GET', 'POST'])
 def makeSongsMob(facebook_id, new_user=False):
+    if not session.get('userdata'): return redirect(url_for('index'))
+    if session['userdata']['id'] != facebook_id: return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = topten.songs
     if len(songlist) < NUMSONGS:
@@ -214,12 +252,14 @@ def get_selector():
     if provider in [1, 3, 4, 5]:
         for option in optionset:
             if option['title'].find (" by ") > 0:
-                option['title'], option['artist'] = option['title'].split(" by ", 1)
+                option['title'], option['artist'] = [x.title() for x in option['title'].split(" by ", 1)]
             else:
                 for s in SPLITSTRINGS:
                     if option['title'].find(s) > 0:
-                        option['artist'], option['title'] = option['title'].split(s, 1)
+                        option['artist'], option['title'] = [x.title() for x in option['title'].split(s, 1)]
                         break
+            if option['artist']: option['artist'] = option['artist'].title()
+            if option['title']: option['title'] = option['title'].title()
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
     
 @app.route('/get_confirm/', methods=['POST'])
@@ -252,7 +292,10 @@ def save_songs():
     if FBAUTH:
         fb = facebook.GraphAPI(session['token'])
         possessive = getPossessive(session['userdata'])
-        fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
+        try:
+            fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
+        except:
+            pass    
     return 'success'
 
 @app.route('/post_comment/', methods=['POST'])
@@ -264,6 +307,7 @@ def post_comment():
     if len(comment) > 50:
         comment = comment[:comment.rfind(" ", 0, 50)] + "..."
     fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just commented on  " + owner['first_name'] + " " + owner['last_name'] + "'s list on My Top Ten: " + comment + " http://apps.facebook.com/mytoptenapp")    
+    fb.put_object(request.form['owner'], "notifications", template=session['userdata']['first_name']+" "+session['userdata']['last_name']+" just commented on your list on My Top Ten!", href="/show_songs/"+request.form['owner'])
     return 'success'
 
 @app.errorhandler(404)
@@ -271,6 +315,11 @@ def page_not_found(e):
     return "Problem: " + str(e.description) + str(e.args) + str(dir(e)), 404
 
 ############# UTILITIES ##################
+
+def friendCheck(fbdata, friend):
+    fb = facebook.GraphAPI(session['token'])    
+    allfriends = [x['id'] for x in fb.get_connections("me", "friends")['data']]
+    return friend in allfriends    
 
 def createUser(fbdata):
     newuser = TopTenUser(str(fbdata['id']), fbdata['first_name'], fbdata['last_name'])
@@ -285,7 +334,7 @@ def createTopTen(fbdata):
     return newtopten
 
 def saveSong(song):
-    songsearch = pg.query(Song).filter(Song.title == song[0]).filter(Song.artist == song[1]).filter(Song.reason == song[2]).first()
+    songsearch = pg.query(Song).filter(Song.title == song[0]).filter(Song.artist == song[1]).filter(Song.reason == song[2]).filter(Song.url == song[3]).first()
     if songsearch:
         return songsearch
     else:

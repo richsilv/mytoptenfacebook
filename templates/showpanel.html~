@@ -14,7 +14,9 @@
     {% elif provider == 3 %}
         youtubeshow
     {% elif provider == 4 %}
-        vimeoshow        
+        vimeoshow 
+    {% elif provider == 5 %}
+        hypemshow       
     {% else %}
         unknownshow
     {% endif %}    
@@ -26,7 +28,7 @@
             <span class="reasoncontainer">        
                 <span class="reasonbox {{ prov_class(provider=provider) }}">
                     <span class="reasonshow">
-                        {% if reason %}"{{ reason }}"{% endif %}             
+                         {% if reason %}"{{ reason }}"{% endif %}             
                     </span>          
                 </span>
             </span>

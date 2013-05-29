@@ -1,0 +1,96 @@
+import os
+from flask import Flask
+import requests
+import grequests
+from difflib import SequenceMatcher
+import uuid
+import urllib2
+import base64
+import hashlib
+import hmac
+
+HYPEMURL = 'http://hypem.com/playlist/search/'
+HYPEMSTUB = '/json/1/data.js'
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return 'Hello World!'
+
+########  AJAX  ##############
+
+@app.route('/get_selection/', methods=['PUT'])
+def
+
+
+########  MUSIC API  #########
+
+def hypem_request(title, artist, ogg=False):
+	r = requests.get(HYPEMURL + artist + " " + title + HYPEMSTUB)
+	if not r: return None
+	reply = r.json()
+	structure = [{'title': x['title'], 'artist': x['artist'], 'url': x['posturl'], 'id':i} for i, x in enumerate(reply.values()) if type(x)==dict]
+	results = []
+	reqs = 	(grequests.get(x['url'], headers={'id':x['id']}, timeout=2) for x in structure)
+	data = grequests.map(reqs)
+	unpack = [([{'title': y['title'], 'artist': y['artist']} for y in structure if y['id'] == x.request.headers['id']][0], x.text, x.request.headers['id']) for x in [y for y in data if y] if x.status_code == 200]
+	links = [{'url': bestmp3choice(find_mp3(x[1], ogg), x[0]), 'title': x[0]['title'], 'artist': x[0]['artist'], 'id': x[2]} for x in unpack]
+	secondreqs = (grequests.head(x['url'], headers={'id': x['id']}, timeout=1) for x in links if x['url'])
+	feedback = grequests.map(secondreqs)
+	for f in feedback:
+	   if f:
+	       if f.status_code == 200 and f.headers.get('content-type') == 'audio/mpeg':
+	           results.append({'title': [x['title'] for x in links if x['id'] == f.request.headers['id']][0], 'artist': [x['artist'] for x in links if x['id'] == f.request.headers['id']][0], 'url': f.url})
+	return results
+	
+def find_mp3(r, ogg=False):
+	linkend, linkstart = 0, 0
+	mp3s = []
+	while True:
+		tagstart = r.find("<a", linkend)
+		if -1 in [tagstart, linkend] or linkstart == 5: break
+		linkstart = r.find('href="', tagstart) + 6
+		linkend = r.find('"', linkstart)
+		link = r[linkstart:linkend]
+		if ogg:
+			if link[-4:] in [".ogg"]:
+				t = (link[:-4], "")
+				mp3s.append((link, t))
+		else:
+			if link[-4:] in [".mp3"]:
+				t = getTitleArtist(link)
+				mp3s.append((link, t))
+	return mp3s
+
+def bestmp3choice(cand, song):
+    if not cand	: return None
+    best = max([(x[0], SequenceMatcher(None, song['title'], x[1]['title']).quick_ratio() + SequenceMatcher(None, song['artist'], x[1]['artist']).quick_ratio()) for x in cand], key=lambda y: y[1])
+    return best[0]
+
+def check_hypem_choice(choice):
+	mp3link = bestmp3choice(find_mp3(choice['url']), choice)
+	try:
+		head = requests.head(mp3link, timeout=1)
+		if head.status_code != 200 or head.headers.get('content-type') != 'audio/mpeg': return None
+		else: return mp3link
+	except:
+		return None
+		
+def getTitleArtist(url):
+    r = requests.get(url, stream=True)
+    h = r.raw.read(4096)
+    tags = MP3Tags(h)
+    return {'title': tags.get('TIT2', ''), 'artist': tags.get('TPE1', '')}
+            
+def MP3Tags(h):
+    tags = {}
+    h = h[10:]
+    while h:
+        tid = h[:4]
+        if not int(tid.encode("hex"), 16): break
+        l = int(h[4:8].encode("hex"), 16)   
+        dat = h[11:10+l]
+        tags[tid] = dat
+        h = h[10+l:]
+    return tags

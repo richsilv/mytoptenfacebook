@@ -77,7 +77,7 @@ function doSetup() {
         autoOpen: false
         });   
 
-    $("#buttonbar").find("button").button();
+    $("#buttonbar").find("button").button(); 
     $("#confirm").button("option", "disabled", true);
     if (!existing_ten) { $("#cancel").button("option", "disabled", true)};
 
@@ -257,7 +257,7 @@ function doSetup() {
                 }, 100);
             }
         else {
-             $("#bad-data").open();               
+             $("#bad-data").dialog("open");               
             }
         });
     }
@@ -309,7 +309,7 @@ function embedPlayer(l, provider) {
         case 4:
             return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="290" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         case 5:
-            return '<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="290" height="27" quality="best"></embed>';
+            return '<embed class="selectembed" type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="290" height="27" quality="best"></embed>';
         case 6:
             return '<iframe scrolling="no" frameborder="0" allowTransparency="true" src="http://www.deezer.com/en/plugins/player?autoplay=false&playlist=true&width=290&height=183&cover=false&type=tracks&id=' + l + '&title=&format=vertical&app_id=undefined" width="290" height="183"></iframe>';        
         }

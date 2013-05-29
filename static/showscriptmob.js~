@@ -48,6 +48,10 @@ function doSetup() {
         window.location = "/show_songs_mob/" + user_id;        
         });
 
+    $('#edit').on("click", function() {
+        window.location = "/make_songs_mob/" + user_id + "/False";        
+        });
+
     $('#friends').on("click", function() {
         window.location = "/friends_list_mob/" + user_id;        
         });            

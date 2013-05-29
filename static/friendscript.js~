@@ -31,6 +31,10 @@ function doSetup() {
     $('#home').on("click", function() {
         window.location = "/show_songs/" + user_id;        
         });
+
+    $('#jukebox').on("click", function() {
+        window.location = "/jukebox/" + user_id;        
+        });
      
     $(".friend").mouseenter(function() {
         $(this).addClass("ui-state-hover");
@@ -40,7 +44,7 @@ function doSetup() {
             
     $(".friend").click(function() {
         $(this).addClass("ui-state-focus");
-        window.location = "
+        window.location = "/show_songs/" + $(this).next("input").val();
         });
 }
 

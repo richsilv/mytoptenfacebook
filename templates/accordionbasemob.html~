@@ -26,8 +26,13 @@
             <span id="close" class="mobibutton">Close</span>
         </div>
     {% endif %}
-
+        <div id="bad-data" title="Reserved Characters" style="display: none">
+            <p>Sorry, but the characters <strong>\</strong>, <strong>/</strong>, <strong><</strong>, <strong>></strong>, <strong>"</strong> and <strong>&</strong> are <strong>reserved characters</strong> and
+            cannot be used in a song title, artist name or reason.  Thanks!</p>
+            <span id="closebad" class="mobibutton">Close</span>
+        </div>
     {% import 'accordionpanelmob.html' as accpanel %}
+    <div id="headerbar">Edit My Top Ten</div>
     <div id="accordion">
         {% for song in songlist %}
 			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}

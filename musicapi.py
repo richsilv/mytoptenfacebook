@@ -33,17 +33,17 @@ DEEZER_URL = 'https://api.deezer.com/2.0/search'
 yt_service = gdata.youtube.service.YouTubeService()
 yt_service.ssl = True
 
-def hypem_request(title, artist):
+def hypem_request(title, artist, ogg=False):
 	r = requests.get(HYPEMURL + artist + " " + title + HYPEMSTUB)
 	if not r: return None
 	reply = r.json()
 	structure = [{'title': x['title'], 'artist': x['artist'], 'url': x['posturl'], 'id':i} for i, x in enumerate(reply.values()) if type(x)==dict]
 	results = []
-	reqs = 	(grequests.get(x['url'], headers={'id':x['id']}) for x in structure)
+	reqs = 	(grequests.get(x['url'], headers={'id':x['id']}, timeout=2) for x in structure)
 	data = grequests.map(reqs)
 	unpack = [([{'title': y['title'], 'artist': y['artist']} for y in structure if y['id'] == x.request.headers['id']][0], x.text, x.request.headers['id']) for x in [y for y in data if y] if x.status_code == 200]
-	links = [{'url': bestmp3choice(find_mp3(x[1]), x[0]), 'title': x[0]['title'], 'artist': x[0]['artist'], 'id': x[2]} for x in unpack]
-	secondreqs = (grequests.head(x['url'], headers={'id': x['id']}) for x in links if x['url'])
+	links = [{'url': bestmp3choice(find_mp3(x[1], ogg), x[0]), 'title': x[0]['title'], 'artist': x[0]['artist'], 'id': x[2]} for x in unpack]
+	secondreqs = (grequests.head(x['url'], headers={'id': x['id']}, timeout=1) for x in links if x['url'])
 	feedback = grequests.map(secondreqs)
 	for f in feedback:
 	   if f:
@@ -51,7 +51,7 @@ def hypem_request(title, artist):
 	           results.append({'title': [x['title'] for x in links if x['id'] == f.request.headers['id']][0], 'artist': [x['artist'] for x in links if x['id'] == f.request.headers['id']][0], 'url': f.url})
 	return results
 	
-def find_mp3(r):
+def find_mp3(r, ogg=False):
 	linkend, linkstart = 0, 0
 	mp3s = []
 	while True:
@@ -60,15 +60,20 @@ def find_mp3(r):
 		linkstart = r.find('href="', tagstart) + 6
 		linkend = r.find('"', linkstart)
 		link = r[linkstart:linkend]
-		if link[-4:] in [".mp3"]:
-		    t = getTitleArtist(link)
-		    mp3s.append((link, t))
+		if ogg:
+			if link[-4:] in [".ogg"]:
+				t = (link[:-4], "")
+				mp3s.append((link, t))
+		else:
+			if link[-4:] in [".mp3"]:
+				t = getTitleArtist(link)
+				mp3s.append((link, t))
 	return mp3s
 
 def bestmp3choice(cand, song):
-	if not cand	: return None
-	best = max([(x[0], SequenceMatcher(None, song['title'], x[1]['title']).quick_ratio() + SequenceMatcher(None, song['artist'], x[1]['artist']).quick_ratio()) for x in cand], key=lambda y: y[1])
-	return best[0]
+    if not cand	: return None
+    best = max([(x[0], SequenceMatcher(None, song['title'], x[1]['title']).quick_ratio() + SequenceMatcher(None, song['artist'], x[1]['artist']).quick_ratio()) for x in cand], key=lambda y: y[1])
+    return best[0]
 
 def check_hypem_choice(choice):
 	mp3link = bestmp3choice(find_mp3(choice['url']), choice)
