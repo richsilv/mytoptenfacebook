@@ -53,7 +53,7 @@
         {% endfor %}
     </div>
     <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
-    {% if owner %}
+    {% if facebook_id == userdata.id %}
         <button id="edit">Edit Songs</button>
     {% else %}
         <button id="home">My Top Ten!</button>

@@ -52,7 +52,7 @@
         {% endfor %}
     </div>
     <div id="buttonbar">
-    {% if owner %}
+    {% if facebook_id == userdata.id %}
         <span class="mobibutton" id="edit">Edit Songs</span>
     {% else %}
         <span class="mobibutton" id="home">My Top Ten!</span>
