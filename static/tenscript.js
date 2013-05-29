@@ -99,7 +99,10 @@ function doSetup() {
     $('#accordion').on("accordionactivate", function(e, ui) {
         if ((ui.oldHeader.length) && !(ui.oldHeader.hasClass("newsong"))) {
             showTitleArtist(ui.oldHeader);           
-            }    
+            }
+        if (ui.oldPanel.length) {
+            ui.oldPanel.find("[aria-expanded='true']").html("");        
+            }
         });
     
     $('#accordion').on("click", ".header .songentry form .cancelchange", function() {
@@ -114,6 +117,9 @@ function doSetup() {
             }
         else {
             panel = ui.oldPanel;
+            }
+        if (ui.oldPanel.length) {
+            ui.oldPanel.html("");        
             }
         if ($(this).parents(".panel").prev().find('.songentry').is(":visible")) {
             songtitle = $(this).parents(".panel").prev().find('.titleentry').val();
