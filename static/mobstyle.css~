@@ -67,6 +67,7 @@ body {
     border-radius: 5px;
     margin: 5px 0;
     line-height: 2.2em;
+    text-align: center;
     }
 
 #buttonbar {
@@ -211,7 +212,7 @@ body {
     }
 
 .entryform input {
-    width: 225px;
+    width: 215px;
     }
 
 .number {

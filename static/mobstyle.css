@@ -170,7 +170,7 @@ body {
 .entryform {
     display: inline-block;
     margin-left: 5px;
-    width: 270px;
+    width: 260px;
     }
 
 .buttons {
@@ -212,7 +212,7 @@ body {
     }
 
 .entryform input {
-    width: 225px;
+    width: 215px;
     }
 
 .number {
