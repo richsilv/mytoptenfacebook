@@ -143,7 +143,7 @@ def makeSongs(facebook_id, new_user=False):
 @app.route('/show_songs/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongs(facebook_id):
     if not session.get('userdata'): return redirect(url_for('index'))
-    if not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendList', facebook_id=session['userdata']['id']))
+    if facebook_id != session['userdata']['id'] and not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendList', facebook_id=session['userdata']['id']))
     if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
     owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
     if not owner:
@@ -178,9 +178,6 @@ def jukeBox(facebook_id):
         for song in topten.songs:
             if song.provider != 2:
                 songlist.append({'title': song.title, 'artist': song.artist, 'reason': song.reason, 'url': song.url, 'provider': song.provider, 'owner': friend.first_name + " " + friend.last_name})
-    songlist = [{'title': "September Song", 'artist': "Hosts", 'reason': "Yorkshire.", 'url': "40995778", 'provider': "4", 'owner': "Craig Shakespeare"}, 
-                {'title': "Couleurs", 'artist': "M83", 'reason': "The best thing at the Somerset House gig.", 'url': "WtUWsVNJHdc", 'provider': "3", 'owner': "Alan Tankard"},
-                {'title': "Hey", 'artist': "Pixies", 'reason': "Another one of my faves.", 'url': "http://www.electricadolescence.com/audio/pixies%20-%20hey.mp3", 'provider': "5", 'owner': "Craig Shakespeare"}]
     return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])
 
 ########### MOBILE PAGES ##############
@@ -207,7 +204,7 @@ def mobile():
 @app.route('/show_songs_mob/<string:facebook_id>',  methods=['GET', 'POST'])
 def showSongsMob(facebook_id):
     if not session.get('userdata'): return redirect(url_for('index'))
-    if not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendListMob', facebook_id=session['userdata']['id']))
+    if facebook_id != session['userdata']['id'] and not friendCheck(session['userdata'], facebook_id): return redirect(url_for('friendListMob', facebook_id=session['userdata']['id']))
     if facebook_id.find("?") > -1: facebook_id = facebook_id[:facebook_id.find("?")]
     owner = pg.query(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).first()
     if not owner:
