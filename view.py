@@ -174,7 +174,7 @@ def jukeBox(facebook_id):
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     songlist = []
     for friend in friendusers:
-        topten = g.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == friend.facebook_id).filter(TopTen.active == True).first()
+        topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == friend.facebook_id).filter(TopTen.active == True).first()
         for song in topten.songs:
             if song.provider != 2:
                 songlist.append({'title': song.title, 'artist': song.artist, 'reason': song.reason, 'url': song.url, 'provider': song.provider, 'owner': friend.first_name + " " + friend.last_name})
