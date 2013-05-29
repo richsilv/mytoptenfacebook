@@ -174,7 +174,7 @@ def jukeBox(facebook_id):
     friendusers = pg.query(TopTenUser).filter(TopTenUser.facebook_id.in_(allfriends)).all()
     songlist = []
     for friend in friendusers:
-        topten = g.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == friend.facebook_id).filter(TopTen.active == True).first()
+        topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == friend.facebook_id).filter(TopTen.active == True).first()
         for song in topten.songs:
             if song.provider != 2:
                 songlist.append({'title': song.title, 'artist': song.artist, 'reason': song.reason, 'url': song.url, 'provider': song.provider, 'owner': friend.first_name + " " + friend.last_name})
@@ -303,7 +303,7 @@ def post_comment():
     comment = request.form['comment']
     if len(comment) > 50:
         comment = comment[:comment.rfind(" ", 0, 50)] + "..."
-    fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just commented on  " + owner['first_name'] + " " + owner['last_name'] + "'s list on My Top Ten: " + comment + " http://apps.facebook.com/mytoptenapp")    
+    fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just commented on  " + owner['first_name'] + " " + owner['last_name'] + "'s list on My Top Ten: """"" + comment + """" http://apps.facebook.com/mytoptenapp")    
     fb.put_object(request.form['owner'], "notifications", template=session['userdata']['first_name']+" "+session['userdata']['last_name']+" just commented on your list on My Top Ten!", href="/show_songs/"+request.form['owner'])
     return 'success'
 
