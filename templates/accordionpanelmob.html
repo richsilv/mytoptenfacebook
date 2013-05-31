@@ -5,7 +5,7 @@
             <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
         </span>
         <span class="songentry"{% if newsong %} style="display: inline-block"{% endif %}><span class="number">{{ number }}.</span> <form class="entryform"><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist">
-        <div class="searchbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div></form></span>            
+        <div class="searchbutton"><img alt="Y" /></div><div class="cancelchange"><img alt="N" /></div></form></span>            
     </h3>
 {% endmacro %}
 
@@ -22,5 +22,6 @@
                 </div>
             {% endfor %}
         </div>
+        <div class="line"></div>
     </div>
 {% endmacro %}

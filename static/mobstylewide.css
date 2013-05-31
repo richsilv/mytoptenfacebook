@@ -1,7 +1,7 @@
 body {
-    width: 310px;  
+    width: 635px;  
     font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size: 11px;
+    font-size: 13px;
     }
 
 .accordion {
@@ -114,9 +114,9 @@ body {
 
 .popup {
     position: fixed;
-    top: 50px;
-    left: 15px;
-    width: 280px;
+    top: 100px;
+    left: 70px;
+    width: 500px;
     border: thin solid #3b5998;
     background-color: white;
     padding: 5px;
@@ -134,9 +134,9 @@ body {
     }
     
 .popbelow {
-    margin-left: 15px;
+    margin-left: 50px;
     margin-top: 20px;
-    width: 280px;
+    width: 540px;
     border: thin solid #3b5998;
     background-color: white;
     padding: 5px;
@@ -168,7 +168,7 @@ body {
 .entryform {
     display: inline-block;
     margin-left: 5px;
-    width: 260px;
+    width: 500px;
     }
 
 .buttons {
@@ -185,7 +185,7 @@ body {
     }
 
 .confirmholder input {
-    width: 225px;
+    width: 460px;
     }
     
 .confirm {
@@ -210,7 +210,7 @@ body {
     }
 
 .entryform input {
-    width: 215px;
+    width: 450px;
     }
 
 .number {
@@ -233,7 +233,7 @@ body {
 .selectmenu {
     margin: 3px;
     font-size: 0.8em;
-    width: 240px;    
+    width: 450px;    
     }
 
 .selection {
@@ -252,7 +252,7 @@ body {
 
 .reasoninput {
     display: inline-block;
-    width: 240px;
+    width: 450px;
     }
 
 
@@ -263,7 +263,7 @@ body {
 
 
 .playerbox {
-    width: 320px;
+    width: 640px;
     margin-left: 0;
     display: none;
     }
@@ -286,8 +286,8 @@ body {
     }
 
 .spotifyshow .player iframe {
-    width: 250px;
-    margin-left: 30px;    
+    width: 550px;
+    margin-left: 45px;    
     }
     
 .friend {
@@ -299,128 +299,3 @@ body {
     cursor: pointer;
     margin: 5px 0;   
     }
-    
-@media only screen and (min-device-width: 635px) {
-    
-    body {
-        width: 620px;
-        font-size: 18px;
-        }
-    
-    .popup {
-        top: 100px;
-        left: 54px;
-        width: 500px;
-        z-index: 20;
-        }
-        
-    .popbelow {
-        margin-left: 34px;
-        margin-top: 20px;
-        width: 540px;
-        }
-    
-    .entryform {
-        width: 550px;
-        }
-    
-    .confirmholder input {
-        width: 430px;
-        }    
-    
-    .entryform input {
-        width: 400px;
-        margin-top: 8px;
-        }
-    
-    .selectmenu {
-        width: 450px;
-        height: 45px;    
-        }
-    
-    .reasoninput {
-        width: 430px;
-        }
-    
-    .playerbox {
-        width: 640px;
-        }
-    
-    .player iframe {
-        width: 550px;
-        margin: 10px;        
-        }    
- 
-    .player embed {
-        height: 40px;    
-        } 
-    
-    .spotifyshow .player iframe {
-        width: 550px;
-        margin-left: 45px;    
-        } 
-    
-    .number {
-        vertical-align: 135%
-        }
-        
-    input {
-        font-size: 24px;
-        line-height: 28px;    
-        }
-    
-    .mobiminibutton {
-        padding: 10px;
-        margin: 0 9px;
-        }
-    
-    .tabset ul {
-        margin: 15px 0 30px;
-        }
-    
-    .line {
-        display: block;
-        height: 0;
-        border: thin solid #3b5998;
-        }
-    
-    .selector {
-        padding: 5px;
-        }    
-    
-    .selectmenu {
-        font-size: 20px;
-        }
-    
-    .searchbutton, .cancelchange, .confirmbutton {
-        width: 50px;
-        height: 50px;
-        float: right;
-        margin: 0;
-        }
-
-    .buttons {
-        left: 20px;
-        }
-
-    .searchbutton {
-        margin-right: 10px;
-        }
-
-     .confirmbutton {
-        margin-right: 20px;     
-        } 
-
-     .slider {
-        height: 40px;     
-        }
-    
-     .slider h3 {
-        left: 80px;
-        }
-   
-     .reasonbox {
-        top: 10px;
-        left: 20px;
-        }
-}

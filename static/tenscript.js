@@ -77,6 +77,13 @@ function doSetup() {
         autoOpen: false
         });   
 
+    $( "#songs-saved" ).dialog({
+        width: 325,        
+        height: 200,
+        modal: true,
+        autoOpen: false
+        });  
+
     $("#buttonbar").find("button").button(); 
     $("#confirm").button("option", "disabled", true);
     if (!existing_ten) { $("#cancel").button("option", "disabled", true)};
@@ -88,6 +95,12 @@ function doSetup() {
     $('#confirm').on("click", function() {
         $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
             window.location = "/show_songs/" + facebook_id;        
+            });
+        });
+
+    $('#save').on("click", function() {
+        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
+            $("#songs-saved").dialog("open");        
             });
         });
 
@@ -253,7 +266,8 @@ function doSetup() {
                     $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
                 }
             if (num_songs === NUMSONGS) {
-                $("#confirm").button("option", "disabled", false);            
+                $("#confirm").button("option", "disabled", false);
+                $("#save").button("option", "disabled", true);                          
                 }
             $("#"+songnum+"tabs").tabs("option", "active", false);
             updateSongDisplay();

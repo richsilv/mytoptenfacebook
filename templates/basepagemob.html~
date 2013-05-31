@@ -2,12 +2,14 @@
 <html>
 <head style="overflow: hidden">
 <meta charset="utf-8" />
+<meta property="fb:app_id" content="447399068676640"/>
+<meta property="fb:admins" content="447399068676640"/>
 <meta name = "viewport" content = "width = 320,
        initial-scale = 1, user-scalable = no">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
-{% set num_songs = 3 %}
-{% block head %}{% endblock %}
 <link rel="stylesheet" href="/static/mobstyle.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
+{% set num_songs = 10 %}
+{% block head %}{% endblock %}
 {% block title %}<title>My Top Ten</title>{% endblock %}
 </head>
 <body style="overflow: hidden">

@@ -5,7 +5,10 @@ $(function() {
 
 });
 
-var playerheights = Array(0, 80, 80, 200, 200);
+var playerHeightsSmall = Array(0, 80, 80, 200, 200, 27);
+var playerWidthsSmall = Array(0, 290, 290, 290, 290, 290);
+var playerHeightsBig = Array(0, 170, 80, 250, 250, 27);
+var playerWidthsBig = Array(0, 570, 570, 570, 570, 570);
 var NUMSONGS = 10;
 var baddata = false;
 var BANNED = Array(String.fromCharCode(34), 
@@ -21,7 +24,28 @@ var BANNED = Array(String.fromCharCode(34),
 function doUpdate() {
 
     $(".selector").hide();
+    if ($("body").css("width") === "620px") {
+        $(".searchbutton img").attr("src", "/static/tickbig.png")
+        $(".cancelchange img").attr("src", "/static/crossbig.png")
+        $(".searchbutton").insertAfter($(".cancelchange"));
+        $(".searchbutton").next(".searchbutton").remove();
+        }
+    else {
+        $(".searchbutton img").attr("src", "/static/ticksmall.png")            
+        $(".cancelchange img").attr("src", "/static/crosssmall.png")  
+        } 
 
+    if (num_songs === 0) {
+        $('#enter-search').css("display", "block");
+        }
+    else if (num_songs > 3) {
+        $('.popbelow').css("display", "none");    
+        }    
+    else {
+        $('.popbelow').css("display", "none");    
+        $('#save-info').css("display", "block");                
+        }       
+    
     }
 
 function updateSongDisplay() {
@@ -39,8 +63,26 @@ function updateSongDisplay() {
     }
 
 function doSetup() {
+
+    if ($("body").css("width") === "620px") {
+        var iconSize = "big";
+        }
+    else {
+        var iconSize = "small";        
+        }
     
     if (!existing_ten) { $("#cancel").addClass("disabled")};
+    if (num_songs === 0) {
+        $('#enter-search').css("display", "block");
+        }
+    else if (num_songs > 3) {
+        $('.popbelow').css("display", "none");    
+        }    
+    else {
+        $('.popbelow').css("display", "none");    
+        $('#save-info').css("display", "block");                
+        }    
+
     $("#confirm").addClass("disabled");
 
     $('#cancel').on("click", function() {
@@ -56,6 +98,14 @@ function doSetup() {
                 });
             }            
         });
+
+    $('#save').on("click", function() {
+        if (!$(this).hasClass("disabled")) {
+            $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
+                $('#songs-saved').css("display", "block");      
+                });
+            }            
+        });
         
     $('#close').on("click", function() {
         $('#dialog-modal').css("display", "none");
@@ -64,6 +114,10 @@ function doSetup() {
     $('#closebad').on("click", function() {
         $('#bad-data').css("display", "none");
         baddata = false
+        });
+        
+    $('#closesave').on("click", function() {
+        $('#songs-saved').css("display", "none");
         });
 
     $('#accordion').on("click", '.header .songtitleartist strong', function() { 
@@ -86,6 +140,10 @@ function doSetup() {
 
     $('#accordion').on("click", ".header .songentry form .searchbutton", function() {
         $(this).parents(".header").next(".panel").css("display", "block");
+        if (num_songs === 0) {
+            $('#enter-search').css("display", "none");
+            $('#choose-provider').css("display", "block");
+            }
         });
     
     $('#accordion').on("click", ".panel .tabset ul .mobiminibutton", function() {
@@ -110,8 +168,14 @@ function doSetup() {
         else {
             player.html(embedPlayer(selection, provider));                                
             }
-        player.children("iframe").css("height", playerheights[provider]+"px");
-        player.siblings(".selection").css("margin-top", Math.max(0, (playerheights[provider]/2)-15)+"px")
+        if (iconSize === "big") {
+            h = playerHeightsBig[provider];
+            }
+        else {
+            h = playerHeightsSmall[provider];
+            }
+        player.children("iframe").css("height", h+"px");
+        player.siblings(".selection").css("margin-top", Math.max(0, (h/2)-15)+"px")
         });
 
     $("#accordion").on("click", ".panel .tabset .selector .selection .buttons .cancelchange", function() {
@@ -133,8 +197,17 @@ function doSetup() {
         var songartist = songdeets.artist;
         $.post('/get_confirm/', {'songtitle': songtitle, 'songartist': songartist, 'songtag': songtag, 'provider': provider}, function(r) {
             panel.html(r);
-            panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div>');
+            if ($("body").css("width") === "620px") {
+                panel.find(".buttons").html('<div class="cancelchange"><img src="/static/crossbig.png" alt="N" /></div><div class="confirmbutton"><img src="/static/tickbig.png" alt="Y" /></div>');               
+                }
+            else {
+                panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/ticksmall.png" alt="Y" /></div><div class="cancelchange"><img src="/static/crosssmall.png" alt="N" /></div>');            
+                }
             header = panel.parents(".panel").prev(".header");
+            if (num_songs === 0) {
+                $('#choose-song').css("display", "none");
+                $('#enter-deets').css("display", "block");
+                }
             });
         });
     
@@ -150,11 +223,20 @@ function doSetup() {
         provider = panel.attr("id").slice(-1);
         $.post('/get_selector/', {'songtitle': songtitle, 'songartist': songartist, 'provider': provider}, function(r) {
             panel.html(r);
-            panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/tick.png" alt="Y" /></div><div class="cancelchange"><img src="/static/cross.png" alt="N" /></div>');
+            if ($("body").css("width") === "620px") {
+                panel.find(".buttons").html('<div class="cancelchange"><img src="/static/crossbig.png" alt="N" /></div><div class="confirmbutton"><img src="/static/tickbig.png" alt="Y" /></div>');               
+                }
+            else {
+                panel.find(".buttons").html('<div class="confirmbutton"><img src="/static/ticksmall.png" alt="Y" /></div><div class="cancelchange"><img src="/static/crosssmall.png" alt="N" /></div>');            
+                }
             if (panel.children(".noresults").length > 0) {
                 panel.css("height", "50px");
                 }
             else {
+                if (num_songs == 0) {
+                    $('#choose-provider').css("display", "none");
+                    $('#choose-song').css("display", "block");
+                    }
                 panel.css("height", "auto");               
                 }
             panel.find('.selectmenu').focus();
@@ -164,6 +246,9 @@ function doSetup() {
     $("#accordion").on("click", ".panel .tabset .selector .confirmholder .buttons .confirmbutton", function() {
         var songnum = panelNumber(($(this).parents(".selector").attr("id")));
         if (!checkDeets($(this))) {
+            if (num_songs === 0) {
+                $('#enter-deets').css("display", "none");
+                }
             if (songnum > num_songs) {
                 songdeets.push(Array($(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
                     $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()));
@@ -181,11 +266,11 @@ function doSetup() {
                     $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()];        
                 }
             if (num_songs === NUMSONGS) {
-                $("#confirm").removeClass("disabled");            
+                $("#confirm").removeClass("disabled");
+                $("#save").addClass("disabled");           
                 }
             $(this).parents(".panel").css("display", "none");
             updateSongDisplay();
-            console.log($(this).parents(".panel").prev(".header").children(".songentry"));
             $(this).parents(".panel").prev(".header").children(".songentry").css("display", "none");
             }
         else {
@@ -234,24 +319,40 @@ function hideTitleArtist(header) {
         }
 
 function embedPlayer(l, provider) {
+    if ($("body").css("width") === "620px") {
+        w = playerWidthsBig[provider];
+        h = playerHeightsBig[provider];                
+        }
+    else {
+        w = playerWidthsSmall[provider];
+        h = playerHeightsSmall[provider];                    
+        }
     switch(provider) {
         case 1:
             return 'Use <strong>scloudPlayer</strong> rather than <strong>embedPlayer</strong>';
         case 2:
-            return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="290" height="80" frameborder="0" allowtransparency="true"></iframe>';
+            return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="' + w + '" height="' + h + '" frameborder="0" allowtransparency="true"></iframe>';
         case 3:
-            return '<iframe class="youtube-player" type="text/html" width="290" height="200" src="http://www.youtube.com/embed/' + l + '" allowfullscreen frameborder="0"></iframe>';
+            return '<iframe class="youtube-player" type="text/html" width="' + w + '" height="' + h + '" src="http://www.youtube.com/embed/' + l + '" allowfullscreen frameborder="0"></iframe>';
         case 4:
-            return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="290" height="200" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+            return '<iframe class="vimeo-player" src="http://player.vimeo.com/video/' + l + '" width="' + w + '" height="' + h + '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         case 5:
-            return '<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="290" height="27" quality="best"></embed>';
+            return '<embed type="application/x-shockwave-flash" flashvars="audioUrl=' + l + '" src="http://www.google.com/reader/ui/3523697345-audio-player.swf" width="' + w + '" height="' + h + '" quality="best"></embed>';
         }
    }
         
 function scloudPlayer(url) {
+    if ($("body").css("width") === "620px") {
+        w = playerWidthsBig[provider];
+        h = playerHeightsBig[provider];                
+        }
+    else {
+        w = playerWidthsSmall[provider];
+        h = playerHeightsSmall[provider];                    
+        }    
     return $.ajax({type: "GET",
         url: "http://soundcloud.com/oembed",
-        data: {'url': url, 'format': 'json', maxwidth: 290, maxheight: 150, auto_play: false, show_comments: false},
+        data: {'url': url, 'format': 'json', maxwidth: w, maxheight: h, auto_play: false, show_comments: false},
         dataType: "json"
         });
     }    
