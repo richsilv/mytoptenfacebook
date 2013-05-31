@@ -300,7 +300,7 @@ body {
     margin: 5px 0;   
     }
     
-@media only screen and (min-device-width: 635px) {
+@media all and (min-width: 620px) {
     
     body {
         width: 620px;
@@ -417,5 +417,10 @@ body {
     
      .slider h3 {
         left: 80px;
+        }
+   
+     .reasonbox {
+        top: 10px;
+        left: 20px;
         }
 }
