@@ -12,6 +12,7 @@ from user_agents import parse
 import facebook
 from models import *
 from datetime import datetime
+from random import shuffle
 
 SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
@@ -57,7 +58,7 @@ def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
-        session['userdata'] = {'id': '60', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
+        session['userdata'] = {'id': '61', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
         session['token'] = FACEBOOK_TEMP_TOKEN
         return redirect(url_for('default'))
 
@@ -178,6 +179,7 @@ def jukeBox(facebook_id):
         for song in topten.songs:
             if song.provider != 2:
                 songlist.append({'title': song.title, 'artist': song.artist, 'reason': song.reason, 'url': song.url, 'provider': song.provider, 'owner': friend.first_name + " " + friend.last_name})
+    shuffle(songlist)    
     return render_template('jukebase.html', songlist=songlist, userdata=session['userdata'])
 
 ########### MOBILE PAGES ##############

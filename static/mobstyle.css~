@@ -1,7 +1,10 @@
+@media all {
+
 body {
     width: 310px;  
     font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
     font-size: 11px;
+    padding-right: 5px;
     }
 
 .accordion {
@@ -299,13 +302,19 @@ body {
     cursor: pointer;
     margin: 5px 0;   
     }
-    
-@media all and (min-width: 620px) {
+
+}
+  
+@media all and (min-device-width: 360px) {
     
     body {
         width: 620px;
         font-size: 18px;
         }
+        
+    .header {
+        margin: 8px 0;
+        }    
     
     .popup {
         top: 100px;
@@ -368,6 +377,11 @@ body {
         font-size: 24px;
         line-height: 28px;    
         }
+    
+    .mobibutton {
+        padding: 5px 10px;
+        margin: 0 15px;    
+        }    
     
     .mobiminibutton {
         padding: 10px;

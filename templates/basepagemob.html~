@@ -4,9 +4,13 @@
 <meta charset="utf-8" />
 <meta property="fb:app_id" content="447399068676640"/>
 <meta property="fb:admins" content="447399068676640"/>
-<meta name = "viewport" content = "width = 320,
-       initial-scale = 1, user-scalable = no">
-<link rel="stylesheet" href="/static/mobstyle.css" />
+<meta name = "viewport" content = "width = 630, user-scalable=yes" />
+<link rel="stylesheet" href="/static/mobstyle.css?t=<%= DateTime.Now.Ticks %>"/>
+<script type="text/javascript">
+    
+    viewport = document.querySelector("meta[name=viewport]");
+    viewport.setAttribute('content', 'width=320, user-scalable=yes');
+</script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 {% set num_songs = 10 %}
 {% block head %}{% endblock %}
