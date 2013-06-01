@@ -58,7 +58,7 @@ def index():
     if FBAUTH:
         return render_template('topframe_loader.html', application_id=FACEBOOK_APP_ID, redirect_uri=url_for('facebook_loggedin', _external=True))
     else:
-        session['userdata'] = {'id': '60', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
+        session['userdata'] = {'id': '61', 'first_name': 'Richard', 'last_name': 'Silverton', 'gender': 'male'}
         session['token'] = FACEBOOK_TEMP_TOKEN
         return redirect(url_for('default'))
 

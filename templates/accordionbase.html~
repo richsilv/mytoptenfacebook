@@ -29,6 +29,9 @@
             <p>Sorry, but the characters <strong>\</strong>, <strong>/</strong>, <strong><</strong>, <strong>></strong>, <strong>"</strong> and <strong>&</strong> are <strong>reserved characters</strong> and
             cannot be used in a song title, artist name or reason.  Thanks!</p>
         </div>
+        <div id="songs-saved" title="Songs Saved" style="display: none">
+            <p>The songs you've chosen so far have been successfully saved.  Finish your list now, or feel free to come back later!</p>
+        </div>
     <div id="headerbar" class="ui-widget-header ui-widget ui-corner-top"><h3>Edit My Top Ten</h3></div>
     {% import 'accordionpanel.html' as accpanel %}
     <div id="accordion">

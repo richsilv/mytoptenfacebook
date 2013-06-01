@@ -19,6 +19,10 @@ body {
     padding: 5px;
     }
 
+li.ui-state-hover {
+    border-bottom: thin;
+    }
+
 
 .header {
     height: 30px;

@@ -4,14 +4,15 @@
             <div class="titleartist make">{% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}</div>
             <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
         </div>
-        <span class="songentry">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist"><button class="cancelchange"></button></form></span>            
+        <span class="songentry" title="Enter the title and artist of one of your favourite tracks and hit Enter">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist">
+        <button class="cancelchange"{% if not newsong %} title="Hit this button to cancel changes to this track"{% endif %}></button></form></span>            
     </h3>
 {% endmacro %}
 
 {% macro acc_panel(number, providers, class="tabset") -%}
     <div class="panel" id="{{ number }}panel">
         <div class="{{ class }}" id="{{ number }}tabs">
-            <ul>
+            <ul title="Click on a provider to search their catalogue for matching songs">
                 {% for prov in providers %}
                     <li><a class="{{ prov|lower }}" href="#{{ number }}tabs-{{ loop.index }}">{{ prov }}</a></li>
                 {% endfor %}

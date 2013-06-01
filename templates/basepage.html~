@@ -6,8 +6,8 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
 <!-- <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" /> -->
-<script src="/static/js/jquery-ui-1.10.3.custom.min.js"></script>
-<link rel="stylesheet" href="/static/css/mytoptentheme/jquery-ui-1.10.3.custom.min.css" />
+<script src="/jquery-ui-1.10.3.custom/js/jquery-ui-1.10.3.custom.min.js"></script>
+<link rel="stylesheet" href="/jquery-ui-1.10.3.custom/css/newtopten/jquery-ui-1.10.3.custom.min.css" />
 <!--  ANNOYINGLY NEED TO OVERWRITE THE CODE FOR ACCORDION KEYDOWN TO STOP IT SUPPRESSING SPACE -->
 <script>
 $.ui.accordion.prototype._keydown = function( event ) {
@@ -49,8 +49,7 @@ $.ui.accordion.prototype._keydown = function( event ) {
 </script>
 <script type="text/javascript">
     if (location.host != "apps.facebook.com") {
-        document.head.insertAdjacentHTML( 'beforeEnd', '<meta name="viewport" content = "width = 770,
-       initial-scale = 1, user-scalable = no" />' );    
+        document.head.insertAdjacentHTML( 'beforeEnd', '<meta name="viewport" content = "width = 770, initial-scale = 1, user-scalable = no" />' );    
         }
 </script>
 </script>

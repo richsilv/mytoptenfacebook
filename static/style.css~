@@ -260,8 +260,8 @@ h3 span {
     }
     
 #jukereason > h4 {
-    margin: 10px;
-    padding: 13px;    
+    margin: 5px;
+    padding: 18px;    
     }    
     
 #jukeplayer {

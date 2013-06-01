@@ -13,6 +13,6 @@
 	<span class="player"></span>
 {% else %}	
     <span class="noresults">
-    Sorry, no matches found from this provider    
+    Sorry, no matches found from this provider.    
     </span>
 {% endif %}

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>jQuery UI Example Page</title>
-	<link href="css/newtheme/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	<link href="css/newtopten/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<script src="js/jquery-1.9.1.js"></script>
 	<script src="js/jquery-ui-1.10.3.custom.js"></script>
 	<script>
@@ -12,6 +12,34 @@
 		$( "#accordion" ).accordion();
 		
 
+		
+		var availableTags = [
+			"ActionScript",
+			"AppleScript",
+			"Asp",
+			"BASIC",
+			"C",
+			"C++",
+			"Clojure",
+			"COBOL",
+			"ColdFusion",
+			"Erlang",
+			"Fortran",
+			"Groovy",
+			"Haskell",
+			"Java",
+			"JavaScript",
+			"Lisp",
+			"Perl",
+			"PHP",
+			"Python",
+			"Ruby",
+			"Scala",
+			"Scheme"
+		];
+		$( "#autocomplete" ).autocomplete({
+			source: availableTags
+		});
 		
 
 		
@@ -51,9 +79,22 @@
 		
 
 		
-
+		$( "#datepicker" ).datepicker({
+			inline: true
+		});
 		
 
+		
+		$( "#slider" ).slider({
+			range: true,
+			values: [ 17, 67 ]
+		});
+		
+
+		
+		$( "#progressbar" ).progressbar({
+			value: 20
+		});
 		
 
 		// Hover states on the static widgets
@@ -113,7 +154,7 @@
 <h1>Welcome to jQuery UI!</h1>
 
 <div class="ui-widget">
-	<p>This page demonstrates the widgets you downloaded using the theme you selected in the download builder. We've included and linked to minified versions of <a href="js/jquery-1.9.1.js">jQuery</a>, your personalized copy of <a href="js/jquery-ui-1.10.3.custom.min.js">jQuery UI (js/jquery-ui-1.10.3.custom.min.js)</a>, and <a href="css/newtheme/jquery-ui-1.10.3.custom.min.css">css/newtheme/jquery-ui-1.10.3.custom.min.css</a> which imports the entire jQuery UI CSS Framework. You can choose to link a subset of the CSS Framework depending on your needs. </p>
+	<p>This page demonstrates the widgets you downloaded using the theme you selected in the download builder. We've included and linked to minified versions of <a href="js/jquery-1.9.1.js">jQuery</a>, your personalized copy of <a href="js/jquery-ui-1.10.3.custom.min.js">jQuery UI (js/jquery-ui-1.10.3.custom.min.js)</a>, and <a href="css/newtopten/jquery-ui-1.10.3.custom.min.css">css/newtopten/jquery-ui-1.10.3.custom.min.css</a> which imports the entire jQuery UI CSS Framework. You can choose to link a subset of the CSS Framework depending on your needs. </p>
 	<p>You've downloaded components and a theme that are compatible with jQuery 1.6+. Please make sure you are using jQuery 1.6+ in your production environment.</p>
 </div>
 
@@ -132,6 +173,12 @@
 </div>
 
 
+
+<!-- Autocomplete -->
+<h2 class="demoHeaders">Autocomplete</h2>
+<div>
+	<input id="autocomplete" title="type &quot;a&quot;">
+</div>
 
 
 
@@ -366,9 +413,21 @@
 </ul>
 
 
+<!-- Slider -->
+<h2 class="demoHeaders">Slider</h2>
+<div id="slider"></div>
 
 
 
+<!-- Datepicker -->
+<h2 class="demoHeaders">Datepicker</h2>
+<div id="datepicker"></div>
+
+
+
+<!-- Progressbar -->
+<h2 class="demoHeaders">Progressbar</h2>
+<div id="progressbar"></div>
 
 
 <!-- Highlight / Error -->

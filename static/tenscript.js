@@ -23,6 +23,14 @@ function doUpdate() {
         heightStyle: "content",
         collapsible: false,
         active: num_songs
+        }).sortable({
+        axis: "y",
+        handle: ".header",
+        stop: function( event, ui ) {
+            // IE doesn't register the blur when sorting
+            // so trigger focusout handlers to remove .ui-state-focus
+            ui.item.children( "h3" ).triggerHandler( "focusout" );
+            }
         });
 
     for (i=1; i<num_songs+2 ; i++) {
@@ -63,6 +71,8 @@ function doSetup() {
     window.fbAsyncInit = function() {
         FB.Canvas.setAutoGrow();
         };
+ 
+    $( document ).tooltip({hide: 100}); 
     
     $( "#dialog-modal" ).dialog({
         width: 570,        

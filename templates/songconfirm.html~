@@ -5,7 +5,7 @@
     <div class="confirm">
         <input type="text" class="songtitle" value="{{ title }}"> by <input type="text" class="songartist" value="{{ artist }}">
     </div>
-    <div class="reason">
+    <div class="reasoninput">
         <input type="text" class="songreason" placeholder="Why I love it...">
     </div>
     <div class="buttons">
