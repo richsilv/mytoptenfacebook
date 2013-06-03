@@ -134,7 +134,7 @@ def makeSongs(facebook_id, new_user=False):
     if not session.get('userdata'): return redirect(url_for('index'))
     if session['userdata']['id'] != facebook_id: return redirect(url_for('showSongs', facebook_id=session['userdata']['id']))
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:
@@ -152,7 +152,6 @@ def showSongs(facebook_id):
     ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
     songlist = sorted(topten.songs, key=lambda x: x.num)
-    print songlist
     return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list/<string:facebook_id>', methods=['GET', 'POST'])
@@ -197,7 +196,7 @@ def mobile():
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten:
         topten = createTopTen(fbdata)
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     if (len(songlist) < NUMSONGS):
         return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
     else:
@@ -230,7 +229,7 @@ def makeSongsMob(facebook_id, new_user=False):
     if not session.get('userdata'): return redirect(url_for('index'))
     if session['userdata']['id'] != facebook_id: return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:

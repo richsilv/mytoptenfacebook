@@ -119,9 +119,10 @@ function doSetup() {
         });
 
     $('#save').on("click", function() {
-        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
-            
-            $("#songs-saved").dialog("open");     
+        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {  
+            $("#songs-saved").dialog("open");
+            if (num_songs === NUMSONGS) {
+                $("#confirm").button("option", "disabled", false);     
             });
         });
 

@@ -284,7 +284,6 @@ def save_songs():
     oldtopten.active = False
     topten = createTopTen({'id': request.form['facebook_id']})
     for i, song in enumerate(rdata):
-        print i, song
         songinstance = saveSong(song, i+1)
         topten.songs.append(songinstance)
     pg.commit()
