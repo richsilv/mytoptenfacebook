@@ -123,6 +123,7 @@ function doSetup() {
             $("#songs-saved").dialog("open");
             if (num_songs === NUMSONGS) {
                 $("#confirm").button("option", "disabled", false);     
+                }            
             });
         });
 
