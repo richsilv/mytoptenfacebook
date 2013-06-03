@@ -1,4 +1,5 @@
 {% import 'accordionpanel.html' as accpanel %}
-
+<div class="acccont" id="ac{{ songnum }}">
 {{ accpanel.acc_header(number=songnum, newsong=True) }}
 {{ accpanel.acc_panel(number=songnum, providers=providers, class="tabset") }}
+</div>

@@ -36,12 +36,16 @@
     {% import 'accordionpanel.html' as accpanel %}
     <div id="accordion">
         {% for song in songlist %}
+        <div class="acccont" id="ac{{ loop.index }}">
 			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
 			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
+        </div>        
         {% endfor %}
         {% if songlist|length < num_songs %}
+        <div class="acccont" id="ac{{ songlist|length+1 }}">
             {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
 			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
+        </div>        
         {% endif %}
     </div>
     <div id="buttonbar">

@@ -20,6 +20,7 @@ var BANNED = Array(String.fromCharCode(34),
 function doUpdate() {
     
     $( "#accordion" ).accordion({
+        header: "> div > h3",
         heightStyle: "content",
         collapsible: false,
         active: num_songs
@@ -30,6 +31,13 @@ function doUpdate() {
             // IE doesn't register the blur when sorting
             // so trigger focusout handlers to remove .ui-state-focus
             ui.item.children( "h3" ).triggerHandler( "focusout" );
+            if (ui.item.children(".header").hasClass("newsong")) {
+                ui.item.appendTo(this);
+                }
+            neworder = newOrder().slice(0,num_songs);
+            songdeets = newDeets(neworder);
+            renamePanels(neworder);
+            updateSongDisplay();
             }
         });
 
@@ -72,7 +80,9 @@ function doSetup() {
         FB.Canvas.setAutoGrow();
         };
  
-    $( document ).tooltip({hide: 100;}); 
+    $( document ).tooltip({hide: 100,
+                           position: {my: "left+15 top+15", at: "left bottom", of: "#buttonbar"} 
+                           }); 
     
     $( "#dialog-modal" ).dialog({
         width: 570,        
@@ -110,7 +120,8 @@ function doSetup() {
 
     $('#save').on("click", function() {
         $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
-            $("#songs-saved").dialog("open");        
+            $("#songs-saved").html("")
+            $("#songs-saved").dialog("open");     
             });
         });
 
@@ -304,6 +315,29 @@ function checkDeets(panel) {
 
 function panelNumber(id) {
     return parseInt(id.slice(0, id.indexOf("tabs")));    
+    }
+
+function newOrder() {
+    var pans = $(".panel")
+    var indices = $.map(pans, function(element) { return panelNumber(element.getAttribute('id'))-1; });
+    return indices
+    }
+
+function newDeets(order) {
+    var newdeets = new Array();
+    $.each(order, function(index, value) {
+        newdeets.push(songdeets[value]);
+        });
+    return newdeets    
+    }
+
+function renamePanels(order) {
+    divs = $(".header:not(.newsong)").parent(".acccont");
+    for (i=1; i<num_songs+1; i++) {
+        divs.eq(i-1).attr("id", "ac"+i)
+        divs.eq(i-1).children(".header").attr("id", i+"header").attr("aria-controls", i+"panel")
+        divs.eq(i-1).children(".panel").attr("id", i+"panel").attr("aria-labelledby", i+"header")
+        }
     }
 
 function toTitleCase(str) {

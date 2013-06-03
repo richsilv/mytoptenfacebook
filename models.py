@@ -60,13 +60,15 @@ class Song(Base):
     reason = Column(String(250))
     provider = Column(Integer)
     url = Column(String(250))
+    num = Column(Integer)
 
-    def __init__(self, title, artist, reason, url, provider):
+    def __init__(self, num, title, artist, reason, url, provider):
         self.title = title
         self.artist = artist
         self.reason = reason
         self.provider = provider
         self.url = url
+        self.num = num
 
     def __repr__(self):
        return "<Song(%s by %s, belongs to %s)>" % (self.title, self.artist, self.facebook_id)    

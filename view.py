@@ -134,7 +134,7 @@ def makeSongs(facebook_id, new_user=False):
     if not session.get('userdata'): return redirect(url_for('index'))
     if session['userdata']['id'] != facebook_id: return redirect(url_for('showSongs', facebook_id=session['userdata']['id']))
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:
@@ -151,7 +151,7 @@ def showSongs(facebook_id):
         return redirect(url_for('showSongs', facebook_id=session['userdata']['id']))
     ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     return render_template('showbase.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list/<string:facebook_id>', methods=['GET', 'POST'])
@@ -196,7 +196,7 @@ def mobile():
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == user.facebook_id).filter(TopTen.active == True).first()
     if not topten:
         topten = createTopTen(fbdata)
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     if (len(songlist) < NUMSONGS):
         return redirect(url_for('makeSongs', facebook_id=user.facebook_id, new_user=new_user))
     else:
@@ -213,7 +213,7 @@ def showSongsMob(facebook_id):
         return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
     ownername = owner.first_name + " " + owner.last_name
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     return render_template('showbasemob.html', songlist=songlist, facebook_id=facebook_id, topten_id=topten.topten_id, userdata=session['userdata'], ownername=ownername)
 
 @app.route('/friends_list_mob/<string:facebook_id>', methods=['GET', 'POST'])
@@ -229,7 +229,7 @@ def makeSongsMob(facebook_id, new_user=False):
     if not session.get('userdata'): return redirect(url_for('index'))
     if session['userdata']['id'] != facebook_id: return redirect(url_for('showSongsMob', facebook_id=session['userdata']['id']))
     topten = pg.query(TopTen).join(TopTenUser).filter(TopTenUser.facebook_id == facebook_id).filter(TopTen.active == True).first()
-    songlist = topten.songs
+    songlist = sorted(topten.songs, key=lambda x: x.num)
     if len(songlist) < NUMSONGS:
         existing_ten = False
     else:
@@ -283,8 +283,9 @@ def save_songs():
     oldtopten = pg.query(TopTen).filter(TopTen.topten_id == request.form['topten_id']).first()
     oldtopten.active = False
     topten = createTopTen({'id': request.form['facebook_id']})
-    for song in rdata:
-        songinstance = saveSong(song)
+    for i, song in enumerate(rdata):
+        print i, song
+        songinstance = saveSong(song, i+1)
         topten.songs.append(songinstance)
     pg.commit()
     if FBAUTH:
@@ -331,12 +332,12 @@ def createTopTen(fbdata):
     pg.commit()
     return newtopten
 
-def saveSong(song):
-    songsearch = pg.query(Song).filter(Song.title == song[0]).filter(Song.artist == song[1]).filter(Song.reason == song[2]).filter(Song.url == song[3]).first()
+def saveSong(song, num):
+    songsearch = pg.query(Song).filter(Song.title == song[0]).filter(Song.artist == song[1]).filter(Song.reason == song[2]).filter(Song.url == song[3]).filter(Song.num == num).first()
     if songsearch:
         return songsearch
     else:
-        newsong = Song(*song)
+        newsong = Song(num, *song)
         pg.add(newsong)
         pg.commit()
         return newsong

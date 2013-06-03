@@ -1,10 +1,11 @@
 {% macro acc_header(number, title, artist, reason, newsong=False) -%}
-    <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header">
+    <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header"{% if not newsong %} title="Click and drag to change the order of your songs"{% endif %}>
         <div class="songtitleartist">
             <div class="titleartist make">{% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}</div>
             <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
         </div>
-        <span class="songentry" title="Enter the title and artist of one of your favourite tracks and hit Enter">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist"><button class="cancelchange"{% if not newsong %} title="Hit this button to cancel changes to this track"{% endif %}></button></form></span>            
+        <span class="songentry" title="Enter the title and artist of one of your favourite tracks and hit Enter">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist">
+        <button class="cancelchange"{% if not newsong %} title="Hit this button to cancel changes to this track"{% endif %}></button></form></span>            
     </h3>
 {% endmacro %}
 
