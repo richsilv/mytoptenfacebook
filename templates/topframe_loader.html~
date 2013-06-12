@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<script type="text/javascript">
+<!-- <script type="text/javascript">
     window.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions';
-</script>
+</script> -->
 </head>
 <body>
     <p>You must <a target="_top" rel="noreferrer" href="https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions">
