@@ -12,13 +12,13 @@ function fireEvent(element,event) {
    } else {
        // dispatch for IE
        var evt = document.createEventObject();
-       return element.fireEvent('on'+event,evt)
+       return element.fireEvent('on'+event,evt);
    }
 }
-$("document").ready({
-    obj = document.getElementById("linkon");
-    fireEvent(obj, "click");
-});
+document.addEventListener('DOMContentLoaded',function(){
+    var obj = document.getElementById("linkon");
+    fireEvent(obj, "click");    
+    });
 <!--    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions'; -->
 </script>
 </head>
