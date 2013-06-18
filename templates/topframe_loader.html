@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded',function(){
     var obj = document.getElementById("linkon");
     fireEvent(obj, "click");    
     });
-<!--    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions'; -->
+<!--    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions,user_actions.music'; -->
 </script>
 </head>
 <body>
-    <p>You must <a id="linkon" target="_top" rel="noreferrer" href="https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions">
+    <p>You must <a id="linkon" target="_top" rel="noreferrer" href="https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions,user_actions.music">
     authorize this application</a> in order to proceed.</p>
 </body>
 </html>

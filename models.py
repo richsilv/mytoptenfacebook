@@ -50,6 +50,9 @@ class TopTen(Base):
 
     def __repr__(self):
        return "<Top Ten(%s, belongs to %s, ACTIVE = %s)>" % (self.topten_id, self.facebook_id, self.active)
+
+    def songCount(self):
+        return len(self.songs)
      
 class Song(Base):
     __tablename__ = 'songs'

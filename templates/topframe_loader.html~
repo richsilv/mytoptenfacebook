@@ -15,11 +15,11 @@ function fireEvent(element,event) {
        return element.fireEvent('on'+event,evt);
    }
 }
-document.addEventListener('DOMContentLoaded',f(){
+document.addEventListener('DOMContentLoaded',function(){
     var obj = document.getElementById("linkon");
     fireEvent(obj, "click");    
     });
-<!--    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions'; -->
+<!--    window.top.location = 'https://graph.facebook.com/oauth/authorize?client_id={{ application_id }}&redirect_uri={{ redirect_uri }}&scope=read_friendlists,publish_actions,user_actions.music'; -->
 </script>
 </head>
 <body>
