@@ -34,6 +34,18 @@ function doUpdate() {
         $(".searchbutton img").attr("src", "/static/ticksmall.png")            
         $(".cancelchange img").attr("src", "/static/crosssmall.png")  
         } 
+
+    if (num_songs === 0) {
+        $('#enter-search').css("display", "block");
+        }
+    else if (num_songs > 3) {
+        $('.popbelow').css("display", "none");    
+        }    
+    else {
+        $('.popbelow').css("display", "none");    
+        $('#save-info').css("display", "block");                
+        }       
+    
     }
 
 function updateSongDisplay() {
@@ -71,7 +83,9 @@ function doSetup() {
         $('#save-info').css("display", "block");                
         }    
 
-    $("#confirm").addClass("disabled");
+    if (!existing_ten) {
+        $("#confirm").addClass("disabled");
+        }
 
     $('#cancel').on("click", function() {
         if (existing_ten) {

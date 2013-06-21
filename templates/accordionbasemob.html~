@@ -66,7 +66,8 @@
             <p>Finally, tweak the title and artist so that they're as you want them to appear, and enter a reason why you love your chosen track.  Hit the tick, and move on to the next song!</p>
         </div>
         <div id="save-info" class="popbelow" title="How To Save Your Songs" style="display: none">
-            <p>Now that you have at least one song entered, you can save your list at any time by hitting the <strong>Save</strong> button.  Once you've chosen ten, you'll be able to hit </p>
+            <p>Now that you have at least one song entered, you can save your list at any time by hitting the <strong>Save</strong> button, and the same set of songs will be there next time
+            you login.  Once you've chosen ten, you'll be able to hit <strong>Confirm</strong>, and you'll be a fully-fledged My Top Ten User!</p>
         </div>
                   
 {% endblock %}

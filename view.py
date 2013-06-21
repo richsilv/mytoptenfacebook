@@ -18,7 +18,7 @@ SECRET_KEY = 'sdvnfobinerpbiajbASUBOks'
 DEBUG = True
 FACEBOOK_APP_ID = '447399068676640'
 FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
-FACEBOOK_TEMP_TOKEN = 'BAAGSYiv9PIcBAOo4NJApVSjZAzm2Nlv7LDBezuiK3o9IqAFZCOSnz4RpuGSguAYHQYUzJIetehZC63zqsQEhpC9TzhDM7phvYirFyykYYjLoQPZASPUoweGZCTT67qUEVoSNLbZCWruiv6CAQgJwW2eumTqya5xTgYpnrOhr100lloVLmPxkAwrelWr0AGvMj7QrLqSoeSEPSI03hY29TNRCIhLvhMCMMZD'
+FACEBOOK_TEMP_TOKEN = 'CAAGW6DaPsiABALH4cWrZBCy5h2vXsXauOwLaCKVYGn3GZC5vHh0JR6KVpgEYAc7WGdTYnfiHPakqEupml2LTIlm8g3qybb7eEVH5DuoKSf0ZBOyELVQQIlM2DndVG84CIA8EJ5RJDkDmVobWlioN1Kd7bkJtH4ZD'
 graph = None
 
 providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
@@ -26,6 +26,7 @@ providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
 NUMSONGS = 10
 
 SPLITSTRINGS = (" - ", " | ", " -", " |", "- ", "| ", "-", "|")
+BANNED_CHARS = (34, 38, 47, 60, 62, 92)
     
 def db_connect(details):
     engine = create_engine(details)
@@ -85,7 +86,7 @@ def facebook_loggedin():
             token[decompose[0]] = decompose[1]
         checkparams = {'input_token': token['access_token'], 'access_token': '447399068676640|zI9xAUR31ZFb16J6Yaawlr9lKQs'}
         r = requests.get("https://graph.facebook.com/debug_token", params=checkparams).json()['data']
-        session['token'] = token['access_token']
+        if FBAUTH: session['token'] = token['access_token']
         session['userdata'] = facebook.GraphAPI(token["access_token"]).get_object("me")
         if int(r['user_id']) != int(session['userdata']['id']) or int(r['app_id']) != int(FACEBOOK_APP_ID):
             return render_template('csrf_problem.html')
@@ -260,12 +261,24 @@ def get_selector():
             if option['artist']: option['artist'] = option['artist'].replace('"','').title()
             if option['title']: option['title'] = option['title'].replace('"','').title()
     return render_template('songselector.html', provider=rdata['provider'], optionset=optionset)
+
+@app.route('/get_suggestions/', methods=['POST'])
+def get_suggestions():
+    rdata = request.form
+    songnum = rdata['songnum']
+    suggestions = tenSuggestions(session['token'])
+    return render_template('suggestions.html', suggestions=suggestions, songnum=songnum)
     
 @app.route('/get_confirm/', methods=['POST'])
 def get_confirm():
     rdata = request.form
     provider=providers[int(rdata['provider'])-1]
-    return render_template('songconfirm.html', title=rdata['songtitle'], artist=rdata['songartist'], provider=provider, songprov=rdata['provider'], tag=rdata['songtag'])
+    title = rdata['songtitle']
+    artist = rdata['songartist']
+    for c in BANNED_CHARS:
+        title = title.replace(chr(c), "")
+        artist = artist.replace(chr(c), "")
+    return render_template('songconfirm.html', title=title, artist=artist, provider=provider, songprov=rdata['provider'], tag=rdata['songtag'])
     
 @app.route('/new_panel/', methods=['POST'])
 def new_panel():
@@ -280,8 +293,9 @@ def new_panel_mob():
 @app.route('/save_songs/', methods=['POST'])
 def save_songs():
     rdata = json.loads(request.form['songlist'])
-    oldtopten = pg.query(TopTen).filter(TopTen.topten_id == request.form['topten_id']).first()
-    oldtopten.active = False
+    oldtoptens = pg.query(TopTen).filter(TopTen.facebook_id==session['userdata']['id']).filter(TopTen.active==True)
+    for old in oldtoptens:
+        old.active = False
     topten = createTopTen({'id': request.form['facebook_id']})
     for i, song in enumerate(rdata):
         songinstance = saveSong(song, i+1)
@@ -348,3 +362,29 @@ def getPossessive(data):
         return "her"
     else:
         return "its"
+
+def tenSuggestions(access_token):
+    suggestions = getFacebookRecommendations(access_token)
+    if len(suggestions) >= 10: return suggestions[:10]
+    suggestions = suggestions + getBBCPlayed()
+    return suggestions[:10]
+
+def getFacebookRecommendations(access_token):
+    try:
+        fb = facebook.GraphAPI(access_token)
+        artists = [x['name'] for x in fb.get_object("me/music")['data'] if x['category'] == "Musician/band"][:10]
+    except:
+        print "Doesn't like " + access_token
+        raise
+    suggestions = getSuggestions(artists)
+    return suggestions
+
+def getBBCPlayed():
+    r = requests.get("http://www.bbc.co.uk/programmes/music/artists/charts.json").json()['artists_chart']['artists']
+    artists = [x['name'] for x in r][:10]
+    suggestions = getSuggestions(artists)
+    return suggestions
+
+def getSuggestions(artists):
+    suggestions = [{'title': x['title'], 'artist': x['artist']} for x in [(spotify_request("", y)[:1] or [None])[0] for y in artists] if x]
+    return suggestions

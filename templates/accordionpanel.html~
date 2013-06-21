@@ -1,5 +1,5 @@
 {% macro acc_header(number, title, artist, reason, newsong=False) -%}
-    <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header"{% if not newsong %} title="Click and drag to change the order of your songs"{% endif %}>
+    <h3 class="header{% if newsong %} newsong{% endif %}" id="{{ number }}header"{% if not newsong %} title="Click the title to change the track, or drag the panel to change the order"{% endif %}>
         <div class="songtitleartist">
             <div class="titleartist make">{% if not newsong %}{{ number }}. <strong>{{ title }}</strong> by <strong>{{ artist }}</strong><input type="hidden" class="currenttitle" value="{{ title }}"><input type="hidden" class="currentartist" value="{{ artist }}">{% endif %}</div>
             <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        

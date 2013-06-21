@@ -5,7 +5,8 @@
             <div class="reason"><div>{% if not newsong %}{{ reason }}{% endif %}</div></div>        
         </div>
         <span class="songentry" title="Enter the title and artist of one of your favourite tracks and hit Enter">{{ number }}. <form><input type="text" name="title" class="titleentry" placeholder="Song title"> by <input type="text" name="artist" class="artistentry" placeholder="Artist">
-        <button class="cancelchange"{% if not newsong %} title="Hit this button to cancel changes to this track"{% endif %}></button></form></span>            
+        <button class="cancelchange"{% if not newsong %} title="Hit this button to cancel changes to this track"{% endif %}></button>
+        <button class="suggest" title="Hit this button for some track suggestions!"</button></form></span>            
     </h3>
 {% endmacro %}
 

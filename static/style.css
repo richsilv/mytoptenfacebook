@@ -67,6 +67,12 @@ h3 span {
     display: inline-block;
     }
 
+.songsuggestion {
+    height: 1.5em;
+    margin: 2px 0;
+    padding: 2px;
+}
+
 .newsong .songentry {
     display: inline-block;
     }
@@ -117,9 +123,15 @@ h3 span {
     margin: 5px 10px;
     }
 
-.cancelchange {
-    height: 20px;
+.cancelchange, .suggest {
+    height: 25px;
+    width: 50px;
     margin: 0 10px;    
+    }
+
+.selector .ui-button {
+    height: 25px;
+    width: 60px;
     }
     
 .songreason {
