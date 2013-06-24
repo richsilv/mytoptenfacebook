@@ -1,0 +1,64 @@
+{% extends "basepage.html" %}
+
+{% block head %}
+<script type="text/javascript">
+    facebook_id = {{ facebook_id }};
+    topten_id = {{ topten_id }};
+    user_id = {{ userdata.id }}
+    user_name = "{{ userdata.first_name }} {{ userdata.last_name }}"
+    owner_name = "{{ ownername }}"
+    var songdeets = new Array ();
+    {% if userid %}var userid = {{ userid }}{% endif %};
+    {% for song in songlist %}
+        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}"));          
+    {% endfor %}
+</script>
+<script src="/static/showscript.js"></script>
+{% endblock %}
+
+{% block body %}
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '447399068676640',                        // App ID from the app dashboard
+      status     : true,                                 // Check Facebook Login status
+      cookie     : true,
+      xfbml      : true                                  // Look for social plugins on the page
+        });
+ 
+    FB.Event.subscribe("comment.create", function(response) {
+        firstresponse = response.href;
+        FB.api("/comments/?ids=" + firstresponse, function(response) {
+            z = response[firstresponse]['comments']['data']
+            $.post("/post_comment/", {'comment': z[Object.keys(z).pop()]['message'], 'owner': facebook_id, 'poster': user_id})
+            });
+        }
+    );
+  };
+
+  (function(d, s, id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=447399068676640";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+    {% import 'showpanel.html' as showpanel %}
+    <div id="headerbar" class="ui-widget-header ui-widget ui-corner-top"><h3>{{ ownername }}'s Top Ten</h3></div>
+    <div id="accordion">
+        {% for song in songlist %}
+			{{ showpanel.acc_header(number=loop.index, title=song.title, artist=song.artist) }}
+			{{ showpanel.acc_panel(number=loop.index, reason=song.reason, provider=song.provider) }}
+        {% endfor %}
+    </div>
+    <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
+    {% if facebook_id equals userdata.id %}
+        <button id="edit">Edit Songs</button>
+    {% else %}
+        <button id="home">My Top Ten!</button>
+    {% endif %}
+        <button id="friends">Friends' Top Tens</button>
+    </div> 
+    <fb:comments notify="true" href="http://apps.facebook.com/mytoptenapp/show_songs/{{ facebook_id }}" width="740" num-posts="10">   
+{% endblock %}

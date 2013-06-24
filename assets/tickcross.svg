@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="304.67207"
+     inkscape:cy="867.84186"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:object-nodes="false"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#3b5998;fill-opacity:1"
+       id="rect2985"
+       width="175"
+       height="175"
+       x="49.285713"
+       y="37.362183"
+       rx="3.575104"
+       ry="3.6918418"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytopten/static/tick.png"
+       inkscape:export-xdpi="20.571428"
+       inkscape:export-ydpi="20.571428" />
+    <rect
+       style="fill:#3b5998;fill-opacity:1"
+       id="rect2985-3"
+       width="175"
+       height="175"
+       x="258.92859"
+       y="38.433613"
+       rx="3.575104"
+       ry="3.6918418"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytopten/static/cross.png"
+       inkscape:export-xdpi="20.57"
+       inkscape:export-ydpi="20.57" />
+    <path
+       style="fill:#ffffff"
+       d="m 296.2058,203.97553 c -1.51164,-0.74172 -26.67829,-25.72881 -27.22294,-27.02869 -0.5214,-1.24448 -0.52236,-3.35044 -0.002,-4.59865 0.28558,-0.68515 7.19551,-7.69952 23.33354,-23.68623 l 22.92748,-22.71281 -22.91164,-22.71281 C 279.72903,90.744298 269.22893,80.146472 268.99689,79.685622 c -0.59898,-1.189568 -0.5534,-3.776192 0.0881,-4.997996 0.7609,-1.449246 26.08929,-26.378649 27.31057,-26.880369 1.2774,-0.524776 3.70417,-0.517702 4.781,0.01393 0.46539,0.229779 11.16807,10.627017 23.78369,23.104974 l 22.93751,22.687191 22.93748,-22.703222 c 16.14488,-15.979958 23.22864,-22.822197 23.92055,-23.104973 1.33725,-0.546507 3.53889,-0.500529 4.83397,0.100949 1.48719,0.6907 26.66489,25.702371 27.22488,27.045355 0.51962,1.246209 0.5197,3.352162 1.5e-4,4.598654 -0.28558,0.685149 -7.1955,7.699517 -23.33353,23.686225 l -22.92784,22.71281 22.92784,22.7128 c 16.13803,15.98671 23.04795,23.00108 23.33353,23.68623 0.55191,1.32415 0.50548,3.5042 -0.10193,4.78661 -0.69754,1.47262 -25.95665,26.40369 -27.31292,26.95819 -1.25854,0.51454 -3.38532,0.51461 -4.64415,1.5e-4 -0.69191,-0.28277 -7.77567,-7.12501 -23.92055,-23.10497 l -22.93748,-22.70323 -22.93751,22.68721 c -12.61562,12.47795 -23.3183,22.87519 -23.78369,23.10497 -1.19904,0.59197 -3.65981,0.54169 -4.97082,-0.10159 z"
+       id="path3862"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytopten/static/cross.png"
+       inkscape:export-xdpi="20.57"
+       inkscape:export-ydpi="20.57" />
+    <path
+       style="fill:#ffffff"
+       d="m 130.64938,198.48736 9.11316,-12.37371 c 13.13823,-17.8389 71.38445,-98.895182 72.8499,-101.824902 1.12972,-2.258519 1.40278,-3.757161 1.16509,-6.394434 -0.26153,-2.901958 -1.6165,-5.451685 -8.60152,-16.186109 -4.5601,-7.007844 -9.12998,-13.246279 -10.15531,-13.863184 -4.2847,-2.577977 -4.04376,-2.859212 -37.55298,43.832178 -17.28606,24.086201 -32.03635,44.294541 -32.77841,44.907431 -1.93733,1.60011 -4.92534,1.42846 -6.73542,-0.38689 -0.85895,-0.86144 -8.62374,-9.77825 -17.2551,-19.81511 -8.631381,-10.03686 -16.586783,-18.621023 -17.678684,-19.075892 -3.770444,-1.570719 -5.585632,0.261969 -14.58498,14.725622 -4.639018,7.45579 -8.62863,14.44407 -8.865809,15.52954 -0.237178,1.08547 -0.103815,3.41461 0.296355,5.17587 0.740545,3.25936 0.644459,7.32511 51.124238,58.75637 l 10.39916,10.59517 c 1.74084,1.77365 4.40958,-0.17857 6.83053,-0.53572"
+       id="path3888"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csssssssssssssssc"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytopten/static/tick.png"
+       inkscape:export-xdpi="20.571428"
+       inkscape:export-ydpi="20.571428" />
+  </g>
+</svg>

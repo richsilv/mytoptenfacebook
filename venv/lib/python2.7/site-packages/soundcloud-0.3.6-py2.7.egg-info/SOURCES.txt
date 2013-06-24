@@ -1,0 +1,13 @@
+README.rst
+setup.cfg
+setup.py
+soundcloud/__init__.py
+soundcloud/client.py
+soundcloud/hashconversions.py
+soundcloud/request.py
+soundcloud/resource.py
+soundcloud.egg-info/PKG-INFO
+soundcloud.egg-info/SOURCES.txt
+soundcloud.egg-info/dependency_links.txt
+soundcloud.egg-info/requires.txt
+soundcloud.egg-info/top_level.txt

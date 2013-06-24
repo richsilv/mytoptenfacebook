@@ -1,0 +1,72 @@
+{% extends "basepage.html" %}
+
+{% block head %}
+    <!-- SETUP APIS AND CONSTANTS -->
+    <script src="http://w.soundcloud.com/player/api.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+    <script src="http://a.vimeocdn.com/js/froogaloop2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      user_id = {{ userdata.id }};
+      user_name = "{{ userdata.first_name }} {{ userdata.last_name }}";
+      var songdeets = new Array ();
+      {% if userid %}var userid = {{ userid }}{% endif %};
+      {% for song in songlist %}
+          songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.reason }}", "{{ song.url }}", "{{ song.provider }}", "{{ song.owner }}"));          
+      {% endfor %}
+      songnum = 0;
+      listlength = songdeets.length;
+    </script>
+
+    <!-- INCLUDE CONTROL SCRIPTS -->
+    <script src="/static/common.js"></script>
+    <script src="/static/commondesk.js"></script>  
+    <script src="/static/jukeboxdesk.js"></script>
+{% endblock %}
+
+{% block body %}
+  <!-- FACEBOOK INTEGRATION SCRIPT -->
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '447399068676640',
+        status     : true,
+        cookie     : true,
+        xfbml      : true
+          });
+
+    (function(d, s, id) {
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=447399068676640";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+    }
+  </script>
+
+  <!-- ACTUAL PAGE ELEMENTS -->
+  {% import 'showpanel.html' as showpanel %}
+  <div id="headerbar" class="ui-widget-header ui-widget ui-corner-top"><h3>My Top Ten Jukebox</h3></div>
+  <div id="jukebox" class = "ui-widget-content ui-accordion-content">
+      <div id="jukeholder">
+          <div id="details" class="ui-widget"></div>
+          <div id="jukeplayer"></div>
+      </div>
+      <div id="jukereason" class="ui-widget"></div>
+      <div id="changesong" class="ui-widget">
+          <div class="songchange" id="prevsong"><div id="prevdeets"></div><button id="prev">Previous</button></div><div class="songchange" id="nextsong"><div id="nextdeets"></div><button id="next">Next</button></div>        
+      </div>        
+  </div>
+  <div id="dialog-modal" title="Welcome to Jukebox!">
+      <p><strong>Jukebox</strong> builds a playlist of songs from your <strong>friends' Top Tens</strong> and plays them for you one after another, just like a real jukebox!  You can skip forwards and 
+      backwards through the list, but please note that you'll need to be using <strong>Internet Explorer</strong>, <strong>Google Chrome</strong> or <strong>Safari</strong> for this feature to work properly.</p>
+  </div>
+  <div id="buttonbar" class="ui-widget-header ui-corner-bottom">
+  {% if owner %}
+      <button id="edit">Edit Songs</button>
+  {% else %}
+      <button id="home">My Top Ten!</button>
+  {% endif %}
+      <button id="friends">Friends' Top Tens</button>
+  </div>
+{% endblock %}

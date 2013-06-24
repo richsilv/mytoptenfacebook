@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="https://www.facebook.com/2008/fbml">
+	<head style="overflow: hidden">
+
+		<!-- METADATA -->
+		<meta charset="utf-8" />
+		<meta property="fb:app_id" content="447399068676640"/>
+
+		<!-- LOAD JQUERY AND JQUERY-UI WITH STYLESHEETS-->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js" ></script>
+		<script src="/static/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<link rel="stylesheet" href="/static/css/newtopten/jquery-ui-1.10.3.custom.min.css" />
+
+		<!-- VIEWPORT SCRIPT -->
+		<script type="text/javascript">
+		    if (location.host != "apps.facebook.com") {
+		        document.head.insertAdjacentHTML( 'beforeEnd', '<meta name="viewport" content = "width = 770, initial-scale = 1, user-scalable = no" />' );    
+		        }
+		</script>
+
+		<!-- SET SONG NUMBER AND INCLUDE HEADER -->
+		{% set num_songs = 10 %}
+		{% block head %}{% endblock %}
+		
+		<!-- MY STYLESHEET AND TITLE -->
+		<link rel="stylesheet" href="/static/style.css" />		
+		{% block title %}<title>My Top Ten</title>{% endblock %}
+	</head>
+	
+	<!-- BODY BLOCK -->
+	<body style="overflow: hidden">
+		<div id="fb-root"></div>
+		{% block body %}{% endblock %}
+	</body>
+</html>

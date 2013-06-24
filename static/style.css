@@ -1,0 +1,303 @@
+body {
+    margin: 5px;
+    width: 740px;    
+    }
+
+.ui-accordion-content {
+    padding: 0 !important; 
+    }
+    
+.ui-accordion-header-icon {
+    display: none;
+    }
+    
+.ui-accordion-content {
+    margin-bottom: 5px;
+    }
+
+.selector.ui-tabs-panel {
+    padding: 5px;
+    }
+
+li.ui-state-hover {
+    border-bottom: thin;
+    }
+
+
+.header {
+    height: 30px;
+    }
+
+h3 span {
+    display: inline-block;
+    }
+
+.songtitleartist {
+    width: 100%;
+    height: 28px;
+    }
+
+.titleartist {
+    float: left;
+    height: 28px;
+    overflow-y: auto;
+    }
+
+.titleartist.make {
+    max-width: 500px;
+    }    
+
+.reason {
+    height: 28px;
+    line-height: 1.5em;
+    vertical-align: top;
+    font-style: italic;
+    overflow-y: auto;
+    }
+    
+.reason div {
+    margin-left: 10px;
+    }
+  
+.songentry {
+    display: none;    
+    }
+
+.songentry form {
+    display: inline-block;
+    }
+
+.songsuggestion {
+    height: 1.5em;
+    margin: 2px 0;
+    padding: 2px;
+}
+
+.newsong .songentry {
+    display: inline-block;
+    }
+    
+.newsong .songtitleartist {
+    display: none;
+    }
+    
+.newsong .songreason {
+    display: none;
+    }
+    
+.selectmenu {
+    width: 400px;
+    font-size: 0.7em !important;    
+    }
+
+.selection {
+    width: 370px;
+    margin-left: 10px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    }
+
+.noresults {
+    top: 15px;
+    left: 30px;
+    position: relative;
+    font-size: 1.2em;
+    font-style: italic;
+    color: darkgrey;
+    }
+
+.player iframe {
+    margin-left: 35px;
+    height: 80px;
+    width: 290px;
+    background: #ffffff url("/static/359.gif/") no-repeat center center;
+    border: thin solid gray; 
+    }
+
+.buttons {
+    text-align: center;
+    }
+    
+.buttons button {
+    margin: 5px 10px;
+    }
+
+.cancelchange, .suggest {
+    height: 25px;
+    width: 50px;
+    margin: 0 10px;    
+    }
+
+.selector .ui-button {
+    height: 25px;
+    width: 60px;
+    }
+    
+.songreason {
+    width: 525px;
+    }
+    
+.confirmholder {
+    width: 535px;
+    padding-left: 100px;
+    }
+    
+#buttonbar {
+    text-align: center;
+    margin-top: 2px;
+    }
+    
+#buttonbar button {
+    margin: 0 1em;
+    }
+
+#headerbar {
+    text-align: center;
+    height: 38px;
+    }
+
+#headerbar h3 {
+    margin: 5px 0;    
+    }
+
+
+.lefthalf {
+    margin: 0 auto;    
+    }
+
+.reasoncontainer {
+   float: left;
+   width: 100%;
+    }
+
+.reasonbox {
+   padding-right: 140px;
+   display: block;
+   text-align: justify;
+   overflow-y: auto;
+    }
+
+.reasonshow {
+   top: 15px;
+   left: 15px;
+   position: relative;
+   font-size: 1.2em;
+   font-style: italic;
+   color: darkgrey;
+   }
+
+.slider {
+   float: left;
+   width: 100px;
+   margin-left: -110px;
+   overflow: hidden;
+   cursor: pointer;
+   background-size: auto 100% !important;   
+    }
+
+.slider h3 {
+    margin-top: 50px;
+    display: block;
+    -webkit-transform: rotate(90deg); 
+    -moz-transform: rotate(90deg); 
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    }
+
+.playerbox {
+    width: 320px;
+    margin-left: 0;
+    float: right;
+    display: none;
+    overflow: hidden;
+    }
+
+.player embed {
+    border: thin solid darkgrey;
+    position: relative;
+    left: 15px;
+    top: 25px;
+    }
+    
+.player .selectembed {
+    left: 35px;
+    }
+
+.spotifyshow {height: 105px;}
+.soundcloudshow {height: 105px;}
+.youtubeshow {height: 225px;}
+.vimeoshow {height: 225px;}
+.hypemshow {height: 105px;}
+
+.playerbox .player iframe {
+    margin: 10px;
+    overflow: hidden;
+    }
+
+.spotifyshow .player iframe {
+    width: 250px;
+    margin-left: 30px;    
+    }
+    
+    
+.friend {
+    cursor: pointer;
+    margin: 2px 0 0 0;
+    line-height: 1.5em;
+    height: 30px;
+    padding: 8px 8px 8px 38px;    
+    }
+    
+
+#jukebox {
+    }
+    
+#details {
+    display: inline-table;
+    padding: 0 18px;
+    position: relative;
+    vertical-align: top;
+    text-align: center;
+    margin-left:5px;
+    background-color: #3b5998;
+    color: white;
+    }
+
+#details > p {
+    display: table-cell;
+    vertical-align: middle;
+    }
+
+#jukereason {
+    text-align: center;
+    font-style: italic;
+    margin: 0 5px;
+    background-color: #8b9dc3;
+    }
+    
+#jukereason > h4 {
+    margin: 5px;
+    padding: 18px;    
+    }    
+    
+#jukeplayer {
+    display: inline-block;
+    }
+    
+#jukeholder {
+    margin-top: 5px;
+    }
+    
+.songchange {
+    font-size: 0.8em;
+    width: 348px;
+    text-align: center;
+    display: inline-block;
+    padding: 5px;
+    margin: 5px;
+    background-color: #dfe3ee;
+    }
+    
+#prevdeets, #nextdeets {
+    height: 75px;
+    }

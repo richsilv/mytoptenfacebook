@@ -1,0 +1,10 @@
+<div id="friendholder">
+    <input id="songnum" type="hidden" value="{{ songnum }}">
+    {% for song in suggestions %}
+    			 <h3 class="songsuggestion ui-widget ui-helper-reset ui-state-default ui-corner-all">
+    			     <strong>{{ song.title }}</strong> by <strong>{{ song.artist }}</strong>
+    			 </h3>
+    			 <input class="sugtitle" type="hidden" value="{{ song.title }}">
+    			 <input class="sugartist" type="hidden" value="{{ song.artist }}">    			 
+    {% endfor %}
+</div>

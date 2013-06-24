@@ -1,0 +1,82 @@
+{% extends "basepagemob.html" %}
+
+{% block head %}
+    <!-- SETUP CONSTANTS -->   
+    <script type="text/javascript">var num_songs = {{ songlist|length }}</script>
+    <script type="text/javascript">
+        facebook_id = {{ facebook_id }};
+        topten_id = {{ topten_id }};
+        existing_ten = {% if existing_ten %}{{ existing_ten }}{% else %}false{% endif %};
+        var songdeets = new Array ();
+        {% if userid %}var userid = {{ userid }}{% endif %};
+        {% for song in songlist %}
+            songdeets.push(new Array ("{{ song.title|safe }}", "{{ song.artist|safe }}", "{{ song.reason|safe }}", "{{ song.url }}", "{{ song.provider }}"));          
+        {% endfor %}
+    </script>
+
+    <!-- INCLUDE CONTROL SCRIPTS -->
+    <script src="/static/common.js"></script>
+    <script src="/static/commonmob.js"></script>
+    <script src="/static/editsongsmob.js"></script>
+{% endblock %}
+
+{% block body %}
+
+    <!-- DIALOGUE POP-UPS -->
+    {% if new_user == "True" %}
+        <div id="dialog-modal" class="popup" title="Welcome to My Top Ten!">
+            <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <strong style="font-style:italic">get started</strong>, fill in the title and artist of 
+            one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 
+            even <strong style="font-style:italic">add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong style="font-style:italic">replace</strong> any of the songs in your list as
+            many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
+            <span id="close" class="mobibutton">Close</span>
+        </div>
+    {% endif %}
+
+        <div id="bad-data" class="popup" title="Reserved Characters" style="display: none">
+            <p>Sorry, but the characters <strong>\</strong>, <strong>/</strong>, <strong><</strong>, <strong>></strong>, <strong>"</strong> and <strong>&</strong> are <strong>reserved characters</strong> and
+            cannot be used in a song title, artist name or reason.  Thanks!</p>
+            <span id="closebad" class="mobibutton">Close</span>
+        </div>
+        <div id="songs-saved" class="popup" title="Songs Saved" style="display: none">
+            <p>The songs you've chosen so far have been successfully saved.  Finish your list now, or feel free to come back later!</p>
+            <span id="closesave" class="mobibutton">Close</span>
+        </div>
+
+    <!-- MAIN PAGE -->
+    {% import 'accordionpanelmob.html' as accpanel %}
+    <div id="headerbar"><h3>Edit My Top Ten</h3></div>
+    <div id="accordion">
+        {% for song in songlist %}
+			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
+			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
+        {% endfor %}
+        {% if songlist|length < num_songs %}
+            {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
+			       {{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
+        {% endif %}
+    </div>
+    <div id="buttonbar" class="make">
+        <span id="confirm" class="mobibutton">Confirm</span>
+        <span id="cancel" class="mobibutton">Cancel</span>    
+    </div>   
+
+    <!-- TOOLTIPS -->    
+    <div id="enter-search" class="popbelow" title="Enter Song Details" style="display: none">
+        <p>To get started, enter the title and artist of one of your favourite artists and hit the tick on the right hand side.</p>
+    </div>
+    <div id="choose-provider" class="popbelow" title="Choose Provider" style="display: none">
+        <p>Now select one of the available providers to search their database for your track.</p>
+    </div>     
+    <div id="choose-song" class="popbelow" title="Select Track" style="display: none">
+        <p>The drop-down menu contains all the available matches.  Choose the best fit!</p>
+    </div>
+    <div id="enter-deets" class="popbelow" title="Confirm Song Details" style="display: none">
+        <p>Finally, tweak the title and artist so that they're as you want them to appear, and enter a reason why you love your chosen track.  Hit the tick, and move on to the next song!</p>
+    </div>
+    <div id="save-info" class="popbelow" title="How To Save Your Songs" style="display: none">
+        <p>Now that you have at least one song entered, you can save your list at any time by hitting the <strong>Save</strong> button, and the same set of songs will be there next time
+        you login.  Once you've chosen ten, you'll be able to hit <strong>Confirm</strong>, and you'll be a fully-fledged My Top Ten User!</p>
+    </div>
+                  
+{% endblock %}

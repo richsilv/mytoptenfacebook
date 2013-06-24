@@ -1,0 +1,125 @@
+body {
+    width: 620px;
+    font-size: 18px;
+    }
+
+.accordion .headerbar {
+    width: 620px;
+    }
+
+.popup {
+    top: 100px;
+    left: 54px;
+    width: 500px;
+    z-index: 20;
+    }
+    
+.popbelow {
+    margin-left: 34px;
+    margin-top: 20px;
+    width: 540px;
+    }
+
+.entryform {
+    width: 550px;
+    }
+
+.confirmholder input {
+    width: 430px;
+    }    
+
+.entryform input {
+    width: 400px;
+    margin-top: 8px;
+    }
+
+.selectmenu {
+    width: 450px;
+    height: 45px;    
+    }
+
+.reasoninput {
+    width: 430px;
+    }
+
+.playerbox {
+    width: 640px;
+    }
+
+.player iframe {
+    width: 550px;
+    margin: 10px;        
+    }    
+ 
+.player embed {
+    height: 40px;    
+    } 
+
+.spotifyshow .player iframe {
+    width: 550px;
+    margin-left: 45px;    
+    } 
+
+.number {
+    vertical-align: 135%
+    }
+    
+input {
+    font-size: 24px;
+    line-height: 28px;    
+    }
+
+.mobiminibutton {
+    padding: 10px;
+    margin: 0 9px;
+    }
+
+.tabset ul {
+    margin: 15px 0 30px;
+    }
+
+.line {
+    display: block;
+    height: 0;
+    border: thin solid #3b5998;
+    }
+
+.selector {
+    padding: 5px;
+    }    
+
+.selectmenu {
+    font-size: 20px;
+    }
+
+.searchbutton, .cancelchange, .confirmbutton {
+    width: 50px;
+    height: 50px;
+    float: right;
+    margin: 0;
+    }
+
+.buttons {
+    left: 20px;
+    }
+
+.searchbutton {
+    margin-right: 10px;
+    }
+
+ .confirmbutton {
+    margin-right: 20px;     
+    } 
+
+ .slider {
+    height: 40px;     
+    }
+
+ .slider h3 {
+    left: 80px;
+    }
+   
+ .reasonbox {
+    top: 10px;
+    left: 20px;
+    }
