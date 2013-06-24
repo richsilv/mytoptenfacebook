@@ -1,6 +1,8 @@
 // Functions to execute on page load
 $(function() {
  
+    console.log(songdeets);
+
     // Facilitate Facebook integration
     window.fbAsyncInit = function() {
         FB.Canvas.setAutoGrow();
@@ -23,7 +25,7 @@ $(function() {
         selection[panelnum] = songdeets[panelnum-1][3];
         provider[panelnum] = parseInt(songdeets[panelnum-1][4]);
         player[panelnum] = $("#"+panelnum+"panel").find(".player");
-        if (provider[panelnum] === 1) {
+        if (provider[panelnum] === 2) {
             promise[panelnum] = scloudPlayer(selection[panelnum], panelnum);
             promise[panelnum].success(function(result, responsecode, xhr) {
                 player[xhr.panelnum].html(result.html);

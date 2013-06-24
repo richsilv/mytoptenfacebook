@@ -98,6 +98,10 @@ h3 span {
 .newsong .songreason {
     display: none;
     }
+
+.tabset .ui-tabs-nav li {
+    margin-right: 10px;
+    }
     
 .selectmenu {
     width: 400px;
@@ -156,6 +160,18 @@ h3 span {
     width: 535px;
     padding-left: 100px;
     }
+
+#post-timeline form textarea {
+    resize: none;
+    }
+
+#post-timeline .postbuttons {
+    text-align: center;
+    }
+
+#post-timeline .postbuttons button {
+    margin: 5px 20px;
+}
     
 #buttonbar {
     text-align: center;

@@ -77,7 +77,7 @@ function updateSong(songnum) {
     
     // Load and display new player
     switch(provider) {
-        case 1: 
+        case 2: 
             var promise = scloudPlayer(songdeets[songnum][3], 0);
             promise.success(function(result, responsecode, xhr) {
                 $('#jukeplayer').html(result.html);
@@ -88,14 +88,14 @@ function updateSong(songnum) {
                   });
                 });        
             break;
-        case 2:
+        case 4:
             $('#jukeplayer').html(embedPlayer(songdeets[songnum][3], 2));            
             break;
-        case 3:
+        case 1:
             $('#jukeplayer').html('<div id="tempdiv"></div>');
             youtubePlayer(songdeets[songnum][3]);
             break;     
-        case 4:
+        case 3:
             $('#jukeplayer').html(embedPlayer(songdeets[songnum][3], 4));
             addEvent(window, "message", vimeoMessageHandler);
             break;        

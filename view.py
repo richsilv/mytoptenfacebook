@@ -22,7 +22,7 @@ FACEBOOK_APP_SECRET = 'c0db54e1c98cf390e618dbe88438f4bf'
 FACEBOOK_TEMP_TOKEN = 'CAAGW6DaPsiABALH4cWrZBCy5h2vXsXauOwLaCKVYGn3GZC5vHh0JR6KVpgEYAc7WGdTYnfiHPakqEupml2LTIlm8g3qybb7eEVH5DuoKSf0ZBOyELVQQIlM2DndVG84CIA8EJ5RJDkDmVobWlioN1Kd7bkJtH4ZD'
 graph = None
 
-providers = ['SoundCloud', 'Spotify', 'YouTube', "Vimeo", "Hype Machine"]
+providers = ['YouTube', 'SoundCloud',  'Vimeo', 'Spotify']
 
 NUMSONGS = 10
 
@@ -247,9 +247,9 @@ def channel():
 def get_selector():
     rdata = request.form
     provider = int(rdata['provider'])
-    searchfunction = [None, soundcloud_request, spotify_request, youtube_request, vimeo_request, hypem_request, deezer_request][provider]
+    searchfunction = [None, youtube_request, soundcloud_request, vimeo_request, spotify_request, hypem_request, deezer_request][provider]
     optionset = searchfunction(removeNonAscii(rdata['songtitle']), removeNonAscii(rdata['songartist']))
-    if provider in [1, 3, 4, 5]:
+    if provider in range(4):
         for option in optionset:
             if option['title'].find (" by ") > 0:
                 option['title'], option['artist'] = [x.title() for x in option['title'].split(" by ", 1)]
@@ -301,7 +301,7 @@ def save_songs():
         songinstance = saveSong(song, i+1)
         topten.songs.append(songinstance)
     pg.commit()
-    if FBAUTH:
+    if FBAUTH and request.form['message']:
         fb = facebook.GraphAPI(session['token'])
         possessive = getPossessive(session['userdata'])
         try:
@@ -379,22 +379,22 @@ def topSuggestions(access_token):
     suggestions += getBBCPlayed()
     return suggestions
 
-def getFacebookRecommendations(access_token, facebook_id = "me"):
+def getFacebookRecommendations(access_token, facebook_id = "me", numsongs = 10):
     try:
         fb = facebook.GraphAPI(access_token)
-        artists = [x['name'] for x in fb.get_object(facebook_id + "/music")['data'] if x['category'] == "Musician/band"][:10]
+        artists = [x['name'] for x in fb.get_object(facebook_id + "/music")['data'] if x['category'] == "Musician/band"][:numsongs]
     except:
         print "Doesn't like " + access_token
         return []
     suggestions = getSuggestions(artists)
     return suggestions
 
-def getOpenGraphRecommendations(access_token, facebook_id = "me"):
+def getOpenGraphRecommendations(access_token, facebook_id = "me", numsongs = 10):
     r = requests.get('https://graph.facebook.com/' + facebook_id + '/music.listens?access_token=' + access_token + '&limit=500')
     if r.status_code != 200: return []
     suggestions = []
     urls = [x['data']['song']['url'] for x in r.json()['data']]
-    urllist = sorted(set([(x, urls.count(x)) for x in urls]), key = lambda y: -y[1])[:10]
+    urllist = sorted(set([(x, urls.count(x)) for x in urls]), key = lambda y: -y[1])[:numsongs]
     for entry in urllist:
         url = entry[0]
         spotifyid = url[url.find("/track/")+7:]
@@ -402,9 +402,9 @@ def getOpenGraphRecommendations(access_token, facebook_id = "me"):
         suggestions.append({'title': spotifydata['name'], 'artist': spotifydata['artists'][0]['name']})
     return suggestions      
 
-def getBBCPlayed():
+def getBBCPlayed(numsongs=20):
     r = requests.get("http://www.bbc.co.uk/programmes/music/artists/charts.json").json()['artists_chart']['artists']
-    artists = [x['name'] for x in r][:10]
+    artists = [x['name'] for x in r][:numsongs]
     suggestions = getSuggestions(artists)
     return suggestions
 

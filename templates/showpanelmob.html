@@ -8,14 +8,14 @@
 
 {% macro prov_class(provider) -%}
     {% if provider == 1 %}
-        soundcloudshow
-    {% elif provider == 2 %}
-        spotifyshow
-    {% elif provider == 3 %}
         youtubeshow
-    {% elif provider == 4 %}
+    {% elif provider == 2 %}
+        soundcloudshow
+    {% elif provider == 3 %}
         vimeoshow
     {% elif provider == 4 %}
+        spotifyshow 
+    {% elif provider == 5 %}
         hypemshow       
     {% else %}
         unknownshow

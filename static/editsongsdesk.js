@@ -103,6 +103,14 @@ function doSetup() {
         autoOpen: false
         }); 
 
+    $( "#post-timeline" ).dialog({
+        width: 500,        
+        height: 290,
+        modal: true,
+        autoOpen: false
+        }); 
+    $( "#post-timeline" ).find("button").button()
+
 // ************* BOTTOM BAR ******************
 
     // Set up buttons on bottom bar
@@ -119,19 +127,25 @@ function doSetup() {
         
     // Save songs and return to Show Songs on "Confirm" click
     $('#confirm').on("click", function() {
-        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
-            window.location = "/show_songs/" + facebook_id;        
-            });
+        $("#confirm-message").html("I just updated my list on MyTopTen!");
+        $("#post-timeline").dialog("open");
         });
 
-    // Save songs on "Save" click - REMOVE THIS AS IT IS NOW REDUNDANT
-    $('#save').on("click", function() {
-        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {  
-            $("#songs-saved").dialog("open");
-            if (num_songs === NUMSONGS) {
-                $("#confirm").button("option", "disabled", false);     
-                }            
-            });
+    // Post to timeline button logic
+    $('#post').on("click", function() {
+        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': $("#post-timeline").html()}, function(r) {
+            window.location = "/show_songs/" + facebook_id;        
+            });        
+        });
+    $('#no-message').on("click", function() {
+        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': ''}, function(r) {
+            window.location = "/show_songs/" + facebook_id;
+            });  
+        });
+    $("#confirm-message").on("keypress", function(e) {
+        if (e.which === 13) {
+            $("#post").click();
+            }
         });
 
 // *********** INITIAL SONG ENTRY ***********
@@ -249,7 +263,7 @@ function doSetup() {
         var selection = $.parseJSON($(this).val()).url;
         var provider = parseInt($(this).parents(".selector").attr("id").slice(-1));
         var player = $(this).parents(".selector").find(".player");
-        if (provider === 1) {
+        if (provider === 2) {
             var promise = scloudPlayer(selection);
             promise.success(function(result) {
                 player.html(result.html);
@@ -334,9 +348,8 @@ function doSetup() {
                 }
             // If this is the tenth song, and there is no existing top ten, automatically confirm the song list
             if ((num_songs === NUMSONGS) && (!existing_ten)) {
-                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
-                    window.location = "/show_songs/" + facebook_id;
-                    });                                       
+                $("#confirm-message").html("I just updated my list on MyTopTen!");
+                $("#post-timeline").dialog("open");                                       
                 } 
             // Otherwise, just save the new list
             else {
