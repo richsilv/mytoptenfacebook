@@ -3,6 +3,7 @@ venv
 *.pyc
 =======
 *.py[cod]
+*.py~
 
 # C extensions
 *.so
