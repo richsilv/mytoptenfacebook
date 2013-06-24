@@ -172,8 +172,13 @@ function doSetup() {
 
     $('#suggestions').on("click", "#songholder .songsuggestion", function() {
         var songnum = parseInt($(this).parents("#songholder").find("#songnum").val());
+<<<<<<< HEAD
+        var songtitle = $(this).next(".sugtitle").val();
+        var songartist = $(this).next(".sugartist").val();
+=======
         var songtitle = $(this).nextAll(".sugtitle").val();
         var songartist = $(this).nextAll(".sugartist").val();
+>>>>>>> a377539a352e32228f7f2580a062b92273263426
         console.log(songartist);       
         $("#" + songnum + "header").find(".titleentry").val(songtitle);
         $("#" + songnum + "header").find(".artistentry").val(songartist);

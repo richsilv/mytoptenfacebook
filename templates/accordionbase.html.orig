@@ -1,0 +1,67 @@
+{% extends "basepage.html" %}
+
+{% block head %}
+<script type="text/javascript">var num_songs = {{ songlist|length }}</script>
+<script type="text/javascript">
+<<<<<<< HEAD
+    var songdeets = new Array ();
+    var origsongs = new Array ();
+    {% if userid %}var userid = {{ userid }}{% endif %};
+    {% for song in songlist %}
+        songdeets.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.url }}", "{{ song.provider }}", "{{ song.reason }}"));
+        origsongs.push(new Array ("{{ song.title }}", "{{ song.artist }}", "{{ song.url }}", "{{ song.provider }}", "{{ song.reason }}"));            
+=======
+    facebook_id = {{ facebook_id }};
+    topten_id = {{ topten_id }};
+    existing_ten = {% if existing_ten %}{{ existing_ten }}{% else %}false{% endif %};
+    var songdeets = new Array ();
+    {% if userid %}var userid = {{ userid }}{% endif %};
+    {% for song in songlist %}
+        songdeets.push(new Array ("{{ song.title|e }}", "{{ song.artist|e }}", "{{ song.reason|e }}", "{{ song.url }}", "{{ song.provider }}"));          
+>>>>>>> 25759b06097eecd880adfea87a3119274083fda9
+    {% endfor %}
+</script>
+<script src="/static/tenscript.js"></script>
+{% endblock %}
+
+{% block body %}
+<<<<<<< HEAD
+=======
+
+    {% if new_user == "True" %}
+        <div id="dialog-modal" title="Welcome to My Top Ten!">
+            <p>Welcome to <strong>My Top Ten</strong>, the easy way to share your favourite tracks with your friends.  To <strong style="font-style:italic">get started</strong>, fill in the title and artist of 
+            one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 
+            even <strong style="font-style:italic">add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong style="font-style:italic">replace</strong> any of the songs in your list as
+            many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
+        </div>
+    {% endif %}
+        <div id="bad-data" title="Reserved Characters" style="display: none">
+            <p>Sorry, but the characters <strong>\</strong>, <strong>/</strong>, <strong><</strong>, <strong>></strong>, <strong>"</strong> and <strong>&</strong> are <strong>reserved characters</strong> and
+            cannot be used in a song title, artist name or reason.  Thanks!</p>
+        </div>
+>>>>>>> 25759b06097eecd880adfea87a3119274083fda9
+    {% import 'accordionpanel.html' as accpanel %}
+    <div id="accordion">
+        {% for song in songlist %}
+			{{ accpanel.acc_header(number=loop.index, title=song.title, artist=song.artist, reason=song.reason) }}
+			{{ accpanel.acc_panel(number=loop.index, providers=providers) }}
+        {% endfor %}
+<<<<<<< HEAD
+        {% if songlist|length < 10 %}
+=======
+        {% if songlist|length < num_songs %}
+>>>>>>> 25759b06097eecd880adfea87a3119274083fda9
+            {{ accpanel.acc_header(number=songlist|length+1, newsong=True) }}
+			{{ accpanel.acc_panel(number=songlist|length+1, providers=providers) }}
+        {% endif %}
+    </div>
+<<<<<<< HEAD
+=======
+    <div id="buttonbar">
+        <button id="confirm">Confirm</button>
+        <button id="cancel">Cancel</button>    
+    </div>    
+    
+>>>>>>> 25759b06097eecd880adfea87a3119274083fda9
+{% endblock %}
