@@ -3,6 +3,14 @@ body {
     width: 740px;    
     }
 
+#beta {
+    width: 45px;
+    height: auto;
+    position: fixed;
+    top: 9px;
+    left: 20px;
+}
+
 .ui-accordion-content {
     padding: 0 !important; 
     }
@@ -71,6 +79,12 @@ h3 span {
     height: 1.5em;
     margin: 2px 0;
     padding: 2px;
+}
+
+.songsuggestion:hover {
+    cursor: pointer;
+    border-color: black;
+    color: black;
 }
 
 .newsong .songentry {

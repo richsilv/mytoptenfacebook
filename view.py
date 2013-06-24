@@ -5,7 +5,8 @@ from musicapi import *
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.heroku import Heroku
 from flask import Flask, render_template, request, redirect, url_for, session
-from flask_oauth import OAuth
+from simplekv.memory import DictStore
+from flaskext.kvsession import KVSessionExtension
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from user_agents import parse
@@ -33,8 +34,10 @@ def db_connect(details):
     Session = sessionmaker(bind=engine)
     pg = Session()
     return pg
-    
+
+store = DictStore()    
 app = Flask(__name__)
+KVSessionExtension(store, app)
 app.config.update(DEBUG = DEBUG)
 app.secret_key = SECRET_KEY
 
@@ -263,7 +266,7 @@ def get_selector():
 def get_suggestions():
     rdata = request.form
     songnum = rdata['songnum']
-    suggestions = tenSuggestions(session['token'])
+    suggestions = session['suggestions']
     return render_template('suggestions.html', suggestions=suggestions, songnum=songnum)
     
 @app.route('/get_confirm/', methods=['POST'])
@@ -305,6 +308,16 @@ def save_songs():
             fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
         except:
             pass    
+    return 'success'
+
+@app.route('/load_suggestions/', methods=['POST'])
+def load_suggestions():
+    session['suggestions'] = topSuggestions(session['token'])
+    return 'success'
+
+@app.route('/remove_suggestion/', methods=['POST'])
+def remove_suggestion():
+    session['suggestions'].remove({'title': request.form['songtitle'], 'artist': request.form['songartist']})
     return 'success'
 
 @app.route('/post_comment/', methods=['POST'])
@@ -360,31 +373,30 @@ def getPossessive(data):
     else:
         return "its"
 
-def tenSuggestions(access_token):
-    suggestions = getFacebookRecommendations(access_token)
-    if len(suggestions) >= 10: return suggestions[:10]
-    suggestions = suggestions + getBBCPlayed()
-    return suggestions[:10]
+def topSuggestions(access_token):
+    suggestions = getOpenGraphRecommendations(access_token)
+    suggestions += suggestions[:5] + getFacebookRecommendations(access_token) + suggestions[5:]
+    suggestions += getBBCPlayed()
+    return suggestions
 
-def getFacebookRecommendations(access_token):
+def getFacebookRecommendations(access_token, facebook_id = "me"):
     try:
         fb = facebook.GraphAPI(access_token)
-        artists = [x['name'] for x in fb.get_object("me/music")['data'] if x['category'] == "Musician/band"][:10]
+        artists = [x['name'] for x in fb.get_object(facebook_id + "/music")['data'] if x['category'] == "Musician/band"][:10]
     except:
         print "Doesn't like " + access_token
-        raise
+        return []
     suggestions = getSuggestions(artists)
     return suggestions
 
 def getOpenGraphRecommendations(access_token, facebook_id = "me"):
-    try:
-          fb = facebook.GraphAPI(access_token)
-          listens = fb.get_object(facebook_id + "/music.listens")['data'][0:10]
-    except:
-        raise
+    r = requests.get('https://graph.facebook.com/' + facebook_id + '/music.listens?access_token=' + access_token + '&limit=500')
+    if r.status_code != 200: return []
     suggestions = []
-    for song in listens:
-        url = song['data']['song']['url']
+    urls = [x['data']['song']['url'] for x in r.json()['data']]
+    urllist = sorted(set([(x, urls.count(x)) for x in urls]), key = lambda y: -y[1])[:10]
+    for entry in urllist:
+        url = entry[0]
         spotifyid = url[url.find("/track/")+7:]
         spotifydata = requests.get("http://ws.spotify.com/lookup/1/.json?uri=spotify:track:" + spotifyid).json()['track']
         suggestions.append({'title': spotifydata['name'], 'artist': spotifydata['artists'][0]['name']})

@@ -65,6 +65,9 @@ function doSetup() {
         FB.Canvas.setAutoGrow();
         };
 
+    // Asynchronously load suggestions for later
+    $.post('/load_suggestions/')
+
 // ************* TOOL-TIPS AND DIALOGUE BOXES ***********
  	
  	// Set up Tool-tips
@@ -165,12 +168,12 @@ function doSetup() {
             });        
         });    
 
-    // On "suggestion" click, close dialog and enter details in title/artist entry boxes
+    // On "suggestion" click, close dialog, remove song from suggestions list and enter details in title/artist entry boxes
     $('#suggestions').on("click", "#songholder .songsuggestion", function() {
         var songnum = parseInt($(this).parents("#songholder").find("#songnum").val());
         var songtitle = $(this).nextAll(".sugtitle").val();
         var songartist = $(this).nextAll(".sugartist").val();
-        console.log(songartist);       
+        $.post('/remove_suggestion/', {'songtitle': songtitle, 'songartist': songartist})     
         $("#" + songnum + "header").find(".titleentry").val(songtitle);
         $("#" + songnum + "header").find(".artistentry").val(songartist);
         $('#suggestions').dialog("close");        
