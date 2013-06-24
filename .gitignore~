@@ -4,6 +4,8 @@ venv
 =======
 *.py[cod]
 *.py~
+jquery-ui-1.10.3.custom-old
+jquery-ui-1.10.3.custom
 
 # C extensions
 *.so
