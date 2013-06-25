@@ -64,6 +64,16 @@ body {
     margin: 5px 0;
     }
 
+.songsuggestion {
+    line-height: 1.4em;
+    background-color: #3b5998;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    }
+
 
 #headerbar h3 {
     background-color: #dfe3ee;
@@ -195,11 +205,15 @@ body {
     font-weight: bold;
     }
 
-.searchbutton, .cancelchange, .confirmbutton {
+.searchbutton, .cancelchange, .confirmbutton .suggest {
     width: 20px;
     height: 20px;
     display: inline-block;
     cursor: pointer;
+    }
+
+#suggestions {
+    margin-bottom: 20px;
     }
 
 .cancelchange {
@@ -207,7 +221,7 @@ body {
     margin-right: -10px;
     }
 
-.searchbutton img, .cancelchange img, .confirmbutton img {
+.searchbutton img, .cancelchange img, .suggest img, .confirmbutton img {
     max-width: 100%;
     border-radius: 5px
     }
@@ -406,11 +420,15 @@ body {
         font-size: 20px;
         }
     
-    .searchbutton, .cancelchange, .confirmbutton {
+    .searchbutton, .cancelchange, .confirmbutton, .suggest {
         width: 50px;
         height: 50px;
         float: right;
         margin: 0;
+        }
+
+    .suggest {
+        margin-left: 10px;
         }
 
     #buttonbar {

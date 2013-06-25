@@ -1,14 +1,6 @@
 // Functions to execute on page load
 $(function() {
 
-    // Set icon size based on page width (inferred from CSS)
-    if ($("body").css("width") === "620px") {
-        var iconSize = "big";
-        }
-    else {
-        var iconSize = "small";        
-        }
-
     doUpdate();
     doSetup();
 
@@ -54,13 +46,13 @@ function doUpdate() {
 
     // Mess around a bit with the size and order of icons depending on screen size (from CSS)
     if (iconSize === "big") {
-        $(".searchbutton img").attr("src", "/static/tickbig.png")
+        $(".suggest img").attr("src", "/static/bulbbig.png")
         $(".cancelchange img").attr("src", "/static/crossbig.png")
-        $(".searchbutton").insertAfter($(".cancelchange"));
-        $(".searchbutton").next(".searchbutton").remove();
+        $(".suggest").insertAfter($(".cancelchange"));
+        $(".suggest").next(".suggest").remove();
         }
     else {
-        $(".searchbutton img").attr("src", "/static/ticksmall.png")            
+        $(".suggest img").attr("src", "/static/bulbsmall.png")            
         $(".cancelchange img").attr("src", "/static/crosssmall.png")  
         } 
 
@@ -82,6 +74,9 @@ function doUpdate() {
 
 // Functions to execute once on page load
 function doSetup() {
+
+    // Asynchronously load suggestions for later
+    $.post('/load_suggestions/')
 
 // ************ BOTTOM BAR **************
 
@@ -105,33 +100,18 @@ function doSetup() {
                 });
             }            
         });
-
-    // On "save" click, save songs - DEPRECATED, REMOVE AT SOME STAGE
-    $('#save').on("click", function() {
-        if (!$(this).hasClass("disabled")) {
-            $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
-                $('#songs-saved').css("display", "block");      
-                });
-            }            
-        });
     
 // ********** DIALOGUE BOXES ************
 
-    // Handlers to close dialogue boxes when the "close" button is clicked on each
-    $('#close').on("click", function() {
-        $('#dialog-modal').css("display", "none");
-        });
-
-    $('#closebad').on("click", function() {
-        $('#bad-data').css("display", "none");
-        baddata = false
-        });
-        
-    $('#closesave').on("click", function() {
-        $('#songs-saved').css("display", "none");
+    // Handler to close dialogue boxes when the "close" button is clicked on each
+    $('.close').on("click", function() {
+        $(this).parents(".popup").css("display", "none");
         });
 
 // *********** INITIAL SONG ENTRY ***********
+
+    // Show providers for any new entry line
+    $('.newsong').next(".panel").css("display", "block")
 
     // Toggle between saved title/artist and title/artist entry boxes
     $('#accordion').on("click", '.header .songtitleartist strong', function() { 
@@ -153,9 +133,30 @@ function doSetup() {
         $(this).parents(".header").next(".panel").find("selector").css("display", "none")
         });
 
-    // Show providers on "tick" click
-    $('#accordion').on("click", ".header .songentry form .searchbutton", function() {
-        $(this).parents(".header").next(".panel").css("display", "block");
+    // On "lightbulb" click, pull suggestions from AJAX call to Python back-end and display in suggestions dialog
+    $('#accordion').on("click", ".header .songentry form .suggest", function() {
+        var songnum = panelNumber(($(this).parents(".header").attr("id")));
+        $.post('/get_suggestions/', {'facebook_id': facebook_id, 'songnum': songnum}, function(r) {
+            $('#suggestions').html(r);
+            $('#suggestionsholder').css("display", "block");
+            });        
+        });   
+
+    // On "suggestion" click, close dialog, remove song from suggestions list and enter details in title/artist entry boxes
+    $('#suggestions').on("click", "#songholder .songsuggestion", function() {
+        var songnum = parseInt($(this).parents("#songholder").find("#songnum").val());
+        var songtitle = $(this).nextAll(".sugtitle").val();
+        var songartist = $(this).nextAll(".sugartist").val();
+        $.post('/remove_suggestion/', {'songtitle': songtitle, 'songartist': songartist})     
+        $("#" + songnum + "header").find(".titleentry").val(songtitle);
+        $("#" + songnum + "header").find(".artistentry").val(songartist);
+        $('#suggestionsholder').css("display", "none");        
+        });
+
+    // Show providers when a header is selected
+    $('#accordion').on("click", ".header", function() {
+        $(".header").next(".panel").css("display", "none");
+        $(this).next(".panel").css("display", "block");
         if (num_songs === 0) {
             $('#enter-search').css("display", "none");
             $('#choose-provider').css("display", "block");
@@ -179,7 +180,7 @@ function doSetup() {
         var selection = $.parseJSON($(this).val()).url;
         var provider = parseInt($(this).parents(".selector").attr("id").slice(-1));
         var player = $(this).parents(".selector").find(".player");
-        if (provider === 1) {
+        if (provider === 2) {
             var promise = scloudPlayer(selection);
             promise.success(function(result) {
                 player.html(result.html);

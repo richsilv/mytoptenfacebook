@@ -1,6 +1,6 @@
 // Setup various constants
 var playerheights = Array(0, 200, 80, 200, 80, 80, 183);
-var playerwidths = Array(0, 290, 250, 290, 290, 290);
+var playerwidths = Array(0, 290, 290, 290, 250, 290);
 var playerHeightsSmall = Array(0, 200, 80, 200, 80, 27);
 var playerWidthsSmall = Array(0, 290, 290, 290, 290, 290);
 var playerHeightsBig = Array(0, 250, 170, 250, 80, 27);

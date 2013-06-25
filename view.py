@@ -267,7 +267,7 @@ def get_suggestions():
     rdata = request.form
     songnum = rdata['songnum']
     suggestions = session['suggestions']
-    return render_template('suggestions.html', suggestions=suggestions, songnum=songnum)
+    return render_template('suggestions.html', suggestions=suggestions[:10], songnum=songnum)
     
 @app.route('/get_confirm/', methods=['POST'])
 def get_confirm():

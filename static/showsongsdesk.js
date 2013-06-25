@@ -1,7 +1,5 @@
 // Functions to execute on page load
 $(function() {
- 
-    console.log(songdeets);
 
     // Facilitate Facebook integration
     window.fbAsyncInit = function() {

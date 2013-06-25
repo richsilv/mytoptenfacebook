@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient5219"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop5221" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="138.72667"
+     inkscape:cy="670.05051"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="arc"
+       style="fill:#000000;fill-opacity:0"
+       id="path2985"
+       sodipodi:cx="319.20819"
+       sodipodi:cy="227.06755"
+       sodipodi:rx="161.6244"
+       sodipodi:ry="68.690376"
+       d="M 480.8326,227.06755 A 161.6244,68.690376 0 0 1 196.7527,271.89871 L 319.20819,227.06755 z"
+       sodipodi:start="0"
+       sodipodi:end="2.4305084" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#e7b723;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.99982805;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path3757"
+       sodipodi:cx="377.29196"
+       sodipodi:cy="411.42038"
+       sodipodi:rx="218.69803"
+       sodipodi:ry="130.81476"
+       d="m 595.98999,411.42038 a 218.69803,130.81476 0 1 1 -437.39606,0 218.69803,130.81476 0 1 1 437.39606,0 z"
+       transform="matrix(0.97119353,-0.45287498,0.42261826,0.90630779,-172.60178,208.40282)"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytoptenbeta/static/beta.png"
+       inkscape:export-xdpi="51.246162"
+       inkscape:export-ydpi="51.246162" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3759"
+       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Webdings;-inkscape-font-specification:Webdings"
+       transform="matrix(0.90630779,-0.42261826,0.42261826,0.90630779,-107.88413,229.49517)"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytoptenbeta/static/beta.png"
+       inkscape:export-xdpi="51.246162"
+       inkscape:export-ydpi="51.246162"><flowRegion
+         id="flowRegion3761"><rect
+           id="rect3763"
+           width="413.1524"
+           height="165.66501"
+           x="152.53304"
+           y="271.51428"
+           style="font-size:144px" /></flowRegion><flowPara
+         id="flowPara3765">BETA</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3767"
+       style="fill:black;stroke:none;stroke-opacity:1;stroke-width:1px;stroke-linejoin:miter;stroke-linecap:butt;fill-opacity:1;font-family:Webdings;font-style:normal;font-weight:normal;font-size:40px;line-height:125%;letter-spacing:0px;word-spacing:0px;-inkscape-font-specification:Webdings;font-stretch:normal;font-variant:normal"><flowRegion
+         id="flowRegion3769"><rect
+           id="rect3771"
+           width="64.649765"
+           height="86.873116"
+           x="163.64471"
+           y="183.631" /></flowRegion><flowPara
+         id="flowPara3773"></flowPara></flowRoot>  </g>
+</svg>

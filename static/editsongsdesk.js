@@ -55,6 +55,24 @@ function doUpdate() {
                 icons: {primary: "ui-icon-lightbulb"},
                 text: false
                 });
+
+    // Flash the lightbulb icon on page load
+    $(".suggest").effect("highlight", {}, 400).effect("highlight", {}, 400).effect("highlight", {}, 400);
+
+    // If there are NO songs currently entered, display basic instructions
+    if (num_songs === 0) {
+        $('#enter-search').css("display", "block");
+        }
+    // If there are more than three entered, hide all istructions 
+    else if (num_songs > 1) {
+        $('.popbelow').css("display", "none");    
+        }
+    // Otherwise, show the save instructions
+    else {
+        $('.popbelow').css("display", "none");    
+        $('#save-info').css("display", "block");                
+        }      
+
     }
 
 // Functions to run once on page load
@@ -67,18 +85,11 @@ function doSetup() {
 
     // Asynchronously load suggestions for later
     $.post('/load_suggestions/')
-
-// ************* TOOL-TIPS AND DIALOGUE BOXES ***********
- 	
- 	// Set up Tool-tips
-    $( document ).tooltip({hide: 100,
-                           position: {my: "left+15 top+15", at: "left bottom", of: "#buttonbar"} 
-                           }); 
     
     // Set up dialogue boxes
     $( "#dialog-modal" ).dialog({
         width: 570,        
-        height: 295,
+        height: 302,
         modal: true
         });  
         
@@ -234,6 +245,10 @@ function doSetup() {
                 });
             panel.find('.selectmenu').focus();
             });
+        if (num_songs === 0) {
+            $('#enter-search').css("display", "none");
+            $('#choose-song').css("display", "block");
+            }
         });
     
     // Show the tab (provider) selection when enter is pressed from either the title or artist entry box
@@ -310,6 +325,10 @@ function doSetup() {
                 panel.find(".songreason").val(header.find(".reason").children("div").text());
                 }
             });
+            if (num_songs === 0) {
+                $('#choose-song').css("display", "none");
+                $('#enter-deets').css("display", "block");
+                }
         });
 
 // ************** CONFIRMATION TAB ****************
@@ -328,6 +347,7 @@ function doSetup() {
         var songnum = panelNumber(($(this).parents(".selector").attr("id")));
         if (!checkDeets($(this))) {
         	// If this song forms a new row, follow this route
+            $('#enter-deets').css("display", "none");
             if (songnum > num_songs) {
                 songdeets.push(Array($(this).parents(".confirmholder").find(".songtitle").val(), $(this).parents(".confirmholder").find(".songartist").val(),
                     $(this).parents(".confirmholder").find(".songreason").val(), $(this).parents(".confirmholder").find(".songtag").val(), $(this).parents(".confirmholder").find(".songprov").val()));
@@ -338,6 +358,7 @@ function doSetup() {
                     $.post('/new_panel/', {'newsong': num_songs+1}, function(r) {
                         $('#accordion').append(r).accordion("destroy");
                         doUpdate();
+                        $(".suggest").effect("highlight", {}, 400).effect("highlight", {}, 400).effect("highlight", {}, 400);
                         });
                     }
                 }

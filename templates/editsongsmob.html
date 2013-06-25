@@ -29,18 +29,22 @@
             one of your favourite songs, and use the buttons below to search music providers for a match.  You can <strong style="font-style:italic">preview</strong> the track before confirming, and 
             even <strong style="font-style:italic">add a comment</strong> to tell your friends why you love it.  Don't worry if you change your mind - you can <strong style="font-style:italic">replace</strong> any of the songs in your list as
             many times as you like, but remember: you can only ever have a <strong>top ten</strong>!</p>
-            <span id="close" class="mobibutton">Close</span>
+            <span id="close" class="close mobibutton">Close</span>
         </div>
     {% endif %}
 
+        <div id="suggestionsholder" class="popup" title="Suggestions" style="display: none">
+            <div id="suggestions"></div>
+            <span id="closesuggest" class="close mobibutton">Close</span>
+        </div>
         <div id="bad-data" class="popup" title="Reserved Characters" style="display: none">
             <p>Sorry, but the characters <strong>\</strong>, <strong>/</strong>, <strong><</strong>, <strong>></strong>, <strong>"</strong> and <strong>&</strong> are <strong>reserved characters</strong> and
             cannot be used in a song title, artist name or reason.  Thanks!</p>
-            <span id="closebad" class="mobibutton">Close</span>
+            <span id="closebad" class="close mobibutton">Close</span>
         </div>
         <div id="songs-saved" class="popup" title="Songs Saved" style="display: none">
             <p>The songs you've chosen so far have been successfully saved.  Finish your list now, or feel free to come back later!</p>
-            <span id="closesave" class="mobibutton">Close</span>
+            <span id="closesave" class="close mobibutton">Close</span>
         </div>
 
     <!-- MAIN PAGE -->
@@ -63,7 +67,7 @@
 
     <!-- TOOLTIPS -->    
     <div id="enter-search" class="popbelow" title="Enter Song Details" style="display: none">
-        <p>To get started, enter the title and artist of one of your favourite artists and hit the tick on the right hand side.</p>
+        <p>To get started, enter the title and artist of one of your favourite tracks and click the name of one of the providers below.  If you need inspiration, you can click the lightbulb icon for some suggestions!</p>
     </div>
     <div id="choose-provider" class="popbelow" title="Choose Provider" style="display: none">
         <p>Now select one of the available providers to search their database for your track.</p>
@@ -75,8 +79,7 @@
         <p>Finally, tweak the title and artist so that they're as you want them to appear, and enter a reason why you love your chosen track.  Hit the tick, and move on to the next song!</p>
     </div>
     <div id="save-info" class="popbelow" title="How To Save Your Songs" style="display: none">
-        <p>Now that you have at least one song entered, you can save your list at any time by hitting the <strong>Save</strong> button, and the same set of songs will be there next time
-        you login.  Once you've chosen ten, you'll be able to hit <strong>Confirm</strong>, and you'll be a fully-fledged My Top Ten User!</p>
+        <p>Congratulations, that's your first song saved!  Once you've got to ten, you'll be a fully-fledged <strong>MyTopTen</strong> user!  Don't forget, you can always click on the <strong>lightbulb</strong> if you need some inspiration.  Have fun!</p>
     </div>
                   
 {% endblock %}

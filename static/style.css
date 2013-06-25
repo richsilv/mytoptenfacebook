@@ -6,7 +6,7 @@ body {
 #beta {
     width: 45px;
     height: auto;
-    position: fixed;
+    position: absolute;
     top: 9px;
     left: 20px;
 }
@@ -139,6 +139,10 @@ h3 span {
     
 .buttons button {
     margin: 5px 10px;
+    }
+
+.popbelow {
+    margin-top: 10px;
     }
 
 .cancelchange, .suggest {
