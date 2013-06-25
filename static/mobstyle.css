@@ -7,6 +7,14 @@ body {
     padding-right: 5px;
     }
 
+#beta {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+}
+
 .accordion {
     margin-left: 5px;
     }
