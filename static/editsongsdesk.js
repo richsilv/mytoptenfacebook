@@ -37,6 +37,7 @@ function doUpdate() {
             collapsible: true,
             });
         }
+    $( "#10header" ).css("padding-left", "26px");
     $(".selector").hide();
 
     // Amend some formatting
@@ -115,11 +116,13 @@ function doSetup() {
         }); 
 
     $( "#post-timeline" ).dialog({
-        width: 500,        
+        width: 520,        
         height: 290,
         modal: true,
         autoOpen: false
-        }); 
+        });
+    // Need to amend some formatting to look nice on iPads
+    if (navigator.userAgent.indexOf("iPad") != -1) { $("#confirm-message").attr("cols", "43"); }
     $( "#post-timeline" ).find("button").button()
 
 // ************* BOTTOM BAR ******************
@@ -370,7 +373,8 @@ function doSetup() {
             // If this is the tenth song, and there is no existing top ten, automatically confirm the song list
             if ((num_songs === NUMSONGS) && (!existing_ten)) {
                 $("#confirm-message").html("I just updated my list on MyTopTen!");
-                $("#post-timeline").dialog("open");                                       
+                $("#post-timeline").dialog("open");
+                $('#confirm').button("option", "disabled", false)                                       
                 } 
             // Otherwise, just save the new list
             else {

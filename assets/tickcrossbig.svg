@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -104,7 +104,10 @@
     </g>
     <g
        id="g3276"
-       transform="translate(-160,-27.142857)">
+       transform="translate(-160,-27.142857)"
+       inkscape:export-filename="/home/richard/DjangoProjects/Heroku/mytoptenbeta/static/bulbsmall.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72">
       <rect
          y="465.42151"
          x="380.6629"
