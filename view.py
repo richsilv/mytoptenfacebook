@@ -266,8 +266,11 @@ def get_selector():
 def get_suggestions():
     rdata = request.form
     songnum = rdata['songnum']
-    suggestions = session['suggestions']
-    return render_template('suggestions.html', suggestions=suggestions[:10], songnum=songnum)
+    suggestions = session.get('suggestions')
+    if suggestions:
+        return render_template('suggestions.html', suggestions=suggestions[:10], songnum=songnum)
+    else:
+        return None
     
 @app.route('/get_confirm/', methods=['POST'])
 def get_confirm():
@@ -305,7 +308,7 @@ def save_songs():
         fb = facebook.GraphAPI(session['token'])
         possessive = getPossessive(session['userdata'])
         try:
-            fb.put_wall_post(session['userdata']['first_name'] + " " + session['userdata']['last_name'] + " just updated " + possessive + " list on My Top Ten!  Check it out and build your own at http://apps.facebook.com/mytoptenapp.")
+            fb.put_wall_post(request.form['message'] + " | http://apps.facebook.com/mytoptenapp")
         except:
             pass    
     return 'success'

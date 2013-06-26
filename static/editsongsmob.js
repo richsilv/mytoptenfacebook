@@ -150,7 +150,8 @@ function doSetup() {
         $.post('/remove_suggestion/', {'songtitle': songtitle, 'songartist': songartist})     
         $("#" + songnum + "header").find(".titleentry").val(songtitle);
         $("#" + songnum + "header").find(".artistentry").val(songartist);
-        $('#suggestionsholder').css("display", "none");        
+        $('#suggestionsholder').css("display", "none");
+        $("#" + songnum + "header").find(".artistentry").focus();
         });
 
     // Show providers when a header is selected
@@ -161,6 +162,7 @@ function doSetup() {
             $('#enter-search').css("display", "none");
             $('#choose-provider').css("display", "block");
             }
+        $(this).next(".panel").find('.selector').first().focus();
         });
     
 // ************* SELECTION TAB ************

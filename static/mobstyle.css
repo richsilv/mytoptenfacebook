@@ -7,6 +7,11 @@ body {
     padding-right: 5px;
     }
 
+/* Disable font boosting! */
+body * {
+    max-height: 1000000px;
+    }
+
 #beta {
     width: 50px;
     height: auto;
@@ -349,6 +354,10 @@ body {
         margin-left: 34px;
         margin-top: 20px;
         width: 540px;
+        }
+
+    .mobiminibutton {
+        font-size: 16px;
         }
     
     .entryform {

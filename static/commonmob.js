@@ -12,11 +12,13 @@ function toggleTitleArtist(header) {
 function showTitleArtist(header) {
     header.children('.songentry').css("display", "none");
     header.children('.songtitleartist').css("display", "inline-block");
+    $('#confirm').focus();
     }
  
 function hideTitleArtist(header) {
     header.children('.songtitleartist').css("display", "none");
     header.children('.songentry').css("display", "inline-block");
+    header.children('.songentry').find('.titleentry').focus();
     }
 
 // Set icon size based on page width (inferred from CSS)

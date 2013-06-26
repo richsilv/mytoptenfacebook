@@ -204,7 +204,8 @@ function doSetup() {
         $.post('/remove_suggestion/', {'songtitle': songtitle, 'songartist': songartist})     
         $("#" + songnum + "header").find(".titleentry").val(songtitle);
         $("#" + songnum + "header").find(".artistentry").val(songartist);
-        $('#suggestions').dialog("close");        
+        $('#suggestions').dialog("close");  
+        $("#" + songnum + "header").find(".artistentry").focus();      
         });
 
 // ************* SELECTION TAB **************
