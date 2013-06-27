@@ -147,7 +147,7 @@ function doSetup() {
 
     // Post to timeline button logic
     $('#post').on("click", function() {
-        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': $("#post-timeline").html()}, function(r) {
+        $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': $("#confirm-message").text()}, function(r) {
             window.location = "/show_songs/" + facebook_id;        
             });        
         });
@@ -379,7 +379,7 @@ function doSetup() {
                 } 
             // Otherwise, just save the new list
             else {
-                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id});            
+                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': ''});            
                 }
             $("#"+songnum+"tabs").tabs("option", "active", false);
             updateSongDisplay();
