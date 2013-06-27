@@ -151,7 +151,7 @@ function doSetup() {
         $("#" + songnum + "header").find(".titleentry").val(songtitle);
         $("#" + songnum + "header").find(".artistentry").val(songartist);
         $('#suggestionsholder').css("display", "none");
-        $("#" + songnum + "header").find(".artistentry").focus();
+        $("#" + songnum + "header").next(".panel").find("li").first().focus();
         });
 
     // Show providers when a header is selected

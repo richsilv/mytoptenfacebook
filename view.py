@@ -299,10 +299,13 @@ def save_songs():
     oldtoptens = pg.query(TopTen).filter(TopTen.facebook_id==session['userdata']['id']).filter(TopTen.active==True)
     for old in oldtoptens:
         old.active = False
-    topten = createTopTen({'id': request.form['facebook_id']})
+    topten = createTopTen({'id': session['userdata']['id']})
+    user = pg.query(TopTenUser).filter(TopTenUser.facebook_id==session['userdata']['id']).first()
     for i, song in enumerate(rdata):
         songinstance = saveSong(song, i+1)
         topten.songs.append(songinstance)
+        if songinstance not in user.songs:
+            user.songs.append(songinstance)
     pg.commit()
     if FBAUTH and request.form['message']:
         fb = facebook.GraphAPI(session['token'])

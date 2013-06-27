@@ -9,6 +9,10 @@ topten_song = Table('topten_song', Base.metadata,
    Column('topten_id', Integer, ForeignKey('toptens.topten_id')),
    Column('song_id', Integer, ForeignKey('songs.song_id')))
 
+toptenuser_song = Table('toptenuser_song', Base.metadata,
+    Column('facebook_id', String(20), ForeignKey('users.facebook_id')),
+    Column('song_id', Integer, ForeignKey('songs.song_id')))
+
 class TopTenUser(Base):
     __tablename__ = 'users'
     facebook_id = Column(String(20), primary_key=True)
@@ -17,6 +21,8 @@ class TopTenUser(Base):
     joined_on = Column(DateTime)
     last_login = Column(DateTime)
     notified = Column(Boolean)
+
+    songs = relationship("Song", secondary=toptenuser_song, backref="toptenusers")
 
     def __init__(self, facebook_id, first_name, last_name):
         self.facebook_id = facebook_id
@@ -27,7 +33,7 @@ class TopTenUser(Base):
         self.notified = False
 
     def __repr__(self):
-       return "<User('%s %s', %s)>" % (self.first_name, self.last_name, self.facebook_id)
+       return "<User('%s %s', %s)>" % (self.first_name.encode('raw_unicode_escape'), self.last_name.encode('raw_unicode_escape'), self.facebook_id)
 
 class TopTen(Base):
     __tablename__ = 'toptens'
