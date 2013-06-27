@@ -95,7 +95,7 @@ function doSetup() {
     // On "confirm" click, save songs and return to Show Songs screen, if confirm is active    
     $('#confirm').on("click", function() {
         if (!$(this).hasClass("disabled")) {
-            $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
+            $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': ''}, function(r) {
                 window.location = "/show_songs_mob/" + facebook_id;        
                 });
             }            
@@ -267,13 +267,13 @@ function doSetup() {
                 }
             // If this is the first time user has entered their final song, automatically confirm the list
             if ((num_songs === NUMSONGS) && (!existing_ten)) {
-                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id}, function(r) {
+                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': ''}, function(r) {
                     window.location = "/show_songs_mob/" + facebook_id;        
                     });                     
                 }
             // Otherwise, just save the songs (AJAX)
             else {
-                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id});                            
+                $.post('/save_songs/', {'songlist': JSON.stringify(songdeets), 'topten_id': topten_id, 'facebook_id': facebook_id, 'message': ''});                            
                 }
             $(this).parents(".panel").css("display", "none");
             // Update display
