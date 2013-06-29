@@ -112,7 +112,7 @@ function updateSong(songnum) {
     var w = playerwidths[provider]; 
     
     switch(provider) {
-        case 1: 
+        case 2: 
             var promise = scloudPlayer(songdeets[songnum][3], 0);
             promise.success(function(result, responsecode, xhr) {
                 $('#jukeplayer').html(result.html);
@@ -123,15 +123,15 @@ function updateSong(songnum) {
                   });
                 });        
             break;
-        case 2:
-            $('#jukeplayer').html(embedPlayer(songdeets[songnum][3], 2));            
-            break;
-        case 3:
-            $('#jukeplayer').html('<div id="tempdiv"></div>');
-            youtubePlayer(songdeets[songnum][3]);
-            break;     
         case 4:
-            $('#jukeplayer').html(embedPlayer(songdeets[songnum][3], 4));
+            $('#jukeplayer').html(embedPlayer(songdeets[songnum][3], 4));            
+            break;
+        case 1:
+            $('#jukeplayer').html('<div id="tempdiv"></div>');
+            youtubePlayer(songdeets[songnum][1]);
+            break;     
+        case 3:
+            $('#jukeplayer').html(embedPlayer(songdeets[songnum][3], 3));
             addEvent(window, "message", vimeoMessageHandler);
             break;        
         case 5:
@@ -197,12 +197,12 @@ function playNextTrack(offset) {
     if(typeof(offset)==='undefined') offset = 1;
     var provider = parseInt(songdeets[songnum][4]);
     switch(provider) {
-        case 1:
+        case 2:
             var iframe = document.querySelector('#jukeplayer iframe');
             widget = SC.Widget(iframe);
             widget.unbind(SC.Widget.Events.FINISH);            
             break;
-        case 3:
+        case 1:
             break;
         }
     songnum += offset;
@@ -212,13 +212,13 @@ function playNextTrack(offset) {
 
 function embedPlayer(l, provider) {
     switch(provider) {
-        case 1:
-            return 'Use <strong>scloudPlayer</strong> rather than <strong>embedPlayer</strong>';
         case 2:
-            return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="' + playerwidths[2] + '" height="' + playerheights[2] + '" frameborder="0" allowtransparency="true"></iframe>';
-        case 3:
-            return '<iframe class="youtube-player" type="text/html" width="' + playerwidths[3] + '" height="' + playerheights[3] + '" src="http://www.youtube.com/embed/' + l + '?autoplay=1&enablejsapi=1&playerapiid=ytplayer" allowfullscreen frameborder="0"></iframe>';
+            return 'Use <strong>scloudPlayer</strong> rather than <strong>embedPlayer</strong>';
         case 4:
+            return '<iframe src="https://embed.spotify.com/?uri=' + l + '" width="' + playerwidths[2] + '" height="' + playerheights[2] + '" frameborder="0" allowtransparency="true"></iframe>';
+        case 1:
+            return '<iframe class="youtube-player" type="text/html" width="' + playerwidths[3] + '" height="' + playerheights[3] + '" src="http://www.youtube.com/embed/' + l + '?autoplay=1&enablejsapi=1&playerapiid=ytplayer" allowfullscreen frameborder="0"></iframe>';
+        case 3:
             return '<iframe id="vimeo-player" src="http://player.vimeo.com/video/' + l + '?api=1&autoplay=1" width="' + playerwidths[4] + '" height="' + playerheights[4] + '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
         case 5:
             return '<audio autoplay="autoplay" controls="controls" style="margin-top: 78px"><source src="' + l + '" type="audio/mpeg">Your browser does not support the audio tag.</audio>'
